@@ -156,7 +156,9 @@ sap.ui.define(
         var newValue = oInput.getValue();
         oBinding.setValue(newValue);
       },
-
+      handleAppointmentCreateDnD(oControlEvent){
+          oControlEvent.getParameters().startDate();
+      }
       
     });
   }
