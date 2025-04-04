@@ -48,9 +48,6 @@ sap.ui.define(
             `${startOfWeek_str.slice(1, 11)} to ${endOfWeek_str.slice(1, 11)}`
           );
       },
-      onTabSelect(oEvent) {
-        var selectedKey = oEvent.getParameter("key");
-      },
       createTask() {
         this.Dialog.open();
       },
