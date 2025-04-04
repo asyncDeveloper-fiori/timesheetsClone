@@ -1,9 +1,12 @@
 <mvc:View controllerName="timesheetsclone.controller.View2"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:tnt="sap.tnt"
+    xmlns:l="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form"
     xmlns:f="sap.f"
     xmlns:card="sap.f.cards"
     xmlns:mdct="sap.ui.mdc.table"
+    xmlns:unified="sap.ui.unified"
     xmlns="sap.m"
     xmlns:m="sap.m"
     xmlns:mdc="sap.ui.mdc"
@@ -143,13 +146,12 @@
                             <!-- timesheets page content starts -->
                             <Text text="Timesheets" id="timesheetsHeader" />
 
-                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" visibleRowCount="5" selectionMode="Single" 
-                            ariaLabelledBy="title">
+                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" visibleRowCount="5" selectionMode="Single" ariaLabelledBy="title">
                                 <ui:columns>
                                     <ui:Column width="11rem">
                                         <m:Label text="Hours" />
                                         <ui:template>
-                                            <m:Input value="{time}"  liveChange="onInputChange"/>
+                                            <m:Input value="{time}" liveChange="onInputChange"/>
                                         </ui:template>
                                     </ui:Column>
 
@@ -173,7 +175,23 @@
 
                         </IconTabFilter>
                         <IconTabFilter key="people" text="Time off">
-                            <Text text="Time Off Content" />
+
+                            <!-- planning calender for timeoff content -->
+
+                            <m:SinglePlanningCalendar id="SPC1" class="sapUiNoMarginTop" title= "Timeoff Calendar" viewChange="handleViewChange" appointmentSelect="handleAppointmentSelect" headerDateSelect="handleHeaderDateSelect" startDateChange="handleStartDateChange" appointmentDrop="handleAppointmentDrop" appointmentResize="handleAppointmentResize" appointmentCreate="handleAppointmentCreateDnD" moreLinkPress="handleMoreLinkPress" startDate="{path: '/startDate'}" enableAppointmentsDragAndDrop="{settings>/enableAppointmentsDragAndDrop}" enableAppointmentsResize="{settings>/enableAppointmentsResize}" enableAppointmentsCreate="{settings>/enableAppointmentsCreate}" stickyMode="{settings>/stickyMode}" appointments="{path: '/appointments'}">
+                                <m:actions>
+                                    <m:Button id="addNewAppointment" text="Create" press="handleAppointmentCreate" tooltip="Add new appointment" />
+                                    <m:Button id="legendButton" icon="sap-icon://legend" press="handleOpenLegend" tooltip="Open SinglePlanningCalendar legend" ariaHasPopup="Dialog" />
+                                </m:actions>
+                                <m:views>
+                                    <m:SinglePlanningCalendarMonthView key="MonthView" title="Month" />
+                                </m:views>
+                                <m:appointments>
+                                    <unified:CalendarAppointment title= "{title}" text= "{text}" type= "{type}" icon= "{icon}" startDate= "{startDate}" endDate= "{endDate}">
+                                    </unified:CalendarAppointment>
+                                </m:appointments>
+                            </m:SinglePlanningCalendar>
+
                         </IconTabFilter>
                     </items>
                 </IconTabBar>
@@ -206,5 +224,9 @@
                 </HBox>
             </footer>
         </Popover>
+
+        
+
+        
     </Page>
 </mvc:View>

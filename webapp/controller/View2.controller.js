@@ -143,6 +143,14 @@ sap.ui.define(
         total_sheets = parseInt(total_sheets) + 1;
         total_sheets = JSON.stringify(total_sheets);
         this.getView().byId("noSubmittedSheets").setText(total_sheets);
+
+        for (let i = 0; i < hours_array.length; i++) {
+          hours_array[i].time = "0";
+          hours_array[i].comments = "";
+        }
+
+        sheetModel.setProperty("/timesheets", hours_array);
+
         MessageToast.show("Submitted succesfully");
       },
       onInputChange: function (oEvent) {
@@ -151,6 +159,8 @@ sap.ui.define(
         var newValue = oInput.getValue();
         oBinding.setValue(newValue);
       },
+
+      
     });
   }
 );
