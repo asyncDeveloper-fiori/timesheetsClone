@@ -1,0 +1,51 @@
+{
+    "tasks": [
+      {
+        "title": "Complete Fiori UI",
+        "description": "Finish the UI design for the Fiori app.",
+        "status": "In Progress"
+      },
+      {
+        "title": "Implement Backend API",
+        "description": "Work on the backend API for user authentication.",
+        "status": "Not Started"
+      }
+    ],
+    "projects": [
+      {
+        
+        "title": "Proj1",
+        "description": "Finish the UI design for the Fiori app.",
+        "status": "In Progress"
+      },
+      {
+        "title": "Proj2",
+        "description": "Work on the backend API for user authentication.",
+        "status": "In Progress"
+      }
+      
+    ],
+    "timesheets" :[
+      {
+        "time" : "0",
+        "comments" : ""
+      },
+      {
+        "time" : "0",
+        "comments" : ""
+      },
+      {
+        "time" : "0",
+        "comments" : ""
+      },
+      {
+        "time" : "0",
+        "comments" : ""
+      },
+      {
+        "time" : "0",
+        "comments" : ""
+      }
+    ]
+  }
+  

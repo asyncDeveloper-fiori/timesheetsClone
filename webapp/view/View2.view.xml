@@ -1,0 +1,210 @@
+<mvc:View controllerName="timesheetsclone.controller.View2"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:tnt="sap.tnt"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns:mdct="sap.ui.mdc.table"
+    xmlns="sap.m"
+    xmlns:m="sap.m"
+    xmlns:mdc="sap.ui.mdc"
+    xmlns:ui="sap.ui.table" displayBlock="true">
+    <Page id="page2" title="Time sheets">
+        <HBox height="100%" width="100%">
+            <tnt:SideNavigation id="sideNavigation" selectedKey="walked" expanded="true" width="250px">
+
+                <tnt:NavigationList>
+
+                    <tnt:NavigationListItem text="My work" icon="sap-icon://add-document" />
+                    <tnt:NavigationListItem text="Reports" icon="sap-icon://bar-chart" />
+                </tnt:NavigationList>
+
+                <tnt:fixedItem>
+                    <tnt:NavigationList>
+                        <tnt:NavigationListItem text="Notifications" icon="sap-icon://bell" />
+                        <tnt:NavigationListItem text="User" icon="sap-icon://customer" />
+                    </tnt:NavigationList>
+                </tnt:fixedItem>
+            </tnt:SideNavigation>
+
+            <VBox renderType="Bare" alignItems="Start" height="100%" width="calc(100% - 250px)">
+                <IconTabBar selectedKey="overview" select="onTabSelect">
+                    <items>
+                        <IconTabFilter key="overview" text="Overview">
+                            <VBox>
+                                <HBox>
+                                    <f:Card class="sapUiMediumMargin" width="300px">
+                                        <f:content>
+                                            <List class="sapUiSmallMarginBottom" showSeparators="None">
+                                                <StandardListItem icon="sap-icon://customer" title="Welcome {active_user>/userData/name}" />
+
+                                                <StandardListItem icon="sap-icon://email" title="{active_user>/userData/email}" />
+                                                <StandardListItem icon="sap-icon://settings" title="Skills" />
+                                                <StandardListItem icon="sap-icon://badge" title="Lisences" />
+                                            </List>
+                                        </f:content>
+                                    </f:Card>
+
+                                    <VBox alignItems="End" justifyContent="SpaceBetween">
+                                        <f:Card class="sapUiMediumMargin" width="300px" height="200px">
+                                            <f:content>
+                                                <VBox>
+                                                    <List class="sapUiSmallMarginBottom" showSeparators="None">
+                                                        <StandardListItem icon="sap-icon://add-activity" title="Tasks" />
+
+                                                        <StandardListItem title="Activity" />
+                                                    </List>
+
+                                                    <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
+                                                        <ui:Table id="taskTable" rows="{/tasks}" width="100%" selectionMode="Single" ariaLabelledBy="title">
+                                                            <ui:columns>
+                                                                <ui:Column width="11rem">
+                                                                    <m:Label text="Tasks" />
+                                                                    <ui:template>
+                                                                        <m:Text text="{title}" wrapping="false" />
+                                                                    </ui:template>
+
+                                                                </ui:Column>
+
+                                                                <ui:Column width="11rem">
+                                                                    <m:Label text="Status" />
+                                                                    <ui:template>
+                                                                        <m:Text text="{status}" wrapping="false" />
+                                                                    </ui:template>
+
+                                                                </ui:Column>
+
+                                                            </ui:columns>
+                                                        </ui:Table>
+                                                    </ScrollContainer>
+
+                                                </VBox>
+                                            </f:content>
+                                        </f:Card>
+                                    </VBox>
+                                    <VBox >
+                                        <Button text="Create Task" press="createTask" class="sapUiMediumMargin" />
+
+                                        <Button text="Delete Task" press="deleteTask" class="sapUiMediumMargin" type="Reject" />
+                                    </VBox>
+                                </HBox>
+
+                                <HBox>
+                                    <f:Card class="sapUiMediumMargin" width="300px">
+                                        <f:content>
+                                            <VBox>
+                                                <List class="sapUiSmallMarginBottom" showSeparators="None">
+                                                    <StandardListItem icon="sap-icon://folder-blank" title="Allocated Projects" />
+                                                </List>
+
+                                                <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
+                                                    <ui:Table id="projTable" rows="{/projects}" width="100%" ariaLabelledBy="title" selectionMode="None">
+                                                        <ui:columns>
+                                                            <ui:Column width="11rem">
+                                                                <m:Label text="Tasks" />
+                                                                <ui:template>
+                                                                    <m:Text text="{title}" wrapping="false" />
+                                                                </ui:template>
+
+                                                            </ui:Column>
+
+                                                            <ui:Column width="11rem">
+                                                                <m:Label text="Status" />
+                                                                <ui:template>
+                                                                    <m:Text text="{status}" wrapping="false" />
+                                                                </ui:template>
+
+                                                            </ui:Column>
+
+                                                        </ui:columns>
+                                                    </ui:Table>
+                                                </ScrollContainer>
+                                            </VBox>
+                                        </f:content>
+                                    </f:Card>
+
+                                    <f:Card class="sapUiMediumMargin" width="300px" height="auto">
+                                        <f:content>
+                                            <VBox >
+                                                <List class="sapUiSmallMarginBottom" showSeparators="None">
+                                                    <StandardListItem icon="sap-icon://accelerated" title="Timesheet" />
+                                                </List>
+                                                <HBox >
+                                                    <Text text="Submitted timesheets" class="sapUiSmallMarginBegin" />
+                                                    <Text id="noSubmittedSheets" text="0" class="sapUiSmallMarginBegin" />
+                                                </HBox>
+                                            </VBox>
+
+                                        </f:content>
+                                    </f:Card>
+                                </HBox>
+                            </VBox>
+                        </IconTabFilter>
+                        <IconTabFilter key="timesheet" text="Timesheet">
+                            <!-- timesheets page content starts -->
+                            <Text text="Timesheets" id="timesheetsHeader" />
+
+                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" visibleRowCount="5" selectionMode="Single" 
+                            ariaLabelledBy="title">
+                                <ui:columns>
+                                    <ui:Column width="11rem">
+                                        <m:Label text="Hours" />
+                                        <ui:template>
+                                            <m:Input value="{time}"  liveChange="onInputChange"/>
+                                        </ui:template>
+                                    </ui:Column>
+
+                                    <ui:Column width="11rem">
+                                        <m:Label text="" />
+                                        <ui:template>
+                                            <m:Button text="Add comments" press="addComments"/>
+                                        </ui:template>
+                                    </ui:Column>
+
+                                    <ui:Column width="20rem">
+                                        <m:Label text="Comments" />
+                                        <ui:template>
+                                            <Text id="timesheetsCommentsText" text="{comments}" />
+                                        </ui:template>
+                                    </ui:Column>
+                                </ui:columns>
+                            </ui:Table>
+
+                            <Button text="Submit for Review" press="submitTimesheet" type="Ghost" id="timesheetSubmitButton" />
+
+                        </IconTabFilter>
+                        <IconTabFilter key="people" text="Time off">
+                            <Text text="Time Off Content" />
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+            </VBox>
+        </HBox>
+
+        <Dialog id="create_task_dialog" title="Create a new task" afterClose="onDialogClose">
+            <VBox>
+                <Input placeholder="Enter task title" id="task_title" width="250px" />
+                <Input placeholder="Enter task description" id="task_description" width="250px" />
+            </VBox>
+
+            <beginButton>
+                <Button text="Save" press="onSaveTask" type="Emphasized" />
+            </beginButton>
+
+            <endButton>
+                <Button text="Close" press="onDialogClose" type="Reject" />
+            </endButton>
+        </Dialog>
+
+        <Popover id="commentPopover" title="Add Comment">
+            <content>
+                <TextArea id="commentTextArea" width="100%" placeholder="Enter your comment here..."/>
+            </content>
+            <footer>
+                <HBox >
+                    <Button text="Cancel" press="onCancelPress"/>
+                    <Button text="Submit" press="onPopoverSubmit"/>
+                </HBox>
+            </footer>
+        </Popover>
+    </Page>
+</mvc:View>

@@ -1,0 +1,111 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "timesheetsclone",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.17.0",
+      "toolsId": "492797e5-070f-4e29-9e4d-7be5f13da172"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.134.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "timesheetsclone.i18n.i18n"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "timesheetsclone.view",
+        "async": true,
+        "viewPath": "timesheetsclone.view"
+      },
+      "routes": [
+        {
+          "name": "RouteView1",
+          "pattern": "",
+          "target": [
+            "TargetView1"
+          ]
+        },
+        {
+          "name": "RouteView2",
+          "pattern": "View2",
+          "target": [
+            "TargetView2"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetView1": {
+          "id": "View1",
+          "name": "View1",
+          "transition" : "fade"
+        },
+        "TargetView2": {
+          "id": "View2",
+          "name": "View2",
+          "transition" : "fade"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "timesheetsclone.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

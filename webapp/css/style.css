@@ -1,0 +1,25 @@
+/* Enter your custom styles here */
+.myButton{
+    margin-top: 20px;
+    /* margin: 5px; */
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.login_scr{
+    margin: 6px;
+}
+
+.createBtn{
+    margin-left: 10px;
+}
+
+.noGrid .sapMListTblCell {
+    border: none !important;
+}
+
+
+#container-timesheetsclone---View2--timesheetSubmitButton {
+    margin-top: 5%;
+}
+
