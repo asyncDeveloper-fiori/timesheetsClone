@@ -133,14 +133,14 @@
                                                     <StandardListItem icon="sap-icon://accelerated" title="Timesheet" />
                                                 </List>
                                                 <VBox >
-                                                    <HBox class="sapUiSamllMarginBottom" >
+                                                    <HBox class="sapUiSamllMarginBottom">
                                                         <Text text="Submitted timesheets" class="sapUiSmallMarginBegin" />
                                                         <Text id="noSubmittedSheets" text="0" class="sapUiSmallMarginBegin" />
                                                     </HBox>
 
-                                                    <HBox  class="sapUiSamllMarginBottom" >
-                                                        <Text text="Submitted timeoffs" class="sapUiSmallMarginBegin" />
-                                                        <Text id="noSubmittedTimeoff" text="0" class="sapUiSmallMarginBegin" />
+                                                    <HBox class="sapUiSamllMarginBottom">
+                                                        <Text text="Submitted timeoffs" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" />
+                                                        <Text id="noSubmittedTimeoff" text="0" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" />
                                                     </HBox>
                                                 </VBox>
                                             </VBox>
@@ -154,13 +154,12 @@
                             <!-- timesheets page content starts -->
                             <Text text="Timesheets" id="timesheetsHeader" />
 
-                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" visibleRowCount="5" selectionMode="MultiToggle"
-                            ariaLabelledBy="title">
+                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" visibleRowCount="5" selectionMode="MultiToggle" ariaLabelledBy="title">
                                 <ui:columns>
                                     <ui:Column width="11rem">
                                         <m:Label text="Hours" />
                                         <ui:template>
-                                            <m:Input value="{time}" liveChange="onInputChange"/>
+                                            <m:Input value="{time}" liveChange="onInputChange" type="Number" valueLiveUpdate="true" />
                                         </ui:template>
                                     </ui:Column>
 
