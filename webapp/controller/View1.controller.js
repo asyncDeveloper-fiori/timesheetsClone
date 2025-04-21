@@ -56,7 +56,7 @@ sap.ui.define([
             // console.log(valid_user);
             
             if (valid_user) {
-                MessageToast.show('Login Successful');
+                // MessageToast.show('Login Successful');
                 var router = this.getOwnerComponent().getRouter();
             router.navTo("RouteView2");
             } else {

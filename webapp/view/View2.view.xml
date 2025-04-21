@@ -132,10 +132,17 @@
                                                 <List class="sapUiSmallMarginBottom" showSeparators="None">
                                                     <StandardListItem icon="sap-icon://accelerated" title="Timesheet" />
                                                 </List>
-                                                <HBox >
-                                                    <Text text="Submitted timesheets" class="sapUiSmallMarginBegin" />
-                                                    <Text id="noSubmittedSheets" text="0" class="sapUiSmallMarginBegin" />
-                                                </HBox>
+                                                <VBox >
+                                                    <HBox class="sapUiSamllMarginBottom" >
+                                                        <Text text="Submitted timesheets" class="sapUiSmallMarginBegin" />
+                                                        <Text id="noSubmittedSheets" text="0" class="sapUiSmallMarginBegin" />
+                                                    </HBox>
+
+                                                    <HBox  class="sapUiSamllMarginBottom" >
+                                                        <Text text="Submitted timeoffs" class="sapUiSmallMarginBegin" />
+                                                        <Text id="noSubmittedTimeoff" text="0" class="sapUiSmallMarginBegin" />
+                                                    </HBox>
+                                                </VBox>
                                             </VBox>
 
                                         </f:content>
@@ -179,18 +186,26 @@
 
                             <!-- time off range select calender -->
 
-                            <FlexBox alignItems="Center" justifyContent="Center" >
-                                <l:VerticalLayout >
-                                <u:Calendar id="calendar" select="handleCalendarSelect" intervalSelection="true" weekNumberSelect="handleWeekNumberSelect"/>
-                                <l:HorizontalLayout>
-                                    <Label text="Selected From (yyyy-mm-dd):" class="labelMarginLeft" />
-                                    <Text id="selectedDateFrom" text="No Date Selected" class="labelMarginLeft"/>
-                                </l:HorizontalLayout>
-                                <l:HorizontalLayout>
-                                    <Label text="Selected To (yyyy-mm-dd):" class="labelMarginLeft" />
-                                    <Text id="selectedDateTo" text="No Date Selected" class="labelMarginLeft"/>
-                                </l:HorizontalLayout>
-                            </l:VerticalLayout>
+                            <FlexBox alignItems="Center" justifyContent="Center">
+                                <VBox >
+                                    <l:VerticalLayout >
+                                        <u:Calendar id="calendar" select="handleCalendarSelect" intervalSelection="true" weekNumberSelect="handleWeekNumberSelect"/>
+                                        <l:HorizontalLayout>
+                                            <Label text="Selected From:" class="labelMarginLeft sapUiSmallMarginEnd" />
+                                            <Text id="selectedDateFrom" text="No Date Selected" class="labelMarginLeft"/>
+                                        </l:HorizontalLayout>
+                                        <l:HorizontalLayout>
+                                            <Label text="Selected To:" class="labelMarginLeft sapUiSmallMarginEnd" />
+                                            <Text id="selectedDateTo" text="No Date Selected" class="labelMarginLeft"/>
+                                        </l:HorizontalLayout>
+                                    </l:VerticalLayout>
+
+                                    <HBox alignItems="Center" justifyContent="Center">
+                                        <Button class="sapUiSmallMarginEnd sapUiSmallMarginTop" text="SUBMIT" press="submitTimeOff" type="Accept" />
+
+                                        <Button class="sapUiSmallMarginTop" text="CANCEL" press="cancelTimeOff" type="Reject" />
+                                    </HBox>
+                                </VBox>
                             </FlexBox>
 
                         </IconTabFilter>

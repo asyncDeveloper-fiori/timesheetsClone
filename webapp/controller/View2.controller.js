@@ -246,6 +246,16 @@ sap.ui.define(
 
         this._updateText(oCalendar.getSelectedDates()[0]);
       },
+      cancelTimeOff: function () {
+        //removeAllselectedDates() function removes all the selected dates from the calender with id calender the we go to the start and end date text tags where the value is changed and change their value back to initial value No Date Selected using their ids and setText function
+        var oCalendar = this.byId("calendar");
+        oCalendar.removeAllSelectedDates();
+        var oSelectedDateFrom = this.byId("selectedDateFrom");
+        var oSelectedDateTo = this.byId("selectedDateTo");
+        oSelectedDateFrom.setText("No Date Selected");
+        oSelectedDateTo.setText("No Date Selected");
+      },
+      
     });
   }
 );
