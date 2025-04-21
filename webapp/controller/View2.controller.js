@@ -65,6 +65,18 @@ sap.ui.define(
           pattern: "yyyy-MM-dd",
           calendarType: CalendarType.Gregorian,
         });
+
+        // making single selection the model is multi select but only one row is selected written in onInit
+        var oTable = this.byId("idTimesheetTable");
+
+        oTable.attachRowSelectionChange(function (oEvent) {
+          var selectedIndices = oTable.getSelectedIndices();
+          if (selectedIndices.length > 1) {
+            var lastSelectedIndex = oEvent.getParameter("rowIndex");
+            oTable.clearSelection();
+            oTable.setSelectedIndex(lastSelectedIndex);
+          }
+        });
       },
       createTask() {
         this.Dialog.open();
@@ -255,7 +267,6 @@ sap.ui.define(
         oSelectedDateFrom.setText("No Date Selected");
         oSelectedDateTo.setText("No Date Selected");
       },
-      
     });
   }
 );

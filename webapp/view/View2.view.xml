@@ -154,7 +154,8 @@
                             <!-- timesheets page content starts -->
                             <Text text="Timesheets" id="timesheetsHeader" />
 
-                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" visibleRowCount="5" selectionMode="Single" ariaLabelledBy="title">
+                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" visibleRowCount="5" selectionMode="MultiToggle"
+                            ariaLabelledBy="title">
                                 <ui:columns>
                                     <ui:Column width="11rem">
                                         <m:Label text="Hours" />
