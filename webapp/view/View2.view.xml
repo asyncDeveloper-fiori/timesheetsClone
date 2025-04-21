@@ -177,23 +177,10 @@
                         </IconTabFilter>
                         <IconTabFilter key="people" text="Time off">
 
-                            <!-- planning calender for timeoff content -->
+                            <!-- time off range select calender -->
 
-                            <!-- <m:SinglePlanningCalendar id="SPC1" class="sapUiNoMarginTop" title= "Timeoff Calendar" viewChange="handleViewChange" appointmentSelect="handleAppointmentSelect" headerDateSelect="handleHeaderDateSelect" startDateChange="handleStartDateChange" appointmentDrop="handleAppointmentDrop" appointmentResize="handleAppointmentResize" appointmentCreate="handleAppointmentCreateDnD" moreLinkPress="handleMoreLinkPress" startDate="{ '2025 , 04 , 04' }" enableAppointmentsDragAndDrop="{settings>/enableAppointmentsDragAndDrop}" enableAppointmentsResize="{settings>/enableAppointmentsResize}" enableAppointmentsCreate="{settings>/enableAppointmentsCreate}" stickyMode="{settings>/stickyMode}" appointments="{path: '/appointments'}">
-                                <m:actions>
-                                    <m:Button id="addNewAppointment" text="Create" press="handleAppointmentCreate" tooltip="Add new appointment" />
-                                    <m:Button id="legendButton" icon="sap-icon://legend" press="handleOpenLegend" tooltip="Open SinglePlanningCalendar legend" ariaHasPopup="Dialog" />
-                                </m:actions>
-                                <m:views>
-                                    <m:SinglePlanningCalendarMonthView key="MonthView" title="Month" />
-                                </m:views>
-                                <m:appointments>
-                                    <unified:CalendarAppointment title= "{title}" text= "{text}" type= "{type}" icon= "{icon}" startDate= "{startDate}" endDate= "{endDate}">
-                                    </unified:CalendarAppointment>
-                                </m:appointments>
-                            </m:SinglePlanningCalendar> -->
-
-                            <l:VerticalLayout>
+                            <FlexBox alignItems="Center" justifyContent="Center" >
+                                <l:VerticalLayout >
                                 <u:Calendar id="calendar" select="handleCalendarSelect" intervalSelection="true" weekNumberSelect="handleWeekNumberSelect"/>
                                 <l:HorizontalLayout>
                                     <Label text="Selected From (yyyy-mm-dd):" class="labelMarginLeft" />
@@ -204,6 +191,7 @@
                                     <Text id="selectedDateTo" text="No Date Selected" class="labelMarginLeft"/>
                                 </l:HorizontalLayout>
                             </l:VerticalLayout>
+                            </FlexBox>
 
                         </IconTabFilter>
                     </items>
