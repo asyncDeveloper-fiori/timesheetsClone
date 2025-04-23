@@ -159,7 +159,7 @@
                                     <ui:Column width="11rem">
                                         <m:Label text="Hours" />
                                         <ui:template>
-                                            <m:Input value="{time}" liveChange="onInputChange" type="Number" valueLiveUpdate="true" />
+                                            <m:Input value="{time}" liveChange="onInputChange" type="Number"    valueLiveUpdate="true" />
                                         </ui:template>
                                     </ui:Column>
 

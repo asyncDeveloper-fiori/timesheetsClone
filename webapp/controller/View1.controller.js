@@ -25,6 +25,11 @@ sap.ui.define(
         var ip_password = this.byId("password").getValue();
 
         // validation
+        if(ip_username === "" && ip_password === "" ){
+          MessageToast.show("Enter credentials");
+          return;
+        }
+
         if (ip_username === "") {
           MessageToast.show("Username cannot be empty");
           return;

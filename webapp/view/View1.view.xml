@@ -7,11 +7,11 @@
             <Image src="https://psa-na6.replicon.com/public/static/media/PolarisLogo.c7b0d0e4.svg" width="350px" />
 
             <HBox >
-                <Label text="Username" class="login_scr" />
+                <Label text="Username" class="login_scr" required="true" />
                 <Input id="username" placeholder="Enter username" class="login_scr" />
             </HBox>
             <HBox >
-                <Label text="Password" class="login_scr" />
+                <Label text="Password" class="login_scr"  required="true" />
                 <Input id="password" placeholder="Enter password" type="Password" class="login_scr" />
             </HBox>
 
