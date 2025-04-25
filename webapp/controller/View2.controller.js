@@ -3,6 +3,7 @@ sap.ui.define(
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
+    "sap/m/library",
     "sap/base/i18n/date/CalendarType",
     "sap/ui/unified/DateRange",
     "sap/ui/core/format/DateFormat",
@@ -13,6 +14,7 @@ sap.ui.define(
     MessageToast,
     CalendarType,
     DateRange,
+    library,
     DateFormat
   ) => {
     "use strict";
@@ -25,12 +27,25 @@ sap.ui.define(
         this.getView().setModel(user_model, "active_user");
         this.Dialog = this.byId("create_task_dialog");
 
+       
+
         var task_model = new JSONModel("model/tasks.json");
         this.getView().setModel(task_model);
 
         this._oPopover = this.byId("commentPopover"); // Get the Popover by ID
         if (!this._oPopover) {
           console.error("Popover not found. Check the ID in XML view.");
+        }
+
+        this._oPopoverHoursExtra = this.byId("hoursPopover_extra");
+        if (!this._oPopoverHoursExtra) {
+          console.error("No popover found");
+        }
+
+        // sidebar popover
+        this.sidePop = this.byId("sidebarPopover");
+        if(!this.sidePop){
+          console.error("No side pop over found");
         }
 
         // function to get start and end of current week
@@ -65,6 +80,10 @@ sap.ui.define(
           pattern: "yyyy-MM-dd",
           calendarType: CalendarType.Gregorian,
         });
+
+        var minDate = this.byId("calendar");
+        var oToday = new Date();
+        minDate.setMinDate(oToday);
 
         // making single selection the model is multi select but only one row is selected written in onInit
         var oTable = this.byId("idTimesheetTable");
@@ -128,6 +147,10 @@ sap.ui.define(
         if (this._oPopover) {
           this._oPopover.close();
         }
+
+        if (this._oPopoverHoursExtra) {
+          this._oPopoverHoursExtra.close();
+        }
       },
       onPopoverSubmit() {
         var pop_selectedIndex = this.getView()
@@ -149,14 +172,17 @@ sap.ui.define(
       submitTimesheet() {
         var sheetModel = this.getView().getModel();
         var hours_array = sheetModel.getProperty("/timesheets");
-        console.log(hours_array);
+        // console.log(hours_array);
+
         let total = 0;
+
+        // check if there are invalid input hours
         for (let i = 0; i < hours_array.length; i++) {
           if (
             parseInt(hours_array[i].time) > 12 ||
             parseInt(hours_array[i].time) < 4
           ) {
-            MessageToast.show("Invalid hours input");
+            MessageToast.show("Invalid hours");
             return;
           }
           total += parseInt(hours_array[i].time);
@@ -166,6 +192,15 @@ sap.ui.define(
           MessageToast.show("Minimum billable hours not fulfilled");
           return;
         }
+
+        // check if comments are empty
+        for (let i = 0; i < hours_array.length; i++) {
+          if (hours_array[i].comments === "") {
+            MessageToast.show("Please add comments");
+            return;
+          }
+        }
+
         var total_sheets = this.getView().byId("noSubmittedSheets").getText();
         total_sheets = parseInt(total_sheets) + 1;
         total_sheets = JSON.stringify(total_sheets);
@@ -185,6 +220,18 @@ sap.ui.define(
         var oBinding = oInput.getBinding("value");
         var newValue = oInput.getValue();
         oBinding.setValue(newValue);
+
+        // validation for input hours not being more than 10
+        var maxValue = oEvent.getParameter("newValue");
+        maxValue = parseInt(maxValue, 10);
+        if (maxValue > 10) {
+          this._oPopoverHoursExtra.openBy(oEvent.getSource());
+          oEvent.getSource().setValue("0");
+        } else if (maxValue < 0) {
+          this._oPopoverHoursExtra.openBy(oEvent.getSource());
+        } else {
+          this._oPopoverHoursExtra.close();
+        }
       },
       handleAppointmentCreateDnD(oControlEvent) {
         oControlEvent.getParameters().startDate();
@@ -267,6 +314,39 @@ sap.ui.define(
         oSelectedDateFrom.setText("No Date Selected");
         oSelectedDateTo.setText("No Date Selected");
       },
+      submitTimeOff: function () {
+        var oSelectedDateFrom = this.byId("selectedDateFrom").getText();
+        var oSelectedDateTo = this.byId("selectedDateTo").getText();
+        if (
+          oSelectedDateFrom === "No Date Selected" &&
+          oSelectedDateTo === "No Date Selected"
+        ) {
+          MessageToast.show("No dates selected");
+        } else {
+          var total_timeoff = this.getView()
+            .byId("noSubmittedTimeoff")
+            .getText();
+          if (parseInt(total_timeoff, 10) >= 1) {
+            MessageToast.show("Already submitted");
+            return;
+          } else {
+            total_timeoff = parseInt(total_timeoff, 10) + 1;
+            total_timeoff = JSON.stringify(total_timeoff);
+            this.getView().byId("noSubmittedTimeoff").setText(total_timeoff);
+            MessageToast.show("Timeoff booked");
+          }
+        }
+      },
+      onItemSelect(oEvent) {
+        var activeUserModel = this.getOwnerComponent().getModel("global_model"); 
+        const oItem = oEvent.getParameter("item"),
+          sText = oItem.getText();
+        var activeUserName = activeUserModel.getProperty("/name");
+        console.log(activeUserName);
+      },
+      closeSidePop(){
+        this.sidePop.close();
+      }
     });
   }
 );

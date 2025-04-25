@@ -14,7 +14,7 @@
     xmlns:ui="sap.ui.table" displayBlock="true">
     <Page id="page2" title="Time sheets">
         <HBox height="100%" width="100%">
-            <tnt:SideNavigation id="sideNavigation" selectedKey="walked" expanded="true" width="250px">
+            <tnt:SideNavigation id="sideNavigation" selectedKey="walked" expanded="true" itemSelect="onItemSelect" width="250px">
 
                 <tnt:NavigationList>
 
@@ -159,7 +159,7 @@
                                     <ui:Column width="11rem">
                                         <m:Label text="Hours" />
                                         <ui:template>
-                                            <m:Input value="{time}" liveChange="onInputChange" type="Number"    valueLiveUpdate="true" />
+                                            <m:Input value="{time}" id="hourInput" liveChange="onInputChange" type="Number" valueLiveUpdate="true" />
                                         </ui:template>
                                     </ui:Column>
 
@@ -235,14 +235,25 @@
             </content>
             <footer>
                 <HBox >
-                    <Button text="Cancel" press="onCancelPress"/>
-                    <Button text="Submit" press="onPopoverSubmit"/>
+                    <Button text="Cancel" press="onCancelPress" class="sapUiSmallMarginBegin sapUiSmallMarginEnd"/>
+                    <Button text="Submit" press="onPopoverSubmit" class="sapUiSmallMarginBegin"/>
                 </HBox>
             </footer>
         </Popover>
 
 
+        <Popover id="hoursPopover_extra"  class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false" >
+            <Text id="error_text" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="Input hours cannot be greater than 10" />
+        </Popover>
 
+        <Popover 
+        id="sidebarPopover"
+        class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false" >
+            <Text id="sidebarText" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="sidepop text" />
+            <footer>
+                <Button class="sapUiSmallMarginBegin" press="closeSidePop" text="Close" type="Reject" />
+            </footer>
+        </Popover>
 
     </Page>
 </mvc:View>
