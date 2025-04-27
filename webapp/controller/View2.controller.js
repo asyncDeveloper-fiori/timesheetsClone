@@ -27,8 +27,6 @@ sap.ui.define(
         this.getView().setModel(user_model, "active_user");
         this.Dialog = this.byId("create_task_dialog");
 
-       
-
         var task_model = new JSONModel("model/tasks.json");
         this.getView().setModel(task_model);
 
@@ -42,9 +40,15 @@ sap.ui.define(
           console.error("No popover found");
         }
 
+        // notification popover
+        this.notificationPopover = this.byId("notificationPop");
+        if (!this.notificationPopover) {
+          console.error("No notification popover found");
+        }
+
         // sidebar popover
         this.sidePop = this.byId("sidebarPopover");
-        if(!this.sidePop){
+        if (!this.sidePop) {
           console.error("No side pop over found");
         }
 
@@ -96,6 +100,9 @@ sap.ui.define(
             oTable.setSelectedIndex(lastSelectedIndex);
           }
         });
+
+        // fragments code
+        this._fragments = {};
       },
       createTask() {
         this.Dialog.open();
@@ -338,15 +345,33 @@ sap.ui.define(
         }
       },
       onItemSelect(oEvent) {
-        var activeUserModel = this.getOwnerComponent().getModel("global_model"); 
-        const oItem = oEvent.getParameter("item"),
-          sText = oItem.getText();
-        var activeUserName = activeUserModel.getProperty("/name");
-        console.log(activeUserName);
+        // var activeUserModel = sap.ui.getCore().getModel("global_model");
+        const oItem = oEvent.getParameter("item");
+        if (oItem.getText() === "User") {
+          this.sidePop.openBy(oEvent.getSource());
+        } else if (oItem.getText() === "Notifications") {
+          var notificationNumber = this.getView()
+            .byId("notificationNumber")
+            .getText();
+          notificationNumber = parseInt(notificationNumber, 10);
+          if (notificationNumber < 1) {
+            this.getView().byId("notificationHeader").setVisible(false);
+            this.getView().byId("notificationNumber").setVisible(false);
+            this.getView().byId("noNotification").setVisible(true);
+            this.notificationPopover._myPositions = 2;
+
+            this.notificationPopover.openBy(oEvent.getSource());
+          } else {
+            this.getView().byId("notificationHeader").setVisible(true);
+            this.getView().byId("notificationNumber").setVisible(true);
+            this.getView().byId("noNotification").setVisible(false);
+            this.notificationPopover.openBy(oEvent.getSource());
+          }
+        }
       },
-      closeSidePop(){
+      closeSidePop() {
         this.sidePop.close();
-      }
+      },
     });
   }
 );

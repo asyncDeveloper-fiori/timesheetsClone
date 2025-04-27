@@ -1,0 +1,13 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	 <VBox class="sapUiSmallMargin">
+                <HBox >
+                    <Text id="notificationHeader" text="Notifications" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" />
+                    <Text id="notificationNumber" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="0"/>
+                </HBox>
+                <Text id="noNotification" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" visible="false" text="No notifications"/>
+            </VBox>
+</core:FragmentDefinition>

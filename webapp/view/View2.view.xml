@@ -25,7 +25,7 @@
                 <tnt:fixedItem>
                     <tnt:NavigationList>
                         <tnt:NavigationListItem text="Notifications" icon="sap-icon://bell" />
-                        <tnt:NavigationListItem text="User" icon="sap-icon://customer" />
+                        <tnt:NavigationListItem text="User" icon="sap-icon://customer"/>
                     </tnt:NavigationList>
                 </tnt:fixedItem>
             </tnt:SideNavigation>
@@ -242,18 +242,40 @@
         </Popover>
 
 
-        <Popover id="hoursPopover_extra"  class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false" >
+        <Popover id="hoursPopover_extra" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false">
             <Text id="error_text" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="Input hours cannot be greater than 10" />
         </Popover>
 
-        <Popover 
-        id="sidebarPopover"
-        class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false" >
-            <Text id="sidebarText" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="sidepop text" />
+        <Popover id="sidebarPopover" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false">
+            <content>
+                <VBox >
+                    <HBox >
+                        <StandardListItem icon="sap-icon://person-placeholder" />
+                        <Text class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="{active_user>/userData/name}" />
+                    </HBox>
+                    <HBox >
+                        <StandardListItem icon="sap-icon://email" />
+                        <Text id="sidebarText" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="{active_user>/userData/email}" />
+                    </HBox>
+                </VBox>
+            </content>
             <footer>
                 <Button class="sapUiSmallMarginBegin" press="closeSidePop" text="Close" type="Reject" />
             </footer>
         </Popover>
+
+        <Popover id="notificationPop" showHeader="false" >
+            <!-- <content> -->
+            <VBox >
+                <HBox >
+                    <Text id="notificationHeader" text="Notifications" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" />
+                    <Text id="notificationNumber" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="0"/>
+                </HBox>
+                <Text id="noNotification" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" visible="false" text="No notifications"/>
+            </VBox>
+            <!-- </content> -->
+        </Popover>
+
 
     </Page>
 </mvc:View>
