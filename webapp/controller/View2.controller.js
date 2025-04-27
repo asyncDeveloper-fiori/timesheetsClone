@@ -27,6 +27,11 @@ sap.ui.define(
         this.getView().setModel(user_model, "active_user");
         this.Dialog = this.byId("create_task_dialog");
 
+        // sidebar user dialog
+        this.userDialog = this.byId("userDialog");
+        this.notificationDialog = this.byId("notificationDialog");
+        this.reportDialog = this.byId("reportsDialog");
+
         var task_model = new JSONModel("model/tasks.json");
         this.getView().setModel(task_model);
 
@@ -345,11 +350,12 @@ sap.ui.define(
         }
       },
       onItemSelect(oEvent) {
-        // var activeUserModel = sap.ui.getCore().getModel("global_model");
         const oItem = oEvent.getParameter("item");
-        if (oItem.getText() === "User") {
-          this.sidePop.openBy(oEvent.getSource());
-        } else if (oItem.getText() === "Notifications") {
+       
+        if(oItem.getText()==="User"){
+          this.userDialog.open();
+        }
+        else if (oItem.getText() === "Notifications") {
           var notificationNumber = this.getView()
             .byId("notificationNumber")
             .getText();
@@ -358,20 +364,37 @@ sap.ui.define(
             this.getView().byId("notificationHeader").setVisible(false);
             this.getView().byId("notificationNumber").setVisible(false);
             this.getView().byId("noNotification").setVisible(true);
-            this.notificationPopover._myPositions = 2;
-
-            this.notificationPopover.openBy(oEvent.getSource());
+            this.notificationDialog.open();
           } else {
             this.getView().byId("notificationHeader").setVisible(true);
             this.getView().byId("notificationNumber").setVisible(true);
             this.getView().byId("noNotification").setVisible(false);
-            this.notificationPopover.openBy(oEvent.getSource());
+            this.notificationDialog.open();
           }
+        }
+        else if(oItem.getText()==="Reports"){
+          this.reportDialog.open();
         }
       },
       closeSidePop() {
         this.sidePop.close();
       },
+      onSideDialogClose(){
+        this.userDialog.close();
+        this.notificationDialog.close();
+        this.reportDialog.close();
+      },
+      createReport(){
+        var temp = this.getView().byId("template").getSelectedItem();
+          console.log(temp);
+        if(temp!=null){
+          MessageToast.show("Report created succesfully");
+          this.reportDialog.close();
+        }
+        else{
+          MessageToast.show("Fill required fields");
+        }
+      }
     });
   }
 );

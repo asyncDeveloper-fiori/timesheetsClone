@@ -1,4 +1,4 @@
-<mvc:View controllerName="timesheetsclone.controller.View2"
+<mvc:View xmlns:core="sap.ui.core" controllerName="timesheetsclone.controller.View2"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:tnt="sap.tnt"
     xmlns:u="sap.ui.unified"
@@ -248,24 +248,32 @@
 
         <Popover id="sidebarPopover" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false">
             <content>
-                <VBox >
-                    <HBox >
-                        <StandardListItem icon="sap-icon://person-placeholder" />
-                        <Text class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="{active_user>/userData/name}" />
-                    </HBox>
-                    <HBox >
-                        <StandardListItem icon="sap-icon://email" />
-                        <Text id="sidebarText" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="{active_user>/userData/email}" />
-                    </HBox>
-                </VBox>
+
             </content>
             <footer>
                 <Button class="sapUiSmallMarginBegin" press="closeSidePop" text="Close" type="Reject" />
             </footer>
         </Popover>
 
-        <Popover id="notificationPop" showHeader="false" >
-            <!-- <content> -->
+
+        <Dialog id="userDialog" draggable="true" title="User Details">
+            <VBox >
+                <HBox >
+                    <StandardListItem icon="sap-icon://person-placeholder" />
+                    <Text class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="{active_user>/userData/name}" />
+                </HBox>
+                <HBox >
+                    <StandardListItem icon="sap-icon://email" />
+                    <Text id="sidebarText" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="{active_user>/userData/email}" />
+                </HBox>
+            </VBox>
+            <endButton>
+                <Button press="onSideDialogClose" text="Close" type="Reject" />
+            </endButton>
+        </Dialog>
+
+        <Dialog id="notificationDialog" showHeader="false">
+
             <VBox >
                 <HBox >
                     <Text id="notificationHeader" text="Notifications" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" />
@@ -273,9 +281,53 @@
                 </HBox>
                 <Text id="noNotification" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" visible="false" text="No notifications"/>
             </VBox>
-            <!-- </content> -->
-        </Popover>
 
+            <endButton>
+                <Button press="onSideDialogClose" text="Close" type="Reject" />
+            </endButton>
+        </Dialog>
+
+        <Dialog id="reportsDialog" draggable="true" showHeader="true" title="Create new report">
+
+            <content>
+                <VBox >
+                    <Text class="sapUiSmallMargin" text="Select a report type" />
+                    <HBox >
+                    <Label text="Category" class="sapUiSmallMargin" />
+                    <ComboBox  class="sapUiSmallMargin" >
+                        <items>
+                            <core:Item text="All" />
+                            <core:Item text="Resource" />
+                            <core:Item text="Timeoff" />
+                            <core:Item text="Timesheet" />
+                            <core:Item text="User" />
+                        </items>
+                    </ComboBox>
+                    <Label text="Report type" required="true" class="sapUiSmallMargin" />
+                    <ComboBox id="template" required="true"
+                     class="sapUiSmallMargin" >
+                        <items>
+                            <core:Item text="Daily Hours Template" />
+                            <core:Item text="Resource Template" />
+                            <core:Item text="Timeoff - Bookings Template" />
+                            <core:Item text="Timesheet In/Out Template" />
+                            <core:Item text="Timesheet 
+                            Day Template" />
+                        </items>
+                    </ComboBox>
+                </HBox>
+                               <HBox class="sapUiTinyMargin" >
+                                 
+                                <Button class="sapUiMediumMargin"
+                                 press="createReport" text="Create" type="Accept" />
+
+                                 <Button  class="sapUiMediumMargin"
+                                  press="onSideDialogClose" text="Close" type="Reject" />
+                               </HBox>
+                </VBox>
+            </content>
+            
+        </Dialog>
 
     </Page>
 </mvc:View>

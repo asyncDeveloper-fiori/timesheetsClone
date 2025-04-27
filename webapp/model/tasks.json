@@ -46,6 +46,23 @@
         "time" : "0",
         "comments" : ""
       }
+    ],
+    "category": [
+        {
+          "name" : "All"
+        },
+        {
+          "name" : "Resource"
+        },
+        {
+          "name" : "Timeoff"
+        },
+        {
+          "name" : "Timesheet"
+        },
+        {
+          "name" : "User"
+        }
     ]
   }
   
