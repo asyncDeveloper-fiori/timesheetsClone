@@ -2,6 +2,7 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:tnt="sap.tnt"
     xmlns:u="sap.ui.unified"
+    xmlns:rm="sap.ui.table.rowmodes"
     xmlns:l="sap.ui.layout"
     xmlns:form="sap.ui.layout.form"
     xmlns:f="sap.f"
@@ -59,7 +60,7 @@
                                                     </List>
 
                                                     <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
-                                                        <ui:Table id="taskTable" rows="{/tasks}" width="100%" selectionMode="Single" ariaLabelledBy="title">
+                                                        <ui:Table id="taskTable" rows="{/tasks}" width="100%" selectionMode="MultiToggle" selectionBehavior="RowSelector" ariaLabelledBy="title">
                                                             <ui:columns>
                                                                 <ui:Column width="11rem">
                                                                     <m:Label text="Tasks" />
@@ -154,7 +155,10 @@
                             <!-- timesheets page content starts -->
                             <Text text="Timesheets" id="timesheetsHeader" />
 
-                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" visibleRowCount="5" selectionMode="MultiToggle" ariaLabelledBy="title">
+                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" selectionMode="MultiToggle" ariaLabelledBy="title">
+                                <ui:rowMode>
+                                    <rm:Fixed rowCount="5"></rm:Fixed>
+                                </ui:rowMode>
                                 <ui:columns>
                                     <ui:Column width="11rem">
                                         <m:Label text="Hours" />
