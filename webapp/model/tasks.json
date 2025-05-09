@@ -3,12 +3,14 @@
       {
         "title": "Complete Fiori UI",
         "description": "Finish the UI design for the Fiori app.",
-        "status": "In Progress"
+        "status": "In Progress",
+        "selected":false
       },
       {
         "title": "Implement Backend API",
         "description": "Work on the backend API for user authentication.",
-        "status": "Not Started"
+        "status": "Not Started",
+        "selected":false
       }
     ],
     "projects": [

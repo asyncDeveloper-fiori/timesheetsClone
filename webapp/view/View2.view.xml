@@ -13,22 +13,17 @@
     xmlns:m="sap.m"
     xmlns:mdc="sap.ui.mdc"
     xmlns:ui="sap.ui.table" displayBlock="true">
-    <Page id="page2" title="Time sheets">
+    <Page id="page2" title="Time sheets" showHeader="false">
         <HBox height="100%" width="100%">
             <tnt:SideNavigation id="sideNavigation" selectedKey="walked" expanded="true" itemSelect="onItemSelect" width="250px">
 
-                <tnt:NavigationList>
+                <tnt:NavigationList >
 
                     <tnt:NavigationListItem text="My work" icon="sap-icon://add-document" />
                     <tnt:NavigationListItem text="Reports" icon="sap-icon://bar-chart" />
+                    <tnt:NavigationListItem text="Notifications" icon="sap-icon://bell" />
+                    <tnt:NavigationListItem text="User" icon="sap-icon://customer"/>
                 </tnt:NavigationList>
-
-                <tnt:fixedItem>
-                    <tnt:NavigationList>
-                        <tnt:NavigationListItem text="Notifications" icon="sap-icon://bell" />
-                        <tnt:NavigationListItem text="User" icon="sap-icon://customer"/>
-                    </tnt:NavigationList>
-                </tnt:fixedItem>
             </tnt:SideNavigation>
 
             <VBox renderType="Bare" alignItems="Start" height="100%" width="calc(100% - 250px)">
@@ -60,7 +55,7 @@
                                                     </List>
 
                                                     <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
-                                                        <ui:Table id="taskTable" rows="{/tasks}" width="100%" selectionMode="MultiToggle" selectionBehavior="RowSelector" ariaLabelledBy="title">
+                                                        <!-- <ui:Table id="taskTable" rows="{/tasks}" width="100%" selectionMode="Single" selectionBehavior="RowSelector" ariaLabelledBy="title">
                                                             <ui:columns>
                                                                 <ui:Column width="11rem">
                                                                     <m:Label text="Tasks" />
@@ -79,7 +74,27 @@
                                                                 </ui:Column>
 
                                                             </ui:columns>
-                                                        </ui:Table>
+                                                        </ui:Table> -->
+
+                                                        <Table sticky="ColumnHeaders"  inset="false" id="taskTable" items="{/tasks}" width="100%" alternateRowColors="true">
+                                                            <columns>
+                                                             <Column width="1em">
+                                                                    <Text text="" />
+                                                                </Column>
+                                                                <Column width="6em">
+                                                                    <Text text="Task" />
+                                                                </Column>
+                                                                
+                                                            </columns>
+                                                            <items>
+                                                                <ColumnListItem vAlign="Middle">
+                                                                    <cells>
+                                                                        <CheckBox selected="{selected}" />
+                                                                        <Text text="{title}" />
+                                                                    </cells>
+                                                                </ColumnListItem>
+                                                            </items>
+                                                        </Table>
                                                     </ScrollContainer>
 
                                                 </VBox>
@@ -97,14 +112,14 @@
                                     <f:Card class="sapUiMediumMargin" width="300px">
                                         <f:content>
                                             <VBox>
-                                                <List class="sapUiSmallMarginBottom" showSeparators="None">
+                                                <List class="sapUiTinyMarginBottom" showSeparators="None">
                                                     <StandardListItem icon="sap-icon://folder-blank" title="Allocated Projects" />
                                                 </List>
 
                                                 <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
-                                                    <ui:Table id="projTable" rows="{/projects}" width="100%" ariaLabelledBy="title" selectionMode="None">
+                                                    <!-- <ui:Table id="projTable"  rows="{/projects}" width="100%" ariaLabelledBy="title" selectionMode="None">
                                                         <ui:columns>
-                                                            <ui:Column width="11rem">
+                                                            <ui:Column width="5rem">
                                                                 <m:Label text="Tasks" />
                                                                 <ui:template>
                                                                     <m:Text text="{title}" wrapping="false" />
@@ -121,13 +136,33 @@
                                                             </ui:Column>
 
                                                         </ui:columns>
-                                                    </ui:Table>
+                                                    </ui:Table> -->
+
+                                                    <Table sticky="ColumnHeaders"  inset="false" id="projTable" items="{/projects}" width="100%" alternateRowColors="true">
+                                                            <columns>
+                                                                <Column width="3em">
+                                                                    <Text text="Title" />
+                                                                </Column>
+                                                                <Column width="11em">
+                                                                    <Text text="Status" />
+                                                                </Column>
+                                                            </columns>
+                                                            <items>
+                                                                <ColumnListItem vAlign="Middle">
+                                                                    <cells>
+                                                                        
+                                                                        <Text text="{title}" />
+                                                                        <Text text="{status}" />
+                                                                    </cells>
+                                                                </ColumnListItem>
+                                                            </items>
+                                                        </Table>
                                                 </ScrollContainer>
                                             </VBox>
                                         </f:content>
                                     </f:Card>
 
-                                    <f:Card class="sapUiMediumMargin" width="300px" height="auto">
+                                    <f:Card class="sapUiSmallMargin" width="300px" height="auto">
                                         <f:content>
                                             <VBox >
                                                 <List class="sapUiSmallMarginBottom" showSeparators="None">
@@ -153,7 +188,14 @@
                         </IconTabFilter>
                         <IconTabFilter key="timesheet" text="Timesheet">
                             <!-- timesheets page content starts -->
-                            <Text text="Timesheets" id="timesheetsHeader" />
+                            <!-- <Text text="Timesheets" id="timesheetsHeader" /> -->
+
+                            <!-- week selector calender -->
+                            <l:VerticalLayout>
+                                <u:CalendarDateInterval id="weeklySelectorTimeSheet" width="320px" select="handleCalendarSelect"/>
+                                <l:VerticalLayout>
+                                </l:VerticalLayout>
+                            </l:VerticalLayout>
 
                             <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" selectionMode="MultiToggle" ariaLabelledBy="title">
                                 <ui:rowMode>
@@ -247,7 +289,7 @@
 
 
         <Popover id="hoursPopover_extra" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false">
-            <Text id="error_text" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="Input hours cannot be greater than 10" />
+            <Text id="error_text" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="Input hours cannot be greater than 8" />
         </Popover>
 
         <Popover id="sidebarPopover" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false">
@@ -297,40 +339,37 @@
                 <VBox >
                     <Text class="sapUiSmallMargin" text="Select a report type" />
                     <HBox >
-                    <Label text="Category" class="sapUiSmallMargin" />
-                    <ComboBox  class="sapUiSmallMargin" >
-                        <items>
-                            <core:Item text="All" />
-                            <core:Item text="Resource" />
-                            <core:Item text="Timeoff" />
-                            <core:Item text="Timesheet" />
-                            <core:Item text="User" />
-                        </items>
-                    </ComboBox>
-                    <Label text="Report type" required="true" class="sapUiSmallMargin" />
-                    <ComboBox id="template" required="true"
-                     class="sapUiSmallMargin" >
-                        <items>
-                            <core:Item text="Daily Hours Template" />
-                            <core:Item text="Resource Template" />
-                            <core:Item text="Timeoff - Bookings Template" />
-                            <core:Item text="Timesheet In/Out Template" />
-                            <core:Item text="Timesheet 
+                        <Label text="Category" class="sapUiSmallMargin" />
+                        <ComboBox class="sapUiSmallMargin">
+                            <items>
+                                <core:Item text="All" />
+                                <core:Item text="Resource" />
+                                <core:Item text="Timeoff" />
+                                <core:Item text="Timesheet" />
+                                <core:Item text="User" />
+                            </items>
+                        </ComboBox>
+                        <Label text="Report type" required="true" class="sapUiSmallMargin" />
+                        <ComboBox id="template" required="true" class="sapUiSmallMargin">
+                            <items>
+                                <core:Item text="Daily Hours Template" />
+                                <core:Item text="Resource Template" />
+                                <core:Item text="Timeoff - Bookings Template" />
+                                <core:Item text="Timesheet In/Out Template" />
+                                <core:Item text="Timesheet 
                             Day Template" />
-                        </items>
-                    </ComboBox>
-                </HBox>
-                               <HBox class="sapUiTinyMargin" >
-                                 
-                                <Button class="sapUiMediumMargin"
-                                 press="createReport" text="Create" type="Accept" />
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                    <HBox class="sapUiTinyMargin">
 
-                                 <Button  class="sapUiMediumMargin"
-                                  press="onSideDialogClose" text="Close" type="Reject" />
-                               </HBox>
+                        <Button class="sapUiMediumMargin" press="createReport" text="Create" type="Accept" />
+
+                        <Button class="sapUiMediumMargin" press="onSideDialogClose" text="Close" type="Reject" />
+                    </HBox>
                 </VBox>
             </content>
-            
+
         </Dialog>
 
     </Page>

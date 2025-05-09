@@ -74,27 +74,7 @@ sap.ui.define(
           };
         }
 
-        var { startOfWeek, endOfWeek } = getWeekStartAndEndDates();
-        var startOfWeek_str = JSON.stringify(startOfWeek);
-        var endOfWeek_str = JSON.stringify(endOfWeek);
-
-        this.getView()
-          .byId("timesheetsHeader")
-          .setText(
-            `${startOfWeek_str.slice(1, 11)} to ${endOfWeek_str.slice(1, 11)}`
-          );
-
-        // calender initializtion code
-        this.oFormatYyyymmdd = DateFormat.getInstance({
-          pattern: "yyyy-MM-dd",
-          calendarType: CalendarType.Gregorian,
-        });
-
-        var minDate = this.byId("calendar");
-        var oToday = new Date();
-        minDate.setMinDate(oToday);
-
-        // making single selection the model is multi select but only one row is selected written in onInit
+        
         var oTable = this.byId("idTimesheetTable");
 
         oTable.attachRowSelectionChange(function (oEvent) {
@@ -105,6 +85,24 @@ sap.ui.define(
             oTable.setSelectedIndex(lastSelectedIndex);
           }
         });
+
+        function getStartOfWeek(date) {
+          let currentDate = new Date(date);
+          let dayOfWeek = currentDate.getDay();
+
+          let difference =
+            currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+          currentDate.setDate(difference);
+
+          return currentDate;
+        }
+
+        let today = new Date();
+        let startOfWeek2 = getStartOfWeek(today);
+
+        this.getView()
+          .byId("weeklySelectorTimeSheet")
+          .setStartDate(startOfWeek2);
 
         // fragments code
         this._fragments = {};
@@ -130,7 +128,7 @@ sap.ui.define(
           status: "Not Started",
         };
 
-        task_list.push(newTask);
+        task_list.unshift(newTask);
         taskModel.setProperty("/tasks", task_list);
 
         this.getView().byId("task_title").setValue("");
@@ -138,19 +136,28 @@ sap.ui.define(
         this.Dialog.close();
       },
       deleteTask() {
-        var selectedIndex = this.getView().byId("taskTable").getSelectedIndex();
+        // var selectedIndex = this.getView().byId("taskTable").getSelectedIndex();
 
-        var oModel = this.getView().getModel();
-        var tasks = oModel.getProperty("/tasks");
+        // var oModel = this.getView().getModel();
+        // var tasks = oModel.getProperty("/tasks");
 
-        if (selectedIndex === -1) {
-          sap.m.MessageToast.show("Select a task to delete");
-        } else {
-          tasks.splice(selectedIndex, 1);
-          oModel.setProperty("/tasks", tasks);
-          this.getView().byId("tasksTable").setValue("");
-          sap.m.MessageToast.show("Task deleted succesfully");
+        // if (selectedIndex === -1) {
+        //   sap.m.MessageToast.show("Select a task to delete");
+        // } else {
+        //   tasks.splice(selectedIndex, 1);
+        //   oModel.setProperty("/tasks", tasks);
+        //   this.getView().byId("tasksTable").setValue("");
+        //   sap.m.MessageToast.show("Task deleted succesfully");
+        // }
+        var taskModel = this.getView().getModel();
+        var task_list = taskModel.getProperty("/tasks");
+
+        for(let i=0;i<task_list.length;i++){
+          if(task_list[i].selected===true){
+            task_list.splice(i,1);
+          }
         }
+        taskModel.setProperty("/tasks", task_list);
       },
       addComments(oEvent) {
         this._oPopover.openBy(oEvent.getSource());
@@ -351,11 +358,10 @@ sap.ui.define(
       },
       onItemSelect(oEvent) {
         const oItem = oEvent.getParameter("item");
-       
-        if(oItem.getText()==="User"){
+
+        if (oItem.getText() === "User") {
           this.userDialog.open();
-        }
-        else if (oItem.getText() === "Notifications") {
+        } else if (oItem.getText() === "Notifications") {
           var notificationNumber = this.getView()
             .byId("notificationNumber")
             .getText();
@@ -371,30 +377,28 @@ sap.ui.define(
             this.getView().byId("noNotification").setVisible(false);
             this.notificationDialog.open();
           }
-        }
-        else if(oItem.getText()==="Reports"){
+        } else if (oItem.getText() === "Reports") {
           this.reportDialog.open();
         }
       },
       closeSidePop() {
         this.sidePop.close();
       },
-      onSideDialogClose(){
+      onSideDialogClose() {
         this.userDialog.close();
         this.notificationDialog.close();
         this.reportDialog.close();
       },
-      createReport(){
+      createReport() {
         var temp = this.getView().byId("template").getSelectedItem();
-          console.log(temp);
-        if(temp!=null){
+        console.log(temp);
+        if (temp != null) {
           MessageToast.show("Report created succesfully");
           this.reportDialog.close();
-        }
-        else{
+        } else {
           MessageToast.show("Fill required fields");
         }
-      }
+      },
     });
   }
 );
