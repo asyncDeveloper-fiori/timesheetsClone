@@ -55,42 +55,21 @@
                                                     </List>
 
                                                     <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
-                                                        <!-- <ui:Table id="taskTable" rows="{/tasks}" width="100%" selectionMode="Single" selectionBehavior="RowSelector" ariaLabelledBy="title">
-                                                            <ui:columns>
-                                                                <ui:Column width="11rem">
-                                                                    <m:Label text="Tasks" />
-                                                                    <ui:template>
-                                                                        <m:Text text="{title}" wrapping="false" />
-                                                                    </ui:template>
+                                                       
 
-                                                                </ui:Column>
-
-                                                                <ui:Column width="11rem">
-                                                                    <m:Label text="Status" />
-                                                                    <ui:template>
-                                                                        <m:Text text="{status}" wrapping="false" />
-                                                                    </ui:template>
-
-                                                                </ui:Column>
-
-                                                            </ui:columns>
-                                                        </ui:Table> -->
-
-                                                        <Table sticky="ColumnHeaders"  inset="false" id="taskTable" items="{/tasks}" width="100%" alternateRowColors="true">
+                                                        <Table  id="taskTable" mode="MultiSelect" items="{/tasks}" headerText="Tasks">
+                                                           
                                                             <columns>
-                                                             <Column width="1em">
-                                                                    <Text text="" />
+                                                                <Column width="{clone>width}" styleClass="{clone>styleClass}" demandPopin="{clone>demandPopin}" minScreenWidth="{clone>minScreenWidth}" popinDisplay="WithoutHeader">
+                                                                   
                                                                 </Column>
-                                                                <Column width="6em">
-                                                                    <Text text="Task" />
-                                                                </Column>
-                                                                
                                                             </columns>
                                                             <items>
-                                                                <ColumnListItem vAlign="Middle">
+                                                                <ColumnListItem vAlign="Middle" type="Navigation">
                                                                     <cells>
-                                                                        <CheckBox selected="{selected}" />
-                                                                        <Text text="{title}" />
+                                                                        <Text text="{title}" wrapping="false" />
+                                                                        <!-- <Text text="{products>SupplierName}" wrapping="false"/>
+                                                                        <Text text="{products>Description}" wrapping="false" /> -->
                                                                     </cells>
                                                                 </ColumnListItem>
                                                             </items>
@@ -117,7 +96,7 @@
                                                 </List>
 
                                                 <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
-                                                    <!-- <ui:Table id="projTable"  rows="{/projects}" width="100%" ariaLabelledBy="title" selectionMode="None">
+                                                    <!-- <ui:Table id="projTable" rows="{/projects}" width="100%" ariaLabelledBy="title" selectionMode="None">
                                                         <ui:columns>
                                                             <ui:Column width="5rem">
                                                                 <m:Label text="Tasks" />
@@ -138,25 +117,25 @@
                                                         </ui:columns>
                                                     </ui:Table> -->
 
-                                                    <Table sticky="ColumnHeaders"  inset="false" id="projTable" items="{/projects}" width="100%" alternateRowColors="true">
-                                                            <columns>
-                                                                <Column width="3em">
-                                                                    <Text text="Title" />
-                                                                </Column>
-                                                                <Column width="11em">
-                                                                    <Text text="Status" />
-                                                                </Column>
-                                                            </columns>
-                                                            <items>
-                                                                <ColumnListItem vAlign="Middle">
-                                                                    <cells>
-                                                                        
-                                                                        <Text text="{title}" />
-                                                                        <Text text="{status}" />
-                                                                    </cells>
-                                                                </ColumnListItem>
-                                                            </items>
-                                                        </Table>
+                                                    <Table sticky="ColumnHeaders" inset="false" id="projTable" items="{/projects}" width="100%" alternateRowColors="true">
+                                                        <columns>
+                                                            <Column width="3em">
+                                                                <Text text="Title" />
+                                                            </Column>
+                                                            <Column width="11em">
+                                                                <Text text="Status" />
+                                                            </Column>
+                                                        </columns>
+                                                        <items>
+                                                            <ColumnListItem vAlign="Middle">
+                                                                <cells>
+
+                                                                    <Text text="{title}" />
+                                                                    <Text text="{status}" />
+                                                                </cells>
+                                                            </ColumnListItem>
+                                                        </items>
+                                                    </Table>
                                                 </ScrollContainer>
                                             </VBox>
                                         </f:content>

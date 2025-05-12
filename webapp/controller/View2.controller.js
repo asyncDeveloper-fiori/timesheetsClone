@@ -136,28 +136,28 @@ sap.ui.define(
         this.Dialog.close();
       },
       deleteTask() {
-        // var selectedIndex = this.getView().byId("taskTable").getSelectedIndex();
-
-        // var oModel = this.getView().getModel();
-        // var tasks = oModel.getProperty("/tasks");
-
-        // if (selectedIndex === -1) {
-        //   sap.m.MessageToast.show("Select a task to delete");
-        // } else {
-        //   tasks.splice(selectedIndex, 1);
-        //   oModel.setProperty("/tasks", tasks);
-        //   this.getView().byId("tasksTable").setValue("");
-        //   sap.m.MessageToast.show("Task deleted succesfully");
-        // }
+        
         var taskModel = this.getView().getModel();
         var task_list = taskModel.getProperty("/tasks");
 
-        for(let i=0;i<task_list.length;i++){
-          if(task_list[i].selected===true){
-            task_list.splice(i,1);
-          }
+        let indexListString = this.getView().byId('taskTable').getSelectedContextPaths();
+        console.log(indexListString);
+        if(indexListString.length===0){
+          MessageToast.show("No index selected");
+          return;
         }
+        let indexToRemove = [];
+        for(let i=0;i<indexListString.length;i++){
+            indexToRemove.push(parseInt(indexListString[i].substr('7')));
+        }
+
+        indexToRemove.forEach(index=>{
+          task_list.splice(index,1);
+        })
+
         taskModel.setProperty("/tasks", task_list);
+
+
       },
       addComments(oEvent) {
         this._oPopover.openBy(oEvent.getSource());
