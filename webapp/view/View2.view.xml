@@ -55,13 +55,13 @@
                                                     </List>
 
                                                     <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
-                                                       
 
-                                                        <Table  id="taskTable" mode="MultiSelect" items="{/tasks}" headerText="Tasks">
-                                                           
+
+                                                        <Table id="taskTable" mode="MultiSelect" items="{/tasks}" headerText="Tasks">
+
                                                             <columns>
                                                                 <Column width="{clone>width}" styleClass="{clone>styleClass}" demandPopin="{clone>demandPopin}" minScreenWidth="{clone>minScreenWidth}" popinDisplay="WithoutHeader">
-                                                                   
+
                                                                 </Column>
                                                             </columns>
                                                             <items>
@@ -176,7 +176,17 @@
                                 </l:VerticalLayout>
                             </l:VerticalLayout>
 
-                            <ui:Table id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" selectionMode="MultiToggle" ariaLabelledBy="title">
+                            <!-- project selector combobox -->
+                            <l:VerticalLayout class="sapUiTinyMargin" width="100%">
+                                <Label text="Add Row"/>
+                                <ComboBox maxWidth="200px" items="{/projects}">
+                                    <core:Item key="{ProductId}" text="{title}" />
+                                </ComboBox>
+                            </l:VerticalLayout>
+
+
+
+                            <ui:Table  id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" selectionMode="MultiToggle" ariaLabelledBy="title">
                                 <ui:rowMode>
                                     <rm:Fixed rowCount="5"></rm:Fixed>
                                 </ui:rowMode>
