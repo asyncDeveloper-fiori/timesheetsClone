@@ -13,7 +13,7 @@
     xmlns:m="sap.m"
     xmlns:mdc="sap.ui.mdc"
     xmlns:ui="sap.ui.table" displayBlock="true">
-    <Page id="page2" title="Time sheets" showHeader="false">
+    <Page class="overflowHidden" id="page2" title="Time sheets" showHeader="false" enableScrolling="false">
         <HBox height="100%" width="100%">
             <tnt:SideNavigation id="sideNavigation" selectedKey="walked" expanded="true" itemSelect="onItemSelect" width="250px">
 
@@ -23,6 +23,8 @@
                     <tnt:NavigationListItem text="Reports" icon="sap-icon://bar-chart" />
                     <tnt:NavigationListItem text="Notifications" icon="sap-icon://bell" />
                     <tnt:NavigationListItem text="User" icon="sap-icon://customer"/>
+                    <tnt:NavigationListItem text="Submitted Timesheets" icon="sap-icon://appointment-2"></tnt:NavigationListItem>
+                    <tnt:NavigationListItem text="Submitted Timeoffs" icon="sap-icon://time-off"></tnt:NavigationListItem>
                 </tnt:NavigationList>
             </tnt:SideNavigation>
 
@@ -68,8 +70,6 @@
                                                                 <ColumnListItem vAlign="Middle" type="Navigation">
                                                                     <cells>
                                                                         <Text text="{title}" wrapping="false" />
-                                                                        <!-- <Text text="{products>SupplierName}" wrapping="false"/>
-                                                                        <Text text="{products>Description}" wrapping="false" /> -->
                                                                     </cells>
                                                                 </ColumnListItem>
                                                             </items>
@@ -96,27 +96,6 @@
                                                 </List>
 
                                                 <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
-                                                    <!-- <ui:Table id="projTable" rows="{/projects}" width="100%" ariaLabelledBy="title" selectionMode="None">
-                                                        <ui:columns>
-                                                            <ui:Column width="5rem">
-                                                                <m:Label text="Tasks" />
-                                                                <ui:template>
-                                                                    <m:Text text="{title}" wrapping="false" />
-                                                                </ui:template>
-
-                                                            </ui:Column>
-
-                                                            <ui:Column width="11rem">
-                                                                <m:Label text="Status" />
-                                                                <ui:template>
-                                                                    <m:Text text="{status}" wrapping="false" />
-                                                                </ui:template>
-
-                                                            </ui:Column>
-
-                                                        </ui:columns>
-                                                    </ui:Table> -->
-
                                                     <Table sticky="ColumnHeaders" inset="false" id="projTable" items="{/projects}" width="100%" alternateRowColors="true">
                                                         <columns>
                                                             <Column width="3em">
@@ -149,12 +128,12 @@
                                                 </List>
                                                 <VBox >
                                                     <HBox class="sapUiSamllMarginBottom">
-                                                        <Text text="Submitted timesheets" class="sapUiSmallMarginBegin" />
+                                                        <Link text="Submitted timesheets" class="sapUiSmallMarginBegin" />
                                                         <Text id="noSubmittedSheets" text="0" class="sapUiSmallMarginBegin" />
                                                     </HBox>
 
                                                     <HBox class="sapUiSamllMarginBottom">
-                                                        <Text text="Submitted timeoffs" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" />
+                                                        <Link text="Submitted timeoffs" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" />
                                                         <Text id="noSubmittedTimeoff" text="0" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" />
                                                     </HBox>
                                                 </VBox>
@@ -170,7 +149,7 @@
                             <!-- <Text text="Timesheets" id="timesheetsHeader" /> -->
 
                             <!-- week selector calender -->
-                            <l:VerticalLayout>
+                            <l:VerticalLayout >
                                 <u:CalendarDateInterval id="weeklySelectorTimeSheet" width="320px" select="handleCalendarSelect"/>
                                 <l:VerticalLayout>
                                 </l:VerticalLayout>
@@ -178,15 +157,20 @@
 
                             <!-- project selector combobox -->
                             <l:VerticalLayout class="sapUiTinyMargin" width="100%">
-                                <Label text="Add Row"/>
-                                <ComboBox maxWidth="200px" items="{/projects}">
+                                <Label text="Select Project"/>
+                                <MultiComboBox maxWidth="200px" items="{/projects}" id="projectComboBox" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish">
                                     <core:Item key="{ProductId}" text="{title}" />
-                                </ComboBox>
+                                </MultiComboBox>
+
+                                <HBox >
+                                    <Button text="Add " press="onAddRow" class="sapUiTinyMargin"/>
+                                    <Button visible="false" text="Submit for Review" press="submitTimesheet" type="Ghost" id="timesheetSubmitButton" class="sapUiTinyMargin" />
+                                </HBox>
                             </l:VerticalLayout>
 
 
 
-                            <ui:Table  id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" selectionMode="MultiToggle" ariaLabelledBy="title">
+                            <ui:Table visible="false" id="idTimesheetTable" rows="{/timesheets}" enableSelectAll="false" selectionMode="None" ariaLabelledBy="title">
                                 <ui:rowMode>
                                     <rm:Fixed rowCount="5"></rm:Fixed>
                                 </ui:rowMode>
@@ -198,23 +182,23 @@
                                         </ui:template>
                                     </ui:Column>
 
-                                    <ui:Column width="11rem">
+                                    <!-- <ui:Column width="11rem">
                                         <m:Label text="" />
                                         <ui:template>
                                             <m:Button text="Add comments" press="addComments"/>
                                         </ui:template>
-                                    </ui:Column>
+                                    </ui:Column> -->
 
-                                    <ui:Column width="20rem">
+                                    <ui:Column width="30rem">
                                         <m:Label text="Comments" />
                                         <ui:template>
-                                            <Text id="timesheetsCommentsText" text="{comments}" />
+                                            <!-- <Text id="timesheetsCommentsText" text="{comments}" /> -->
+                                            <Input id="timesheetsCommentsText" value="{comments}" />
                                         </ui:template>
                                     </ui:Column>
                                 </ui:columns>
                             </ui:Table>
 
-                            <Button text="Submit for Review" press="submitTimesheet" type="Ghost" id="timesheetSubmitButton" />
 
                         </IconTabFilter>
                         <IconTabFilter key="people" text="Time off">

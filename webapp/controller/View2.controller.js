@@ -74,7 +74,6 @@ sap.ui.define(
           };
         }
 
-        
         var oTable = this.byId("idTimesheetTable");
 
         oTable.attachRowSelectionChange(function (oEvent) {
@@ -106,6 +105,12 @@ sap.ui.define(
 
         // fragments code
         this._fragments = {};
+
+        // date format setup
+        this.oFormatYyyymmdd = DateFormat.getInstance({
+          pattern: "yyyy-MM-dd",
+          calendarType: CalendarType.Gregorian,
+        });
       },
       createTask() {
         this.Dialog.open();
@@ -136,28 +141,39 @@ sap.ui.define(
         this.Dialog.close();
       },
       deleteTask() {
-        
         var taskModel = this.getView().getModel();
         var task_list = taskModel.getProperty("/tasks");
 
-        let indexListString = this.getView().byId('taskTable').getSelectedContextPaths();
+        let indexListString = this.getView()
+          .byId("taskTable")
+          .getSelectedContextPaths();
         console.log(indexListString);
-        if(indexListString.length===0){
+        if (indexListString.length === 0) {
           MessageToast.show("No index selected");
           return;
         }
+
         let indexToRemove = [];
-        for(let i=0;i<indexListString.length;i++){
-            indexToRemove.push(parseInt(indexListString[i].substr('7')));
+        for (let i = 0; i < indexListString.length; i++) {
+          indexToRemove.push(parseInt(indexListString[i].substr("7")));
         }
 
-        indexToRemove.forEach(index=>{
-          task_list.splice(index,1);
-        })
+        // Sort indices in descending order
+        indexToRemove.sort((a, b) => b - a);
+
+        indexToRemove.forEach((index) => {
+          task_list.splice(index, 1);
+        });
 
         taskModel.setProperty("/tasks", task_list);
 
-
+        // Clear selection based on table type
+        let taskTable = this.getView().byId("taskTable");
+        if (taskTable instanceof sap.ui.table.Table) {
+          taskTable.clearSelection();
+        } else if (taskTable instanceof sap.m.Table) {
+          taskTable.removeSelections(true);
+        }
       },
       addComments(oEvent) {
         this._oPopover.openBy(oEvent.getSource());
@@ -207,10 +223,6 @@ sap.ui.define(
           total += parseInt(hours_array[i].time);
           console.log(i);
         }
-        if (total < 40) {
-          MessageToast.show("Minimum billable hours not fulfilled");
-          return;
-        }
 
         // check if comments are empty
         for (let i = 0; i < hours_array.length; i++) {
@@ -232,7 +244,11 @@ sap.ui.define(
 
         sheetModel.setProperty("/timesheets", hours_array);
 
-        MessageToast.show("Submitted succesfully");
+        MessageToast.show(
+          `Submitted succesfully for ${this.getView()
+            .byId("projectComboBox")
+            .getValue()} `
+        );
       },
       onInputChange: function (oEvent) {
         var oInput = oEvent.getSource();
@@ -399,6 +415,48 @@ sap.ui.define(
           MessageToast.show("Fill required fields");
         }
       },
+      onAddRow() {
+        let proj = this.getView().byId("projectComboBox").getValue();
+        if (proj === "") {
+          this.getView().byId("timesheetSubmitButton").setVisible(false);
+          this.getView().byId("idTimesheetTable").setVisible(false);
+          MessageToast.show("Please select a project");
+          return;
+        }
+        this.getView().byId("timesheetSubmitButton").setVisible(true);
+        this.getView().byId("idTimesheetTable").setVisible(true);
+      },
+      handleSelectionChange: function(oEvent) {
+        var changedItem = oEvent.getParameter("changedItem");
+        var isSelected = oEvent.getParameter("selected");
+  
+        var state = "Selected";
+        if (!isSelected) {
+          state = "Deselected";
+        }
+  
+        MessageToast.show("Event 'selectionChange': " + state + " '" + changedItem.getText() + "'", {
+          width: "auto"
+        });
+      },
+  
+      handleSelectionFinish: function(oEvent) {
+        var selectedItems = oEvent.getParameter("selectedItems");
+        var messageText = "Event 'selectionFinished': [";
+  
+        for (var i = 0; i < selectedItems.length; i++) {
+          messageText += "'" + selectedItems[i].getText() + "'";
+          if (i != selectedItems.length - 1) {
+            messageText += ",";
+          }
+        }
+  
+        messageText += "]";
+  
+        MessageToast.show(messageText, {
+          width: "auto"
+        });
+      }
     });
   }
 );
