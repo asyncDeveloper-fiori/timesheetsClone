@@ -24,12 +24,17 @@
         "title": "Proj2",
         "description": "Work on the backend API for user authentication.",
         "status": "In Progress"
+      },
+      {
+        "title": "Proj3",
+        "description": "Work on the backend API for user authentication.",
+        "status": "In Progress"
       }
       
     ],
     "timesheets" :[
       {
-        "time" : "",
+        "time" : "0",
         "comments" : ""
       },
       {

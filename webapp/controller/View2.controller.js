@@ -417,49 +417,57 @@ sap.ui.define(
       },
 
       onAddRow: function () {
-        const generateTable = () => {
-            // Create the table
-            var oTable = new sap.m.Table({
-                columns: [
-                    new sap.m.Column({ header: new sap.m.Text({ text: "Hours" }) }),
-                    new sap.m.Column({ header: new sap.m.Text({ text: "Comments" }) })
-                ]
-            });
+        let projComboBox = this.getView().byId("projectComboBox");
+        let selectedKeys = projComboBox.getSelectedKeys();
+        let selectedItems = projComboBox.getSelectedItems();
+        
+        
+        let tableContainer = this.getView().byId("tableContainer");
+        
+        if (selectedKeys.length > 0) {
+            for (let i = 0; i < selectedKeys.length; i++) {
+                let projectId = selectedKeys[i];
+                let projectName = selectedItems[i].getText(); 
+                
+                
+                let existingTable = tableContainer.getItems().find(item => 
+                    item.data("projectId") === projectId
+                );
+                
+                if (!existingTable) {
+                    var projectContainer = new sap.ui.core.HTML({
+                        content: `<div class="project-container" style="margin-bottom: 20px;">
+                                 <span>&nbsp;</span>   <h3 style="margin-bottom: 5px;">${projectName}</h3>
+                                </div>`
+                    }).data("projectId", projectId);
+                    
+                    var oTable = new sap.m.Table({
+                        columns: [
+                            new sap.m.Column({ header: new sap.m.Text({ text: "Hours" }) }),
+                            new sap.m.Column({
+                                header: new sap.m.Text({ text: "Comments" }),
+                            }),
+                        ],
+                    }).data("projectId", projectId); 
     
-            // Bind items to the table
-            oTable.bindItems({
-                path: "/timesheets",
-                template: new sap.m.ColumnListItem({
-                    cells: [
-                        new sap.m.Input({ value: "{time}" }),
-                        new sap.m.Input({ value: "{comments}" })
-                    ]
-                })
-            });
-    
-            // Add the table to the view
-            this.getView().byId("tableContainer").addItem(oTable);
-        };
-    
-        // Initialize the model
-        var oModel = new sap.ui.model.json.JSONModel({
-            projs: []
-        });
-    
-        // Set the model to the view
-        this.getView().setModel(oModel);
-    
-        let proj = this.getView().byId("projectComboBox").getSelectedKeys();
-        for (let i = 0; i < proj.length; i++) {
-            generateTable();
+                    oTable.bindItems({
+                        path: "/timesheets",
+                        template: new sap.m.ColumnListItem({
+                            cells: [
+                                new sap.m.Input({ value: "{time}" }),
+                                new sap.m.Input({ value: "{comments}" }),
+                            ],
+                        }),
+                    });
+                    
+                    
+                    tableContainer.addItem(projectContainer);
+                    tableContainer.addItem(oTable);
+                }
+            }
+            this.getView().byId("timesheetSubmitButton").setVisible(true);
         }
-    
-        var aProjs = oModel.getProperty("/projs");
-        for (let i = 0; i < proj.length; i++) {
-            aProjs.push({ hours: "", comments: "" });
-        }
-        oModel.setProperty("/projs", aProjs);
-    }        
+    },
     });
   }
 );
