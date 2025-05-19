@@ -148,7 +148,7 @@
 
                             <!-- week selector calender -->
                             <l:VerticalLayout >
-                                <u:CalendarDateInterval id="weeklySelectorTimeSheet" width="320px" select="handleCalendarSelect"/>
+                                <u:CalendarDateInterval id="weeklySelectorTimeSheet" width="320px" select="handleCalendarSelect" />
                                 <l:VerticalLayout>
                                 </l:VerticalLayout>
                             </l:VerticalLayout>

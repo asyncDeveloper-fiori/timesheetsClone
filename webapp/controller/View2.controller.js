@@ -160,7 +160,6 @@ sap.ui.define(
           indexToRemove.push(parseInt(indexListString[i].substr("7")));
         }
 
-        // Sort indices in descending order
         indexToRemove.sort((a, b) => b - a);
 
         indexToRemove.forEach((index) => {
@@ -168,8 +167,6 @@ sap.ui.define(
         });
 
         taskModel.setProperty("/tasks", task_list);
-
-        // Clear selection based on table type
         let taskTable = this.getView().byId("taskTable");
         if (taskTable instanceof sap.ui.table.Table) {
           taskTable.clearSelection();
@@ -207,12 +204,13 @@ sap.ui.define(
         this.onCancelPress();
       },
       submitTimesheet: function() {
+        let cleanderWeek = this.getView().byId('weeklySelectorTimeSheet');
+        console.log('asdfghj');
         let tableContainer = this.getView().byId("tableContainer");
         let model = this.getView().getModel();
         let allTimesheets = {};
         let isValid = true;
-    
-        // 1. Validate all fields are filled
+
         tableContainer.getItems().forEach(item => {
             if (item instanceof sap.m.Table) {
                 let binding = item.getBinding("items");
@@ -221,17 +219,14 @@ sap.ui.define(
                 contexts.forEach(context => {
                     let data = context.getObject();
                     
-                    // Validate hours field
                     if (!data.time || data.time.trim() === "") {
                         isValid = false;
                         this.highlightInvalidField(item, context, "time", "Hours required");
                     }
-                    // Validate comments field
                     else if (!data.comments || data.comments.trim() === "") {
                         isValid = false;
                         this.highlightInvalidField(item, context, "comments", "Comments required");
                     }
-                    // Validate hours is <= 12
                     else if (parseFloat(data.time) > 12) {
                         isValid = false;
                         this.highlightInvalidField(item, context, "time", "Max 12 hours allowed");
@@ -245,7 +240,6 @@ sap.ui.define(
             return;
         }
     
-        // 2. Collect all valid data
         tableContainer.getItems().forEach(item => {
             if (item instanceof sap.m.Table) {
                 let projectId = item.data("projectId");
@@ -256,21 +250,17 @@ sap.ui.define(
             }
         });
     
-        // 3. Log to console
-        console.log("Submitted Timesheets:", allTimesheets);
+        console.log(allTimesheets);
         
-        // 4. Reset everything
         this.resetTimesheetForm();
         
-        // 5. Show success
-        sap.m.MessageToast.show("Timesheet submitted successfully");
+        MessageToast.show("Timesheet submitted successfully");
         
         let submittedTimesheetNo = this.getView().byId('noSubmittedSheets').getText();
         submittedTimesheetNo = parseInt(submittedTimesheetNo)+1;
         this.getView().byId('noSubmittedSheets').setText(JSON.stringify(submittedTimesheetNo));
     },
     
-    // Helper function to highlight invalid fields
     highlightInvalidField: function(table, context, fieldName, message) {
         let row = table.getItems().find(item => 
             item.getBindingContext() === context
@@ -283,21 +273,18 @@ sap.ui.define(
         }
     },
     
-    // Function to reset the form
     resetTimesheetForm: function() {
         let tableContainer = this.getView().byId("tableContainer");
         let model = this.getView().getModel();
         
-        // Clear all tables
+        
         tableContainer.removeAllItems();
         
-        // Reset model
+  
         model.setProperty("/projects", {});
         
-        // Hide submit button
-        this.getView().byId("timesheetSubmitButton").setVisible(false);
         
-        // Reset combobox selection if needed
+        this.getView().byId("timesheetSubmitButton").setVisible(false);
         this.getView().byId("projectComboBox").setSelectedKeys([]);
     },
       onInputChange: function (oEvent) {
@@ -306,7 +293,6 @@ sap.ui.define(
         var newValue = oInput.getValue();
         oBinding.setValue(newValue);
 
-        // validation for input hours not being more than 10
         var maxValue = oEvent.getParameter("newValue");
         maxValue = parseInt(maxValue, 10);
         if (maxValue > 10) {
@@ -322,7 +308,6 @@ sap.ui.define(
         oControlEvent.getParameters().startDate();
       },
 
-      // calender controller code
 
       handleCalendarSelect: function (oEvent) {
         var oCalendar = oEvent.getSource();
