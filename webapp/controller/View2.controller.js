@@ -7,6 +7,7 @@ sap.ui.define(
     "sap/base/i18n/date/CalendarType",
     "sap/ui/unified/DateRange",
     "sap/ui/core/format/DateFormat",
+    "sap/m/Table",
   ],
   (
     Controller,
@@ -15,7 +16,8 @@ sap.ui.define(
     CalendarType,
     DateRange,
     library,
-    DateFormat
+    DateFormat,
+    Table
   ) => {
     "use strict";
 
@@ -341,8 +343,6 @@ sap.ui.define(
         this._updateText(oCalendar.getSelectedDates()[0]);
       },
       cancelTimeOff: function () {
-        //removeAllselectedDates() function removes all the selected dates from the calender with id calender the we go to the start and end date text tags where the value is changed and change their value back to initial value No Date Selected using their ids and setText function
-        var oCalendar = this.byId("calendar");
         oCalendar.removeAllSelectedDates();
         var oSelectedDateFrom = this.byId("selectedDateFrom");
         var oSelectedDateTo = this.byId("selectedDateTo");
@@ -415,48 +415,51 @@ sap.ui.define(
           MessageToast.show("Fill required fields");
         }
       },
-      onAddRow() {
-        let proj = this.getView().byId("projectComboBox").getValue();
-        if (proj === "") {
-          this.getView().byId("timesheetSubmitButton").setVisible(false);
-          this.getView().byId("idTimesheetTable").setVisible(false);
-          MessageToast.show("Please select a project");
-          return;
-        }
-        this.getView().byId("timesheetSubmitButton").setVisible(true);
-        this.getView().byId("idTimesheetTable").setVisible(true);
-      },
-      handleSelectionChange: function(oEvent) {
-        var changedItem = oEvent.getParameter("changedItem");
-        var isSelected = oEvent.getParameter("selected");
-  
-        var state = "Selected";
-        if (!isSelected) {
-          state = "Deselected";
-        }
-  
-        MessageToast.show("Event 'selectionChange': " + state + " '" + changedItem.getText() + "'", {
-          width: "auto"
+
+      onAddRow: function () {
+        const generateTable = () => {
+            // Create the table
+            var oTable = new sap.m.Table({
+                columns: [
+                    new sap.m.Column({ header: new sap.m.Text({ text: "Hours" }) }),
+                    new sap.m.Column({ header: new sap.m.Text({ text: "Comments" }) })
+                ]
+            });
+    
+            // Bind items to the table
+            oTable.bindItems({
+                path: "/timesheets",
+                template: new sap.m.ColumnListItem({
+                    cells: [
+                        new sap.m.Input({ value: "{time}" }),
+                        new sap.m.Input({ value: "{comments}" })
+                    ]
+                })
+            });
+    
+            // Add the table to the view
+            this.getView().byId("tableContainer").addItem(oTable);
+        };
+    
+        // Initialize the model
+        var oModel = new sap.ui.model.json.JSONModel({
+            projs: []
         });
-      },
-  
-      handleSelectionFinish: function(oEvent) {
-        var selectedItems = oEvent.getParameter("selectedItems");
-        var messageText = "Event 'selectionFinished': [";
-  
-        for (var i = 0; i < selectedItems.length; i++) {
-          messageText += "'" + selectedItems[i].getText() + "'";
-          if (i != selectedItems.length - 1) {
-            messageText += ",";
-          }
+    
+        // Set the model to the view
+        this.getView().setModel(oModel);
+    
+        let proj = this.getView().byId("projectComboBox").getSelectedKeys();
+        for (let i = 0; i < proj.length; i++) {
+            generateTable();
         }
-  
-        messageText += "]";
-  
-        MessageToast.show(messageText, {
-          width: "auto"
-        });
-      }
+    
+        var aProjs = oModel.getProperty("/projs");
+        for (let i = 0; i < proj.length; i++) {
+            aProjs.push({ hours: "", comments: "" });
+        }
+        oModel.setProperty("/projs", aProjs);
+    }        
     });
   }
 );

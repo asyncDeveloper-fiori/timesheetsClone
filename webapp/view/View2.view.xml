@@ -23,8 +23,6 @@
                     <tnt:NavigationListItem text="Reports" icon="sap-icon://bar-chart" />
                     <tnt:NavigationListItem text="Notifications" icon="sap-icon://bell" />
                     <tnt:NavigationListItem text="User" icon="sap-icon://customer"/>
-                    <tnt:NavigationListItem text="Submitted Timesheets" icon="sap-icon://appointment-2"></tnt:NavigationListItem>
-                    <tnt:NavigationListItem text="Submitted Timeoffs" icon="sap-icon://time-off"></tnt:NavigationListItem>
                 </tnt:NavigationList>
             </tnt:SideNavigation>
 
@@ -158,8 +156,8 @@
                             <!-- project selector combobox -->
                             <l:VerticalLayout class="sapUiTinyMargin" width="100%">
                                 <Label text="Select Project"/>
-                                <MultiComboBox maxWidth="200px" items="{/projects}" id="projectComboBox" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish">
-                                    <core:Item key="{ProductId}" text="{title}" />
+                                <MultiComboBox id="projectComboBox"  selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="350px" items="{/projects}">
+                                    <core:Item key="{title}" text="{title}"/>
                                 </MultiComboBox>
 
                                 <HBox >
@@ -198,6 +196,8 @@
                                     </ui:Column>
                                 </ui:columns>
                             </ui:Table>
+
+                            <VBox id="tableContainer"></VBox>
 
 
                         </IconTabFilter>
