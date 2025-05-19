@@ -156,7 +156,7 @@
                             <!-- project selector combobox -->
                             <l:VerticalLayout class="sapUiTinyMargin" width="100%">
                                 <Label text="Select Project"/>
-                                <MultiComboBox id="projectComboBox"  selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="350px" items="{/projects}">
+                                <MultiComboBox id="projectComboBox" showSelectAll="true"  selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="350px" items="{/projects}">
                                     <core:Item key="{title}" text="{title}"/>
                                 </MultiComboBox>
 

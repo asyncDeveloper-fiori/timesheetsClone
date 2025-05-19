@@ -206,52 +206,100 @@ sap.ui.define(
         this.getView().byId("commentTextArea").setValue("");
         this.onCancelPress();
       },
-      submitTimesheet() {
-        var sheetModel = this.getView().getModel();
-        var hours_array = sheetModel.getProperty("/timesheets");
-        // console.log(hours_array);
-
-        let total = 0;
-
-        // check if there are invalid input hours
-        for (let i = 0; i < hours_array.length; i++) {
-          if (
-            parseInt(hours_array[i].time) > 12 ||
-            parseInt(hours_array[i].time) < 4
-          ) {
-            MessageToast.show("Invalid hours");
+      submitTimesheet: function() {
+        let tableContainer = this.getView().byId("tableContainer");
+        let model = this.getView().getModel();
+        let allTimesheets = {};
+        let isValid = true;
+    
+        // 1. Validate all fields are filled
+        tableContainer.getItems().forEach(item => {
+            if (item instanceof sap.m.Table) {
+                let binding = item.getBinding("items");
+                let contexts = binding.getCurrentContexts();
+                
+                contexts.forEach(context => {
+                    let data = context.getObject();
+                    
+                    // Validate hours field
+                    if (!data.time || data.time.trim() === "") {
+                        isValid = false;
+                        this.highlightInvalidField(item, context, "time", "Hours required");
+                    }
+                    // Validate comments field
+                    else if (!data.comments || data.comments.trim() === "") {
+                        isValid = false;
+                        this.highlightInvalidField(item, context, "comments", "Comments required");
+                    }
+                    // Validate hours is <= 12
+                    else if (parseFloat(data.time) > 12) {
+                        isValid = false;
+                        this.highlightInvalidField(item, context, "time", "Max 12 hours allowed");
+                    }
+                });
+            }
+        });
+    
+        if (!isValid) {
+            sap.m.MessageToast.show("Please fill all required fields correctly");
             return;
-          }
-          total += parseInt(hours_array[i].time);
-          console.log(i);
         }
-
-        // check if comments are empty
-        for (let i = 0; i < hours_array.length; i++) {
-          if (hours_array[i].comments === "") {
-            MessageToast.show("Please add comments");
-            return;
-          }
-        }
-
-        var total_sheets = this.getView().byId("noSubmittedSheets").getText();
-        total_sheets = parseInt(total_sheets) + 1;
-        total_sheets = JSON.stringify(total_sheets);
-        this.getView().byId("noSubmittedSheets").setText(total_sheets);
-
-        for (let i = 0; i < hours_array.length; i++) {
-          hours_array[i].time = "0";
-          hours_array[i].comments = "";
-        }
-
-        sheetModel.setProperty("/timesheets", hours_array);
-
-        MessageToast.show(
-          `Submitted succesfully for ${this.getView()
-            .byId("projectComboBox")
-            .getValue()} `
+    
+        // 2. Collect all valid data
+        tableContainer.getItems().forEach(item => {
+            if (item instanceof sap.m.Table) {
+                let projectId = item.data("projectId");
+                let binding = item.getBinding("items");
+                allTimesheets[projectId] = binding.getCurrentContexts().map(context => {
+                    return context.getObject();
+                });
+            }
+        });
+    
+        // 3. Log to console
+        console.log("Submitted Timesheets:", allTimesheets);
+        
+        // 4. Reset everything
+        this.resetTimesheetForm();
+        
+        // 5. Show success
+        sap.m.MessageToast.show("Timesheet submitted successfully");
+        
+        let submittedTimesheetNo = this.getView().byId('noSubmittedSheets').getText();
+        submittedTimesheetNo = parseInt(submittedTimesheetNo)+1;
+        this.getView().byId('noSubmittedSheets').setText(JSON.stringify(submittedTimesheetNo));
+    },
+    
+    // Helper function to highlight invalid fields
+    highlightInvalidField: function(table, context, fieldName, message) {
+        let row = table.getItems().find(item => 
+            item.getBindingContext() === context
         );
-      },
+        if (row) {
+            let cells = row.getCells();
+            let input = (fieldName === "time") ? cells[0] : cells[1];
+            input.setValueState(sap.ui.core.ValueState.Error);
+            input.setValueStateText(message);
+        }
+    },
+    
+    // Function to reset the form
+    resetTimesheetForm: function() {
+        let tableContainer = this.getView().byId("tableContainer");
+        let model = this.getView().getModel();
+        
+        // Clear all tables
+        tableContainer.removeAllItems();
+        
+        // Reset model
+        model.setProperty("/projects", {});
+        
+        // Hide submit button
+        this.getView().byId("timesheetSubmitButton").setVisible(false);
+        
+        // Reset combobox selection if needed
+        this.getView().byId("projectComboBox").setSelectedKeys([]);
+    },
       onInputChange: function (oEvent) {
         var oInput = oEvent.getSource();
         var oBinding = oInput.getBinding("value");
@@ -420,54 +468,122 @@ sap.ui.define(
         let projComboBox = this.getView().byId("projectComboBox");
         let selectedKeys = projComboBox.getSelectedKeys();
         let selectedItems = projComboBox.getSelectedItems();
-        
-        
         let tableContainer = this.getView().byId("tableContainer");
-        
+        let model = this.getView().getModel();
+    
         if (selectedKeys.length > 0) {
+            if (!model.getProperty("/projects")) {
+                model.setProperty("/projects", {});
+            }
+    
             for (let i = 0; i < selectedKeys.length; i++) {
                 let projectId = selectedKeys[i];
-                let projectName = selectedItems[i].getText(); 
-                
-                
+                let projectName = selectedItems[i].getText();
+                let projectPath = `/projects/${projectId}`;
+    
                 let existingTable = tableContainer.getItems().find(item => 
                     item.data("projectId") === projectId
                 );
-                
+    
                 if (!existingTable) {
-                    var projectContainer = new sap.ui.core.HTML({
-                        content: `<div class="project-container" style="margin-bottom: 20px;">
-                                 <span>&nbsp;</span>   <h3 style="margin-bottom: 5px;">${projectName}</h3>
-                                </div>`
-                    }).data("projectId", projectId);
-                    
+                    if (!model.getProperty(projectPath)) {
+                        let initialTimesheets = [];
+                        for (let j = 0; j < 5; j++) {
+                            initialTimesheets.push({
+                                time: "",
+                                comments: ""
+                            });
+                        }
+                        
+                        model.setProperty(projectPath, {
+                            name: projectName,
+                            timesheets: initialTimesheets
+                        });
+                    }
+    
+                    var projectHeader = new sap.m.VBox({
+                        items: [
+                            new sap.m.Text({
+                                text: projectName,
+                                wrapping: false
+                            })
+                        ]
+                    }).addStyleClass("sapUiSmallMarginTopBottom");
+    
                     var oTable = new sap.m.Table({
                         columns: [
-                            new sap.m.Column({ header: new sap.m.Text({ text: "Hours" }) }),
-                            new sap.m.Column({
-                                header: new sap.m.Text({ text: "Comments" }),
+                            new sap.m.Column({ 
+                                header: new sap.m.Text({ text: "Hours" }) 
                             }),
+                            new sap.m.Column({ 
+                                header: new sap.m.Text({ text: "Comments" }) 
+                            })
                         ],
-                    }).data("projectId", projectId); 
+                    }).data("projectId", projectId);
+    
+                    var hoursInput = new sap.m.Input({
+                        value: "{time}",
+                        type: sap.m.InputType.Number,
+                        liveChange: function(oEvent) {
+                            let input = oEvent.getSource();
+                            let value = input.getValue();
+                            
+                            // Allow only numbers and decimal point
+                            if (!/^[0-9]*\.?[0-9]*$/.test(value)) {
+                                input.setValueState(sap.ui.core.ValueState.Error);
+                                input.setValueStateText("Numbers only (0-12)");
+                                return;
+                            }
+                            
+                            // Validate max 12 hours
+                            if (value && parseFloat(value) > 12) {
+                                input.setValueState(sap.ui.core.ValueState.Error);
+                                input.setValueStateText("Maximum 12 hours allowed");
+                            } else {
+                                input.setValueState(sap.ui.core.ValueState.None);
+                            }
+                        },
+                        change: function(oEvent) {
+                            let input = oEvent.getSource();
+                            let value = input.getValue();
+                            
+                            // Final validation
+                            if (!value) return;
+                            
+                            if (!/^[0-9]+\.?[0-9]*$/.test(value)) {
+                                input.setValueState(sap.ui.core.ValueState.Error);
+                                input.setValueStateText("Enter valid number");
+                                return;
+                            }
+                            
+                            if (parseFloat(value) > 12) {
+                                input.setValueState(sap.ui.core.ValueState.Error);
+                                input.setValueStateText("Cannot exceed 12 hours");
+                            } else {
+                                input.setValueState(sap.ui.core.ValueState.None);
+                            }
+                        }
+                    });
     
                     oTable.bindItems({
-                        path: "/timesheets",
+                        path: `${projectPath}/timesheets`,
                         template: new sap.m.ColumnListItem({
                             cells: [
-                                new sap.m.Input({ value: "{time}" }),
-                                new sap.m.Input({ value: "{comments}" }),
-                            ],
-                        }),
+                                hoursInput,
+                                new sap.m.Input({ 
+                                    value: "{comments}" 
+                                })
+                            ]
+                        })
                     });
-                    
-                    
-                    tableContainer.addItem(projectContainer);
+    
+                    tableContainer.addItem(projectHeader);
                     tableContainer.addItem(oTable);
                 }
             }
             this.getView().byId("timesheetSubmitButton").setVisible(true);
         }
-    },
+    }
     });
   }
 );
