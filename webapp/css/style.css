@@ -42,4 +42,8 @@
     overflow: hidden !important;
 }
 
-
+.submitted-field {
+    background-color: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+}
