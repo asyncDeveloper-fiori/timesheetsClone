@@ -197,7 +197,9 @@
                                 </ui:columns>
                             </ui:Table>
 
-                            <HBox id="tableContainer"></HBox>
+                            <HBox id="tableContainer">
+                                
+                            </HBox>
 
 
                         </IconTabFilter>
