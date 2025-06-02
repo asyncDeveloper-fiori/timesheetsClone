@@ -161,7 +161,7 @@
                                 </MultiComboBox>
 
                                 <HBox >
-                                    <Button id="rowButton" text="Add Row" press="onAddRow" class="sapUiTinyMargin" />
+                                    <Button id="rowButton" text="Add Row" press="generateDynamicForm" class="sapUiTinyMargin" />
                                     <Button visible="false" text="Submit for Review" press="submitTimesheet" type="Ghost" id="timesheetSubmitButton" class="sapUiTinyMargin" />
                                 </HBox>
                             </l:VerticalLayout>
@@ -197,9 +197,9 @@
                                 </ui:columns>
                             </ui:Table>
 
-                            <HBox id="tableContainer">
+                            <VBox id="tableContainer">
                                 
-                            </HBox>
+                            </VBox>
 
 
                         </IconTabFilter>

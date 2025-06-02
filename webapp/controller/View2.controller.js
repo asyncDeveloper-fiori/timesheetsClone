@@ -8,14 +8,9 @@ sap.ui.define(
     "sap/ui/unified/DateRange",
     "sap/ui/core/format/DateFormat",
     "sap/m/Table",
-    "sap/ui/layout/form/Form",
-    "sap/ui/layout/form/FormContainer",
-    "sap/ui/layout/form/FormElement",
-    "sap/ui/layout/form/ColumnLayout",
-    "sap/ui/layout/form/ColumnElementData",
+    "sap/ui/layout/form/SimpleForm",
     "sap/m/Label",
     "sap/m/Input",
-    "sap/m/HBox",
   ],
   (
     Controller,
@@ -26,14 +21,9 @@ sap.ui.define(
     library,
     DateFormat,
     Table,
-    Form,
-    FormContainer,
-    FormElement,
-    ColumnLayout,
-    ColumnElementData,
+    SimpleForm,
     Label,
-    Input,
-    HBox
+    Input
   ) => {
     "use strict";
 
@@ -518,123 +508,123 @@ sap.ui.define(
         }
       },
 
-      // onAddRow: function () {
-      //   let projComboBox = this.getView().byId("projectComboBox");
-      //   let selectedKeys = projComboBox.getSelectedKeys();
-      //   let selectedItems = projComboBox.getSelectedItems();
-      //   let tableContainer = this.getView().byId("tableContainer");
-      //   let model = this.getView().getModel();
+      onAddRow: function () {
+        let projComboBox = this.getView().byId("projectComboBox");
+        let selectedKeys = projComboBox.getSelectedKeys();
+        let selectedItems = projComboBox.getSelectedItems();
+        let tableContainer = this.getView().byId("tableContainer");
+        let model = this.getView().getModel();
 
-      //   if (selectedKeys.length > 0) {
-      //     if (!model.getProperty("/projects")) {
-      //       model.setProperty("/projects", {});
-      //     }
+        if (selectedKeys.length > 0) {
+          if (!model.getProperty("/projects")) {
+            model.setProperty("/projects", {});
+          }
 
-      //     for (let i = 0; i < selectedKeys.length; i++) {
-      //       let projectId = selectedKeys[i];
-      //       let projectName = selectedItems[i].getText();
-      //       let projectPath = `/projects/${projectId}`;
+          for (let i = 0; i < selectedKeys.length; i++) {
+            let projectId = selectedKeys[i];
+            let projectName = selectedItems[i].getText();
+            let projectPath = `/projects/${projectId}`;
 
-      //       let existingTable = tableContainer
-      //         .getItems()
-      //         .find((item) => item.data("projectId") === projectId);
+            let existingTable = tableContainer
+              .getItems()
+              .find((item) => item.data("projectId") === projectId);
 
-      //       if (!existingTable) {
-      //         if (!model.getProperty(projectPath)) {
-      //           let initialTimesheets = [];
-      //           for (let j = 0; j < 5; j++) {
-      //             initialTimesheets.push({
-      //               time: "",
-      //               comments: "",
-      //             });
-      //           }
+            if (!existingTable) {
+              if (!model.getProperty(projectPath)) {
+                let initialTimesheets = [];
+                for (let j = 0; j < 5; j++) {
+                  initialTimesheets.push({
+                    time: "",
+                    comments: "",
+                  });
+                }
 
-      //           model.setProperty(projectPath, {
-      //             name: projectName,
-      //             timesheets: initialTimesheets,
-      //           });
-      //         }
+                model.setProperty(projectPath, {
+                  name: projectName,
+                  timesheets: initialTimesheets,
+                });
+              }
 
-      //         var projectHeader = new sap.m.VBox({
-      //           items: [
-      //             new sap.m.Text({
-      //               text: projectName,
-      //               wrapping: false,
-      //             }),
-      //           ],
-      //         }).addStyleClass("sapUiSmallMarginTopBottom");
+              var projectHeader = new sap.m.VBox({
+                items: [
+                  new sap.m.Text({
+                    text: projectName,
+                    wrapping: false,
+                  }),
+                ],
+              }).addStyleClass("sapUiSmallMarginTopBottom");
 
-      //         var oTable = new sap.ui.layout.form.Form({
-      //           columns: [
-      //             new sap.ui.layout.form.Form.label({
-      //               header: new sap.m.Text({ text: "Hours" }),
-      //             }),
-      //             new sap.m.Column({
-      //               header: new sap.m.Text({ text: "Comments" }),
-      //             }),
-      //           ],
-      //         }).data("projectId", projectId);
+              var oTable = new sap.m.Table({
+                columns: [
+                  new sap.m.Column({
+                    header: new sap.m.Text({ text: "Hours" }),
+                  }),
+                  new sap.m.Column({
+                    header: new sap.m.Text({ text: "Comments" }),
+                  }),
+                ],
+              }).data("projectId", projectId);
 
-      //         var hoursInput = new sap.m.Input({
-      //           value: "{time}",
-      //           type: sap.m.InputType.Number,
-      //           liveChange: function (oEvent) {
-      //             let input = oEvent.getSource();
-      //             let value = input.getValue();
+              var hoursInput = new sap.m.Input({
+                value: "{time}",
+                type: sap.m.InputType.Number,
+                liveChange: function (oEvent) {
+                  let input = oEvent.getSource();
+                  let value = input.getValue();
 
-      //             if (!/^[0-9]*\.?[0-9]*$/.test(value)) {
-      //               input.setValueState(sap.ui.core.ValueState.Error);
-      //               input.setValueStateText("Numbers only (0-12)");
-      //               return;
-      //             }
+                  if (!/^[0-9]*\.?[0-9]*$/.test(value)) {
+                    input.setValueState(sap.ui.core.ValueState.Error);
+                    input.setValueStateText("Numbers only (0-12)");
+                    return;
+                  }
 
-      //             if (value && parseFloat(value) > 12) {
-      //               input.setValueState(sap.ui.core.ValueState.Error);
-      //               input.setValueStateText("Maximum 12 hours allowed");
-      //             } else {
-      //               input.setValueState(sap.ui.core.ValueState.None);
-      //             }
-      //           },
-      //           change: function (oEvent) {
-      //             let input = oEvent.getSource();
-      //             let value = input.getValue();
+                  if (value && parseFloat(value) > 12) {
+                    input.setValueState(sap.ui.core.ValueState.Error);
+                    input.setValueStateText("Maximum 12 hours allowed");
+                  } else {
+                    input.setValueState(sap.ui.core.ValueState.None);
+                  }
+                },
+                change: function (oEvent) {
+                  let input = oEvent.getSource();
+                  let value = input.getValue();
 
-      //             if (!value) return;
+                  if (!value) return;
 
-      //             if (!/^[0-9]+\.?[0-9]*$/.test(value)) {
-      //               input.setValueState(sap.ui.core.ValueState.Error);
-      //               input.setValueStateText("Enter valid number");
-      //               return;
-      //             }
+                  if (!/^[0-9]+\.?[0-9]*$/.test(value)) {
+                    input.setValueState(sap.ui.core.ValueState.Error);
+                    input.setValueStateText("Enter valid number");
+                    return;
+                  }
 
-      //             if (parseFloat(value) > 12) {
-      //               input.setValueState(sap.ui.core.ValueState.Error);
-      //               input.setValueStateText("Cannot exceed 12 hours");
-      //             } else {
-      //               input.setValueState(sap.ui.core.ValueState.None);
-      //             }
-      //           },
-      //         });
+                  if (parseFloat(value) > 12) {
+                    input.setValueState(sap.ui.core.ValueState.Error);
+                    input.setValueStateText("Cannot exceed 12 hours");
+                  } else {
+                    input.setValueState(sap.ui.core.ValueState.None);
+                  }
+                },
+              });
 
-      //         oTable.bindItems({
-      //           path: `${projectPath}/timesheets`,
-      //           template: new sap.m.ColumnListItem({
-      //             cells: [
-      //               hoursInput,
-      //               new sap.m.Input({
-      //                 value: "{comments}",
-      //               }),
-      //             ],
-      //           }),
-      //         });
+              oTable.bindItems({
+                path: `${projectPath}/timesheets`,
+                template: new sap.m.ColumnListItem({
+                  cells: [
+                    hoursInput,
+                    new sap.m.Input({
+                      value: "{comments}",
+                    }),
+                  ],
+                }),
+              });
 
-      //         tableContainer.addItem(projectHeader);
-      //         tableContainer.addItem(oTable);
-      //       }
-      //     }
-      //     this.getView().byId("timesheetSubmitButton").setVisible(true);
-      //   }
-      // },
+              tableContainer.addItem(projectHeader);
+              tableContainer.addItem(oTable);
+            }
+          }
+          this.getView().byId("timesheetSubmitButton").setVisible(true);
+        }
+      },
       getWeekNumber(oDate) {
         var d = new Date(oDate.getTime());
         d.setHours(0, 0, 0, 0);
@@ -651,30 +641,83 @@ sap.ui.define(
         );
       },
 
-      // create form in place of table
-      onAddEow(){
-        let selectedKeys = projComboBox.getSelectedKeys();
-        let selectedItems = projComboBox.getSelectedItems();
-        let tableContainer = this.getView().byId("tableContainer");
+      generateDynamicForm() {
+        let projComboBox = this.getView().byId("projectComboBox");
+        var selectedKeys = projComboBox.getSelectedKeys();
+        let oContainer = this.getView().byId("tableContainer");
+        let flag = -1;
+        // oContainer.destroyContent();
+        // console.log(selectedKeys);
+        let presentIds = [];
+        for(let i=0;i<this.getView().byId('tableContainer').getItems().length;i++){
+            presentIds.push(this.getView().byId('tableContainer').getItems()[i].sId);
+        }
 
-        let timesheetModel = this.getView().getModel();
-
-        if(selectedKeys.length > 0){
-          if(!timesheetModel.getProperty("/projects")){
-            timesheetModel.setProperty('/projects' , {});
+        for (let i = 0; i < selectedKeys.length; i++) {
+          if(presentIds.indexOf(selectedKeys[i])!== -1){
+            continue;
           }
           else{
-            MessageToast.show("Please select a project");
-            return;
-          }
-        }
+            var oForm = new SimpleForm({
+              id:selectedKeys[i],
+              layout: "ResponsiveGridLayout",
+              editable: true
+            });
 
-        // for all the projects in combobox we creare id and path then check if this is not previously present , if not present we can create a table
-        for(let i=0;i<selectedKeys.length;i++ ){
-            let projectId = selectedKeys[i];
-            let projectName = selectedItems[i];
+            oForm.addContent(new sap.m.Label({
+              text: selectedKeys[i], 
+              design: sap.m.LabelDesign.Bold
+          }));
+
+            this.addFormFields(oForm ,selectedKeys[i]);
+            oContainer.addItem(oForm);
+            flag = 1;
+          }
+          
+        }
+        if(flag===1){
+          this.getView().byId("timesheetSubmitButton").setVisible(true);
         }
       },
+
+      addFormFields(oForm,sKey) {
+          for(let i=0;i<5;i++){
+            let oControl = new Input({
+              id : sKey+i,
+              value : 0,
+              type: "Number",
+              width : '100px',
+              liveChange: this.validateHours.bind(this)
+            });
+
+            oForm.addContent(oControl);
+          }
+      },
+
+      validateHours: function(oEvent) {
+        const input = oEvent.getSource();
+        const value = parseFloat(input.getValue());
+        
+        if (isNaN(value)) {
+            input.setValueState("Error");
+            input.setValueStateText("Please enter a valid number");
+            return;
+        }
+        
+        if (value > 12) {
+            input.setValueState("Error");
+            input.setValueStateText("Hours cannot exceed 12");
+            input.setValue(12);
+        } 
+        else if (value < 0) {
+            input.setValueState("Error");
+            input.setValueStateText("Hours cannot be negative");
+            input.setValue(0); 
+        }
+        else {
+            input.setValueState("None"); 
+        }
+    }
     });
   }
 );
