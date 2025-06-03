@@ -13,7 +13,7 @@
     xmlns:m="sap.m"
     xmlns:mdc="sap.ui.mdc"
     xmlns:ui="sap.ui.table" displayBlock="true">
-    <Page class="overflowHidden" id="page2" title="Time sheets" showHeader="false" enableScrolling="false">
+    <Page class="overflowHidden" id="page2" title="Time sheets" showHeader="false" enableScrolling="true">
         <HBox height="100%" width="100%">
             <tnt:SideNavigation id="sideNavigation" selectedKey="walked" expanded="true" itemSelect="onItemSelect" width="250px">
 
@@ -148,7 +148,7 @@
 
                             <!-- week selector calender -->
                             <l:VerticalLayout >
-                                <u:CalendarDateInterval id="weeklySelectorTimeSheet" width="320px" select="handleCalendarSelect" intervalSelection="true"/>
+                                <u:CalendarDateInterval  id="weeklySelectorTimeSheet" width="320px" select="handleCalendarSelect" intervalSelection="true"/>
                                 <l:VerticalLayout>
                                 </l:VerticalLayout>
                             </l:VerticalLayout>
@@ -156,13 +156,13 @@
                             <!-- project selector combobox -->
                             <l:VerticalLayout class="sapUiTinyMargin" width="100%">
                                 <Label text="Select Project"/>
-                                <MultiComboBox  id="projectComboBox"  showSelectAll="true"  selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="350px" items="{/projects}">
+                                <MultiComboBox id="projectComboBox" showSelectAll="true" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="350px" items="{/projects}">
                                     <core:Item key="{title}" text="{title}"/>
                                 </MultiComboBox>
 
                                 <HBox >
                                     <Button id="rowButton" text="Add Row" press="generateDynamicForm" class="sapUiTinyMargin" />
-                                    <Button visible="false" text="Submit for Review" press="submitTimesheet" type="Ghost" id="timesheetSubmitButton" class="sapUiTinyMargin" />
+                                    <Button visible="false" text="Submit for Review" press="onSubmit" type="Ghost" id="timesheetSubmitButton" class="sapUiTinyMargin" />
                                 </HBox>
                             </l:VerticalLayout>
 
@@ -198,11 +198,18 @@
                             </ui:Table>
 
 
-                            
-                            <VBox id="tableContainer">
-                                    
-                            </VBox>
+                            <Panel headerText="Time Distribution" width="auto" class="sapUiResponsiveMargin">
+                                <HBox class="styleForDayBox" >
+                                    <Text text="Mon" />
+                                    <Text text="Tue" />
+                                    <Text text="Wed" />
+                                    <Text text="Thu" />
+                                    <Text text="Fri" />
+                                  </HBox>
+                                <VBox id="tableContainer">
 
+                                </VBox>
+                            </Panel>
 
                         </IconTabFilter>
                         <IconTabFilter key="people" text="Time off">

@@ -688,18 +688,21 @@ sap.ui.define(
 
       addFormFields(oForm, sKey) {
         for (let i = 0; i < 5; i++) {
-          
-          //   oForm.addContent(new Label({
-          //     text: "Hours",
-          //     labelFor: sKey+i,
-          // }));
           let oControl = new Input({
             id: sKey + i,
-            // value: 0,
-            placeholder : "Input hours",
+            placeholder: "Input hours",
             type: "Number",
             width: "100px",
             liveChange: this.validateHours.bind(this),
+            showSuggestion: true,
+            showClearButton: true, // Optional clear button
+            suffix: new sap.m.Button({
+              // 'suffix' is the correct property
+              icon: "sap-icon://search",
+              press: function () {
+                /* search logic */
+              },
+            }),
           });
 
           oForm.addContent(oControl);
@@ -716,7 +719,6 @@ sap.ui.define(
           return;
         }
 
-
         if (value > 12) {
           input.setValueState("Error");
           input.setValueStateText("Hours cannot exceed 12");
@@ -727,6 +729,77 @@ sap.ui.define(
           input.setValue(0);
         } else {
           input.setValueState("None");
+        }
+      },
+
+      /**
+       * Collects all timesheet data and logs it as a payload
+       */
+      collectTimesheetData: function () {
+        const oContainer = this.getView().byId("tableContainer");
+        const aForms = oContainer.getItems();
+        const aPayload = [];
+
+        // Iterate through each form
+        aForms.forEach((oForm) => {
+          const sProjectId = oForm.getId();
+          const aInputs = [];
+          let bHasData = false;
+
+          try {
+            // Find all input fields in this form
+            for (let i = 0; i < 5; i++) {
+              const oInput = sap.ui.getCore().byId(`${sProjectId}${i}`);
+
+              // Skip if input doesn't exist
+              if (!oInput) {
+                console.warn(`Input ${sProjectId}${i} not found`);
+                aInputs.push({
+                  day: i + 1,
+                  hours: "0",
+                });
+                continue;
+              }
+
+              const sValue = oInput.getValue();
+
+              if (sValue && sValue !== "0") {
+                bHasData = true;
+              }
+
+              aInputs.push({
+                day: i + 1,
+                hours: sValue || "0",
+              });
+            }
+
+            // Only include projects with actual data
+            if (bHasData) {
+              const oLabel = oForm.getContent()[0];
+              aPayload.push({
+                projectId: sProjectId,
+                projectName: oLabel ? oLabel.getText() : "Unknown Project",
+                days: aInputs,
+                total: aInputs.reduce(
+                  (sum, day) => sum + parseInt(day.hours),
+                  0
+                ),
+              });
+            }
+          } catch (error) {
+            console.error(`Error processing form ${sProjectId}:`, error);
+          }
+        });
+
+        console.log("Timesheet Payload:", JSON.stringify(aPayload, null, 2));
+        return aPayload;
+      },
+      onSubmit: function () {
+        const payload = this.collectTimesheetData();
+        if (payload.length > 0) {
+          // Submit to backend
+        } else {
+          sap.m.MessageToast.show("No timesheet data to submit");
         }
       },
     });

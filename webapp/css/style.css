@@ -47,3 +47,21 @@
     color: #666;
     border: 1px solid #ddd;
 }
+
+.styleForDayBox{
+    margin-left: 22%;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 17%;
+}
+
+#container-timesheetsclone---View2--sideNavigation-Flexible-Content {
+    position: fixed;
+    top: 0;        
+    left: 0;       
+    width: 255px;  
+    height: 100vh;
+    z-index: 1000;
+    overflow-y: auto;
+    background: white; 
+}

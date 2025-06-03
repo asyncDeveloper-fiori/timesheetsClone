@@ -26,7 +26,12 @@
         "status": "In Progress"
       },
       {
-        "title": "PFCG",
+        "title": "PFGC",
+        "description": "Work on the backend API for user authentication.",
+        "status": "In Progress"
+      },
+      {
+        "title": "Foxconn",
         "description": "Work on the backend API for user authentication.",
         "status": "In Progress"
       }
