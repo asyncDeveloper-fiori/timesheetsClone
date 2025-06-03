@@ -16,17 +16,17 @@
     "projects": [
       {
         
-        "title": "Proj1",
+        "title": "Kennametal",
         "description": "Finish the UI design for the Fiori app.",
         "status": "In Progress"
       },
       {
-        "title": "Proj2",
+        "title": "Sumitomo",
         "description": "Work on the backend API for user authentication.",
         "status": "In Progress"
       },
       {
-        "title": "Proj3",
+        "title": "PFCG",
         "description": "Work on the backend API for user authentication.",
         "status": "In Progress"
       }

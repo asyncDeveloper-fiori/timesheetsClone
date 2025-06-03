@@ -649,75 +649,86 @@ sap.ui.define(
         // oContainer.destroyContent();
         // console.log(selectedKeys);
         let presentIds = [];
-        for(let i=0;i<this.getView().byId('tableContainer').getItems().length;i++){
-            presentIds.push(this.getView().byId('tableContainer').getItems()[i].sId);
+        for (
+          let i = 0;
+          i < this.getView().byId("tableContainer").getItems().length;
+          i++
+        ) {
+          presentIds.push(
+            this.getView().byId("tableContainer").getItems()[i].sId
+          );
         }
 
         for (let i = 0; i < selectedKeys.length; i++) {
-          if(presentIds.indexOf(selectedKeys[i])!== -1){
+          if (presentIds.indexOf(selectedKeys[i]) !== -1) {
             continue;
-          }
-          else{
+          } else {
             var oForm = new SimpleForm({
-              id:selectedKeys[i],
+              id: selectedKeys[i],
               layout: "ResponsiveGridLayout",
-              editable: true
+              editable: true,
             });
 
-            oForm.addContent(new sap.m.Label({
-              text: selectedKeys[i], 
-              design: sap.m.LabelDesign.Bold
-          }));
+            oForm.addContent(
+              new sap.m.Label({
+                text: selectedKeys[i],
+                design: sap.m.LabelDesign.Bold,
+              })
+            );
 
-            this.addFormFields(oForm ,selectedKeys[i]);
+            this.addFormFields(oForm, selectedKeys[i]);
             oContainer.addItem(oForm);
             flag = 1;
           }
-          
         }
-        if(flag===1){
+        if (flag === 1) {
           this.getView().byId("timesheetSubmitButton").setVisible(true);
         }
       },
 
-      addFormFields(oForm,sKey) {
-          for(let i=0;i<5;i++){
-            let oControl = new Input({
-              id : sKey+i,
-              value : 0,
-              type: "Number",
-              width : '100px',
-              liveChange: this.validateHours.bind(this)
-            });
+      addFormFields(oForm, sKey) {
+        for (let i = 0; i < 5; i++) {
+          
+          //   oForm.addContent(new Label({
+          //     text: "Hours",
+          //     labelFor: sKey+i,
+          // }));
+          let oControl = new Input({
+            id: sKey + i,
+            // value: 0,
+            placeholder : "Input hours",
+            type: "Number",
+            width: "100px",
+            liveChange: this.validateHours.bind(this),
+          });
 
-            oForm.addContent(oControl);
-          }
+          oForm.addContent(oControl);
+        }
       },
 
-      validateHours: function(oEvent) {
+      validateHours: function (oEvent) {
         const input = oEvent.getSource();
-        const value = parseFloat(input.getValue());
-        
+        const value = parseInt(input.getValue());
+
         if (isNaN(value)) {
-            input.setValueState("Error");
-            input.setValueStateText("Please enter a valid number");
-            return;
+          input.setValueState("Error");
+          input.setValueStateText("Please enter a valid number");
+          return;
         }
-        
+
+
         if (value > 12) {
-            input.setValueState("Error");
-            input.setValueStateText("Hours cannot exceed 12");
-            input.setValue(12);
-        } 
-        else if (value < 0) {
-            input.setValueState("Error");
-            input.setValueStateText("Hours cannot be negative");
-            input.setValue(0); 
+          input.setValueState("Error");
+          input.setValueStateText("Hours cannot exceed 12");
+          input.setValue(12);
+        } else if (value < 0) {
+          input.setValueState("Error");
+          input.setValueStateText("Hours cannot be negative");
+          input.setValue(0);
+        } else {
+          input.setValueState("None");
         }
-        else {
-            input.setValueState("None"); 
-        }
-    }
+      },
     });
   }
 );

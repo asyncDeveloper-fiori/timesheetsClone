@@ -93,13 +93,13 @@
                                                     <StandardListItem icon="sap-icon://folder-blank" title="Allocated Projects" />
                                                 </List>
 
-                                                <ScrollContainer height="100px" width="90%" vertical="true" focusable="true">
+                                                <ScrollContainer height="100px" width="100%" vertical="true" focusable="true">
                                                     <Table sticky="ColumnHeaders" inset="false" id="projTable" items="{/projects}" width="100%" alternateRowColors="true">
                                                         <columns>
-                                                            <Column width="3em">
+                                                            <Column width="7em">
                                                                 <Text text="Title" />
                                                             </Column>
-                                                            <Column width="11em">
+                                                            <Column width="8em">
                                                                 <Text text="Status" />
                                                             </Column>
                                                         </columns>
@@ -197,8 +197,10 @@
                                 </ui:columns>
                             </ui:Table>
 
+
+                            
                             <VBox id="tableContainer">
-                                
+                                    
                             </VBox>
 
 
