@@ -31,17 +31,15 @@ sap.ui.define(
       oFormatYyyymmdd: null,
 
       onInit() {
-
-
         // for timesheet week selector
         const oWeekModel = new JSONModel({
           startDate: null,
           endDate: null,
           weekNumber: null,
-          currentDate: new Date() // Used as reference
+          currentDate: new Date(), // Used as reference
         });
         this.getView().setModel(oWeekModel, "weekModel");
-        
+
         // Calculate initial week
         this._calculateWeekDates();
 
@@ -224,7 +222,6 @@ sap.ui.define(
         this.onCancelPress();
       },
       submitTimesheet: function () {
-       
         let tableContainer = this.getView().byId("tableContainer");
         let isValid = true;
 
@@ -749,7 +746,10 @@ sap.ui.define(
       },
 
       collectTimesheetData: function () {
-        const weekNumber = this.getView().byId('weekNumberText').getText().substr(6,2);
+        const weekNumber = this.getView()
+          .byId("weekNumberText")
+          .getText()
+          .substr(6, 2);
         const oContainer = this.getView().byId("tableContainer");
         const aForms = oContainer.getItems();
         const aPayload = [];
@@ -794,14 +794,13 @@ sap.ui.define(
                 projectId: sProjectId,
                 projectName: oLabel ? oLabel.getText() : "Unknown Project",
                 days: aInputs,
-                week : weekNumber,
+                week: weekNumber,
                 total: aInputs.reduce(
                   (sum, day) => sum + parseInt(day.hours),
                   0
                 ),
               });
             }
-            
           } catch (error) {
             console.error(`Error processing form ${sProjectId}:`, error);
           }
@@ -812,101 +811,107 @@ sap.ui.define(
       },
       onSubmit: function () {
         // console.log(this.getView().byId('weekNumberText').getText());
+        const weekNumber = this.getView()
+          .byId("weekNumberText")
+          .getText()
+          .substr(6, 2);
         const payload = this.collectTimesheetData();
         if (payload.length > 0) {
-          // Submit to backend
+          // submit to backend or in this case set to local storage
+          localStorage.setItem(weekNumber, JSON.stringify(payload));
         } else {
           sap.m.MessageToast.show("No timesheet data to submit");
         }
+        console.log("Done");
       },
 
-      onPreviousWeek: function() {
+      onPreviousWeek: function () {
         const oModel = this.getView().getModel("weekModel");
         const oData = oModel.getData();
-        
+
         // Subtract 7 days from current reference date
         const newDate = new Date(oData.currentDate);
         newDate.setDate(newDate.getDate() - 7);
-        
+
         oModel.setProperty("/currentDate", newDate);
         this._calculateWeekDates();
-        
+
         // Fire custom event
         this.getView().fireEvent("weekChanged", {
           startDate: oModel.getProperty("/startDate"),
           endDate: oModel.getProperty("/endDate"),
-          weekNumber: oModel.getProperty("/weekNumber")
+          weekNumber: oModel.getProperty("/weekNumber"),
         });
       },
-      
-      onNextWeek: function() {
+
+      onNextWeek: function () {
         const oModel = this.getView().getModel("weekModel");
         const oData = oModel.getData();
-        
+
         // Add 7 days to current reference date
         const newDate = new Date(oData.currentDate);
         newDate.setDate(newDate.getDate() + 7);
-        
+
         oModel.setProperty("/currentDate", newDate);
         this._calculateWeekDates();
-        
+
         // Fire custom event
         this.getView().fireEvent("weekChanged", {
           startDate: oModel.getProperty("/startDate"),
           endDate: oModel.getProperty("/endDate"),
-          weekNumber: oModel.getProperty("/weekNumber")
+          weekNumber: oModel.getProperty("/weekNumber"),
         });
       },
-      
-      _calculateWeekDates: function() {
+
+      _calculateWeekDates: function () {
         const oModel = this.getView().getModel("weekModel");
         const oData = oModel.getData();
         const oDate = new Date(oData.currentDate);
-        
+
         // Calculate start of week (Monday)
         const day = oDate.getDay();
         const diff = oDate.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
         const startDate = new Date(oDate.setDate(diff));
-        
+
         // Calculate end of week (Sunday)
         const endDate = new Date(startDate);
         endDate.setDate(startDate.getDate() + 6);
-        
+
         // Calculate ISO week number
         const weekNumber = this._getWeekNumber(startDate);
-        
+
         // Update model
         oModel.setData({
           startDate: startDate,
           endDate: endDate,
           weekNumber: weekNumber,
-          currentDate: oData.currentDate
+          currentDate: oData.currentDate,
         });
       },
-      
-      _getWeekNumber: function(date) {
+
+      _getWeekNumber: function (date) {
         // Create a copy of the date
         const d = new Date(date);
         d.setHours(0, 0, 0, 0);
-        
+
         // Set to nearest Thursday (current week will be the ISO week)
-        d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
-        
+        d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+
         // Get first day of year
         const yearStart = new Date(d.getFullYear(), 0, 1);
-        
+
         // Calculate full weeks to nearest Thursday
-        const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-        
+        const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+
         return weekNo;
       },
-      
+
       // Public method to set specific date
-      setCurrentDate: function(oDate) {
+      setCurrentDate: function (oDate) {
         const oModel = this.getView().getModel("weekModel");
         oModel.setProperty("/currentDate", oDate);
         this._calculateWeekDates();
-      }
+      },
     });
   }
 );
