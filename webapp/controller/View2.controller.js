@@ -710,15 +710,15 @@ sap.ui.define(
             type: "Number",
             width: "100px",
             liveChange: this.validateHours.bind(this),
-            showSuggestion: true,
-            showClearButton: true, // Optional clear button
-            suffix: new sap.m.Button({
-              // 'suffix' is the correct property
-              icon: "sap-icon://search",
-              press: function () {
-                /* search logic */
-              },
-            }),
+            // showSuggestion: true,
+            // showClearButton: true, // Optional clear button
+            // suffix: new sap.m.Button({
+            //   // 'suffix' is the correct property
+            //   icon: "sap-icon://search",
+            //   press: function () {
+            //     /* search logic */
+            //   },
+            // }),
           });
 
           oForm.addContent(oControl);
@@ -748,10 +748,8 @@ sap.ui.define(
         }
       },
 
-      /**
-       * Collects all timesheet data and logs it as a payload
-       */
       collectTimesheetData: function () {
+        const weekNumber = this.getView().byId('weekNumberText').getText().substr(6,2);
         const oContainer = this.getView().byId("tableContainer");
         const aForms = oContainer.getItems();
         const aPayload = [];
@@ -796,12 +794,14 @@ sap.ui.define(
                 projectId: sProjectId,
                 projectName: oLabel ? oLabel.getText() : "Unknown Project",
                 days: aInputs,
+                week : weekNumber,
                 total: aInputs.reduce(
                   (sum, day) => sum + parseInt(day.hours),
                   0
                 ),
               });
             }
+            
           } catch (error) {
             console.error(`Error processing form ${sProjectId}:`, error);
           }
@@ -811,7 +811,7 @@ sap.ui.define(
         return aPayload;
       },
       onSubmit: function () {
-        console.log(this.getView().byId('weekNumberText').getText());
+        // console.log(this.getView().byId('weekNumberText').getText());
         const payload = this.collectTimesheetData();
         if (payload.length > 0) {
           // Submit to backend
