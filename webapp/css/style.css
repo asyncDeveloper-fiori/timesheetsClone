@@ -69,3 +69,8 @@
 .weeklyCalenderStyleClass{
     gap: 3%;
 }
+
+.blueColour{
+    color: rgb(37, 83, 208);
+    font-size: medium;
+}

@@ -151,7 +151,7 @@
                             </l:VerticalLayout>
 
 
-                            <HBox alignItems="Center"  justifyContent="SpaceBetween" class="sapUiSmallMargin weeklyCalenderStyleClass">
+                            <HBox  alignItems="Center"  justifyContent="SpaceBetween" class="sapUiSmallMargin weeklyCalenderStyleClass">
                                 <!-- Previous Week Button -->
                                 <Button icon="sap-icon://slim-arrow-left" press="onPreviousWeek" tooltip="Previous Week" class="sapUiTinyMarginEnd"/>
 
@@ -159,12 +159,12 @@
                                 <HBox alignItems="Center">
                                     <Text text="{path: 'weekModel>/startDate', 
               type: 'sap.ui.model.type.Date', 
-              formatOptions: {style: 'medium', strictParsing: true}}" class="sapUiTinyMarginEnd"/>
-                                    <Text text="-" class="sapUiTinyMarginEnd"/>
+              formatOptions: {style: 'medium', strictParsing: true}}" class="sapUiTinyMarginEnd blueColour"/>
+                                    <Text text="-" class="sapUiTinyMarginEnd blueColour"/>
                                     <Text text="{path: 'weekModel>/endDate', 
               type: 'sap.ui.model.type.Date', 
-              formatOptions: {style: 'medium', strictParsing: true}}" class="sapUiTinyMarginEnd"/>
-                                    <Text text="(Week {weekModel>/weekNumber})" id="weekNumberText" class="sapUiTinyMarginBegin"/>
+              formatOptions: {style: 'medium', strictParsing: true}}" class="sapUiTinyMarginEnd blueColour"/>
+                                    <Text text="(Week {weekModel>/weekNumber})" id="weekNumberText" class="sapUiTinyMarginBegin blueColour"/>
                                 </HBox>
 
                                 <!-- Next Week Button -->
@@ -276,18 +276,6 @@
                 <Button text="Close" press="onDialogClose" type="Reject" />
             </endButton>
         </Dialog>
-
-        <Popover id="commentPopover" title="Add Comment">
-            <content>
-                <TextArea id="commentTextArea" width="100%" placeholder="Enter your comment here..."/>
-            </content>
-            <footer>
-                <HBox >
-                    <Button text="Cancel" press="onCancelPress" class="sapUiSmallMarginBegin sapUiSmallMarginEnd"/>
-                    <Button text="Submit" press="onPopoverSubmit" class="sapUiSmallMarginBegin"/>
-                </HBox>
-            </footer>
-        </Popover>
 
 
         <Popover id="hoursPopover_extra" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false">

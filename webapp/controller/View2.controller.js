@@ -55,11 +55,6 @@ sap.ui.define(
         var task_model = new JSONModel("model/tasks.json");
         this.getView().setModel(task_model);
 
-        this._oPopover = this.byId("commentPopover"); // Get the Popover by ID
-        if (!this._oPopover) {
-          console.error("Popover not found. Check the ID in XML view.");
-        }
-
         this._oPopoverHoursExtra = this.byId("hoursPopover_extra");
         if (!this._oPopoverHoursExtra) {
           console.error("No popover found");
@@ -819,10 +814,11 @@ sap.ui.define(
         if (payload.length > 0) {
           // submit to backend or in this case set to local storage
           localStorage.setItem(weekNumber, JSON.stringify(payload));
+          MessageToast.show("Submitted succesfully");
         } else {
           sap.m.MessageToast.show("No timesheet data to submit");
         }
-        console.log("Done");
+        
       },
 
       onPreviousWeek: function () {
