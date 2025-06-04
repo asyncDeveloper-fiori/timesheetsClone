@@ -144,14 +144,32 @@
                         </IconTabFilter>
                         <IconTabFilter key="timesheet" text="Timesheet">
                             <!-- timesheets page content starts -->
-                            <!-- <Text text="Timesheets" id="timesheetsHeader" /> -->
 
                             <!-- week selector calender -->
                             <l:VerticalLayout >
-                                <u:CalendarDateInterval  id="weeklySelectorTimeSheet" width="320px" select="handleCalendarSelect" intervalSelection="true"/>
-                                <l:VerticalLayout>
-                                </l:VerticalLayout>
+                                <u:CalendarDateInterval visible="true"  weekNumberSelect="handleCalendarSelect" id="weeklySelectorTimeSheet" width="320px"  intervalSelection="true"/>
                             </l:VerticalLayout>
+
+
+                            <HBox alignItems="Center"  justifyContent="SpaceBetween" class="sapUiSmallMargin weeklyCalenderStyleClass">
+                                <!-- Previous Week Button -->
+                                <Button icon="sap-icon://slim-arrow-left" press="onPreviousWeek" tooltip="Previous Week" class="sapUiTinyMarginEnd"/>
+
+                                <!-- Week Information -->
+                                <HBox alignItems="Center">
+                                    <Text text="{path: 'weekModel>/startDate', 
+              type: 'sap.ui.model.type.Date', 
+              formatOptions: {style: 'medium', strictParsing: true}}" class="sapUiTinyMarginEnd"/>
+                                    <Text text="-" class="sapUiTinyMarginEnd"/>
+                                    <Text text="{path: 'weekModel>/endDate', 
+              type: 'sap.ui.model.type.Date', 
+              formatOptions: {style: 'medium', strictParsing: true}}" class="sapUiTinyMarginEnd"/>
+                                    <Text text="(Week {weekModel>/weekNumber})" id="weekNumberText" class="sapUiTinyMarginBegin"/>
+                                </HBox>
+
+                                <!-- Next Week Button -->
+                                <Button icon="sap-icon://slim-arrow-right" press="onNextWeek" tooltip="Next Week" class="sapUiTinyMarginBegin"/>
+                            </HBox>
 
                             <!-- project selector combobox -->
                             <l:VerticalLayout class="sapUiTinyMargin" width="100%">
@@ -199,13 +217,13 @@
 
 
                             <Panel headerText="Time Distribution" width="auto" class="sapUiResponsiveMargin">
-                                <HBox class="styleForDayBox" >
+                                <HBox class="styleForDayBox">
                                     <Text text="Mon" />
                                     <Text text="Tue" />
                                     <Text text="Wed" />
                                     <Text text="Thu" />
                                     <Text text="Fri" />
-                                  </HBox>
+                                </HBox>
                                 <VBox id="tableContainer">
 
                                 </VBox>

@@ -65,3 +65,7 @@
     overflow-y: auto;
     background: white; 
 }
+
+.weeklyCalenderStyleClass{
+    gap: 3%;
+}
