@@ -216,7 +216,7 @@
                             </ui:Table>
 
 
-                            <Panel headerText="Time Distribution" width="auto" class="sapUiResponsiveMargin">
+                            <Panel headerText="Time Distribution" width="100%" class="sapUiResponsiveMargin">
                                 <HBox class="styleForDayBox">
                                     <Text text="Mon" />
                                     <Text text="Tue" />

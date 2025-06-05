@@ -657,10 +657,7 @@ sap.ui.define(
         // oContainer.destroyContent();
         // console.log(selectedKeys);
         let presentIds = [];
-        for (
-          let i = 0;
-          i < this.getView().byId("tableContainer").getItems().length;
-          i++
+        for (let i = 0;i < this.getView().byId("tableContainer").getItems().length;i++
         ) {
           presentIds.push(
             this.getView().byId("tableContainer").getItems()[i].sId
@@ -673,7 +670,7 @@ sap.ui.define(
           } else {
             var oForm = new SimpleForm({
               id: selectedKeys[i],
-              layout: "ResponsiveGridLayout",
+              layout: "GridLayout",
               editable: true,
             });
 
@@ -715,6 +712,33 @@ sap.ui.define(
 
           oForm.addContent(oControl);
         }
+
+        let buttonControl = new sap.m.Button({
+          id: sKey+"delete",
+          icon : "sap-icon://delete",
+          type : "Reject",
+          width:"2%",
+          press : function(sKey){
+            const oContainer = this.getView().byId('tableContainer');
+            const aItems = oContainer.getItems();
+
+            const idx =  aItems.find(item => item.getId() === sKey);
+
+            if(idx){
+              const oRemovedForm = aItems[idx];
+              oContainer.removeItem(oRemovedForm);
+              oRemovedForm.destroy();
+              
+              if (oContainer.getItems().length === 0) {
+                  this.getView().byId('timesheetSubmitButton').setVisible(false);
+              }
+              return true;
+            }
+            return false;
+          }.bind(this)
+        })
+
+        oForm.addContent(buttonControl);
       },
 
       validateHours: function (oEvent) {

@@ -1,4 +1,11 @@
 /* Enter your custom styles here */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
 .myButton{
     margin-top: 20px;
     /* margin: 5px; */
@@ -49,10 +56,10 @@
 }
 
 .styleForDayBox{
-    margin-left: 22%;
+    margin-left: 23%;
     align-items: center;
     justify-content: flex-start;
-    gap: 17%;
+    gap: 13%;
 }
 
 #container-timesheetsclone---View2--sideNavigation-Flexible-Content {
@@ -74,3 +81,4 @@
     color: rgb(37, 83, 208);
     font-size: medium;
 }
+
