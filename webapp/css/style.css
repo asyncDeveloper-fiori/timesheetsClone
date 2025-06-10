@@ -55,12 +55,12 @@
     border: 1px solid #ddd;
 }
 
-.styleForDayBox{
-    margin-left: 23%;
+/* .styleForDayBox{
+    margin-left: 5.5%;
     align-items: center;
     justify-content: flex-start;
-    gap: 13%;
-}
+    gap: 10.3%;
+} */
 
 #container-timesheetsclone---View2--sideNavigation-Flexible-Content {
     position: fixed;
@@ -82,3 +82,6 @@
     font-size: medium;
 }
 
+.projectNameStyle .sapMInputBaseInner{
+    font-weight: bold;
+}

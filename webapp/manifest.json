@@ -86,6 +86,13 @@
           "target": [
             "TargetView2"
           ]
+        },
+        {
+          "name" : "Timeoff",
+          "pattern": "Timeoff",
+          "target" : [
+              "TargetTimeoff"
+          ]
         }
       ],
       "targets": {
@@ -98,6 +105,11 @@
           "id": "View2",
           "name": "View2",
           "transition" : "fade"
+        },
+        "TargetTimeoff" :{
+          "id": "Timeoff",
+          "name": "Timeoff",
+          "transition" : "flip"
         }
       }
     },

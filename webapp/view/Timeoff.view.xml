@@ -1,0 +1,14 @@
+<mvc:View controllerName="timesheetsclone.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:smarttable="sap.ui.comp.smarttable"
+    xmlns="sap.m">
+    <Page>
+        <smarttable:SmartTable 
+            id="smatTableTimeOff"
+            tableType="ResponsiveTable"
+            enableAutoBinding="false"
+        >
+        
+        </smarttable:SmartTable>
+    </Page>
+</mvc:View>

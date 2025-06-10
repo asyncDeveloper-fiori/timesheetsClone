@@ -131,7 +131,7 @@
                                                     </HBox>
 
                                                     <HBox class="sapUiSamllMarginBottom">
-                                                        <Link text="Submitted timeoffs" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" />
+                                                        <Link text="Submitted timeoffs" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom"   press="navigateTimeoff"/>
                                                         <Text id="noSubmittedTimeoff" text="0" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" />
                                                     </HBox>
                                                 </VBox>
@@ -216,14 +216,8 @@
                             </ui:Table>
 
 
-                            <Panel headerText="Time Distribution" width="100%" class="sapUiResponsiveMargin">
-                                <HBox class="styleForDayBox">
-                                    <Text text="Mon" />
-                                    <Text text="Tue" />
-                                    <Text text="Wed" />
-                                    <Text text="Thu" />
-                                    <Text text="Fri" />
-                                </HBox>
+                            <Panel headerText="Time Distribution" width="100%">
+                               
                                 <VBox id="tableContainer">
 
                                 </VBox>

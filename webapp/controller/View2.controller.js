@@ -11,6 +11,8 @@ sap.ui.define(
     "sap/ui/layout/form/SimpleForm",
     "sap/m/Label",
     "sap/m/Input",
+    "sap/m/FormattedText",
+    "sap/m/VBox",
   ],
   (
     Controller,
@@ -23,7 +25,9 @@ sap.ui.define(
     Table,
     SimpleForm,
     Label,
-    Input
+    Input,
+    FormattedText,
+    VBox
   ) => {
     "use strict";
 
@@ -377,7 +381,7 @@ sap.ui.define(
 
       handleCalendarSelect: function (oEvent) {
         var oCalendar = oEvent.getSource();
-        console.log(oCalendar.getParameters("weekNumber"));
+        // console.log(oCalendar.getParameters("weekNumber"));
         this._updateText(oCalendar.getSelectedDates()[0]);
       },
 
@@ -465,6 +469,11 @@ sap.ui.define(
             MessageToast.show("Already submitted");
             return;
           } else {
+            var payload = {};
+            payload["start"] = oSelectedDateFrom;
+            payload["end"] = oSelectedDateTo;
+            console.log(payload);
+            localStorage.setItem("timeoff", JSON.stringify(payload));
             total_timeoff = parseInt(total_timeoff, 10) + 1;
             total_timeoff = JSON.stringify(total_timeoff);
             this.getView().byId("noSubmittedTimeoff").setText(total_timeoff);
@@ -657,7 +666,10 @@ sap.ui.define(
         // oContainer.destroyContent();
         // console.log(selectedKeys);
         let presentIds = [];
-        for (let i = 0;i < this.getView().byId("tableContainer").getItems().length;i++
+        for (
+          let i = 0;
+          i < this.getView().byId("tableContainer").getItems().length;
+          i++
         ) {
           presentIds.push(
             this.getView().byId("tableContainer").getItems()[i].sId
@@ -674,15 +686,17 @@ sap.ui.define(
               editable: true,
             });
 
-            oForm.addContent(
-              new sap.m.Label({
-                text: selectedKeys[i],
-                design: sap.m.LabelDesign.Bold,
-              })
-            );
+            // oForm.addContent(
+            //   new sap.m.Label({
+            //     text: selectedKeys[i],
+            //     design: sap.m.LabelDesign.Bold
+            //   })
+            // );
 
             this.addFormFields(oForm, selectedKeys[i]);
+
             oContainer.addItem(oForm);
+
             flag = 1;
           }
         }
@@ -692,13 +706,33 @@ sap.ui.define(
       },
 
       addFormFields(oForm, sKey) {
+        const aInputFields = [];
+        const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
         for (let i = 0; i < 5; i++) {
+          let oVBox = new VBox({
+            width: "100%",
+            alignItems: "Center",
+            justifyContent: "Center",
+            fitContainer: true,
+          });
+
+          let oDayControl = new Label({
+            text: days[i],
+            design: sap.m.LabelDesign.Bold,
+          });
+
+          oVBox.addItem(oDayControl);
+
           let oControl = new Input({
             id: sKey + i,
             placeholder: "Input hours",
             type: "Number",
             width: "100px",
-            liveChange: this.validateHours.bind(this),
+            textAlign: "Center",
+            liveChange: function (oEvent) {
+              this.validateHours(oEvent);
+              this.calculateTotal(sKey, aInputFields, oTotalField);
+            }.bind(this),
             // showSuggestion: true,
             // showClearButton: true, // Optional clear button
             // suffix: new sap.m.Button({
@@ -709,36 +743,101 @@ sap.ui.define(
             //   },
             // }),
           });
-
-          oForm.addContent(oControl);
+          oVBox.addItem(oControl);
+          aInputFields.push(oControl);
+          oForm.addContent(oVBox);
         }
 
-        let buttonControl = new sap.m.Button({
-          id: sKey+"delete",
-          icon : "sap-icon://delete",
-          type : "Reject",
-          width:"2%",
-          press : function(sKey){
-            const oContainer = this.getView().byId('tableContainer');
-            const aItems = oContainer.getItems();
+        // Code for delete button
 
-            const idx =  aItems.find(item => item.getId() === sKey);
+        // let buttonControl = new sap.m.Button({
+        //   id:sKey+"delete",
+        //   icon : "sap-icon://delete",
+        //   type : "Reject",
+        //   width:"2%",
+        //   press : function(sKey){
+        //     let projComboBox = this.getView().byId("projectComboBox");
+        //     var selectedKeys = projComboBox.getSelectedKeys();
+        //     const oContainer = this.getView().byId('tableContainer');
+        //     const toDelete = sKey.mParameters.id.replace("delete","");
+        //     let key = "";
 
-            if(idx){
-              const oRemovedForm = aItems[idx];
-              oContainer.removeItem(oRemovedForm);
-              oRemovedForm.destroy();
-              
-              if (oContainer.getItems().length === 0) {
-                  this.getView().byId('timesheetSubmitButton').setVisible(false);
-              }
-              return true;
-            }
-            return false;
-          }.bind(this)
-        })
+        //     // to get the particular key to delete
+        //     for(let i=0;i<selectedKeys.length;i++){
+        //       if(selectedKeys[i]===toDelete){
+        //         key=selectedKeys[i];
+        //       }
+        //     }
 
-        oForm.addContent(buttonControl);
+        //     if(key!==""){
+        //       const oRemovedForm = key;
+        //       oContainer.removeItem(oRemovedForm);
+        //       oRemovedForm.destroy();
+
+        //       if (oContainer.getItems().length === 0) {
+        //           this.getView().byId('timesheetSubmitButton').setVisible(false);
+        //       }
+        //       return true;
+        //     }
+        //     return false;
+        //   }.bind(this)
+        // })
+        // oForm.addContent(buttonControl);
+        let oVBoxTotal = new VBox({
+          width: "100%",
+          alignItems: "Center",
+          justifyContent: "Center",
+          fitContainer: true,
+        });
+        let oTotalLabel = new Label({
+          text: "Total",
+          design: sap.m.LabelDesign.Bold,
+        });
+
+        const oTotalField = new sap.m.Input({
+          id: `${sKey}-total`,
+          value: "0",
+          enabled: false,
+          width: "100px",
+          editable: false,
+          textAlign: "Center",
+        });
+        oVBoxTotal.addItem(oTotalLabel);
+        oVBoxTotal.addItem(oTotalField);
+        oForm.addContent(oVBoxTotal);
+
+        let oVBoxProj = new VBox({
+          width: "100%",
+          alignItems: "Center",
+          justifyContent: "Center",
+          fitContainer: true,
+        });
+
+        let oProjLabel = new Label({
+          text: "Project",
+          design: sap.m.LabelDesign.Bold,
+        });
+
+        const projectName = new sap.m.Input({
+          value: sKey,
+          editable: false,
+          width: "100px",
+          editable: false,
+          textAlign: "Center",
+        }).addStyleClass("projectNameStyle");
+
+        oVBoxProj.addItem(oProjLabel);
+        oVBoxProj.addItem(projectName);
+        oForm.addContent(oVBoxProj);
+      },
+
+      calculateTotal(sKey, aInputFields, oTotalField) {
+        let total = 0;
+        aInputFields.forEach((oInput) => {
+          const value = parseFloat(oInput.getValue()) || 0;
+          total += value;
+        });
+        oTotalField.setValue(total.toString());
       },
 
       validateHours: function (oEvent) {
@@ -778,8 +877,17 @@ sap.ui.define(
           const sProjectId = oForm.getId();
           const aInputs = [];
           let bHasData = false;
+          let projectName = "Unknown Project";
 
           try {
+            // Find the project name input (it's the last VBox in the form)
+            const projectNameInput = oForm
+              .getContent()
+              [oForm.getContent().length - 1].getItems()[1];
+            if (projectNameInput && projectNameInput.getValue) {
+              projectName = projectNameInput.getValue();
+            }
+
             // Find all input fields in this form
             for (let i = 0; i < 5; i++) {
               const oInput = sap.ui.getCore().byId(`${sProjectId}${i}`);
@@ -808,10 +916,9 @@ sap.ui.define(
 
             // Only include projects with actual data
             if (bHasData) {
-              const oLabel = oForm.getContent()[0];
               aPayload.push({
                 projectId: sProjectId,
-                projectName: oLabel ? oLabel.getText() : "Unknown Project",
+                projectName: projectName,
                 days: aInputs,
                 week: weekNumber,
                 total: aInputs.reduce(
@@ -842,7 +949,6 @@ sap.ui.define(
         } else {
           sap.m.MessageToast.show("No timesheet data to submit");
         }
-        
       },
 
       onPreviousWeek: function () {
@@ -931,6 +1037,11 @@ sap.ui.define(
         const oModel = this.getView().getModel("weekModel");
         oModel.setProperty("/currentDate", oDate);
         this._calculateWeekDates();
+      },
+
+      navigateTimeoff() {
+        var router1 = this.getOwnerComponent().getRouter();
+        router1.navTo("Timeoff");
       },
     });
   }
