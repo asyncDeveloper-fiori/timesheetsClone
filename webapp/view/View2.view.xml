@@ -126,7 +126,7 @@
                                                 </List>
                                                 <VBox >
                                                     <HBox class="sapUiSamllMarginBottom">
-                                                        <Link text="Submitted timesheets" class="sapUiSmallMarginBegin" />
+                                                        <Link text="Submitted timesheets" class="sapUiSmallMarginBegin" press="viewSubmittedTimesheet"/>
                                                         <Text id="noSubmittedSheets" text="0" class="sapUiSmallMarginBegin" />
                                                     </HBox>
 
@@ -147,7 +147,7 @@
 
                             <!-- week selector calender -->
                             <l:VerticalLayout >
-                                <u:CalendarDateInterval visible="false"  weekNumberSelect="handleCalendarSelect" id="weeklySelectorTimeSheet" width="320px"  intervalSelection=""/>
+                                <u:CalendarDateInterval visible="false"  weekNumberSelect="handleCalendarSelect" id="weeklySelectorTimeSheet" width="320px"  />
                             </l:VerticalLayout>
 
 
@@ -277,9 +277,6 @@
         </Popover>
 
         <Popover id="sidebarPopover" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer" placement="Right" resizable="false" initialFocus="close" showHeader="false">
-            <content>
-
-            </content>
             <footer>
                 <Button class="sapUiSmallMarginBegin" press="closeSidePop" text="Close" type="Reject" />
             </footer>

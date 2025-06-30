@@ -35,6 +35,9 @@ sap.ui.define(
       oFormatYyyymmdd: null,
 
       onInit() {
+        // clearing local storage
+        localStorage.removeItem("timeoff");
+
         // for timesheet week selector
         const oWeekModel = new JSONModel({
           startDate: null,
@@ -872,6 +875,15 @@ sap.ui.define(
         const aForms = oContainer.getItems();
         const aPayload = [];
 
+        // validation check if all projects are added
+        if (
+          aForms.length !==
+          this.getView().getModel().getProperty("/projects").length
+        ) {
+          MessageToast.show("Add remaining projects");
+          return;
+        }
+
         // Iterate through each form
         aForms.forEach((oForm) => {
           const sProjectId = oForm.getId();
@@ -903,6 +915,11 @@ sap.ui.define(
               }
 
               const sValue = oInput.getValue();
+
+              if (sValue === "") {
+                MessageToast.show("Please fill all the sheets");
+                return;
+              }
 
               if (sValue && sValue !== "0") {
                 bHasData = true;
@@ -947,7 +964,7 @@ sap.ui.define(
           localStorage.setItem(weekNumber, JSON.stringify(payload));
           MessageToast.show("Submitted succesfully");
         } else {
-          sap.m.MessageToast.show("No timesheet data to submit");
+          // sap.m.MessageToast.show("");
         }
       },
 
@@ -1040,9 +1057,29 @@ sap.ui.define(
       },
 
       navigateTimeoff() {
-        var router1 = this.getOwnerComponent().getRouter();
-        router1.navTo("Timeoff");
+        if (localStorage.timeoff) {
+          var router1 = this.getOwnerComponent().getRouter();
+          router1.navTo("Timeoff");
+        } else {
+          MessageToast.show("No timeoff booked");
+        }
       },
+
+      viewSubmittedTimesheet() {
+        this.openFragment();
+      },
+
+      async openFragment(){
+         this.oDialog ??= await this.loadFragment({
+                name: "timesheetsclone.fragments.Timesheet"
+            });
+        
+            this.oDialog.open();
+      },
+
+      closeTimesheetFragment(){
+        this.oDialog.close();
+      }
     });
   }
 );

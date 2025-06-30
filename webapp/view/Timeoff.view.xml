@@ -1,14 +1,33 @@
-<mvc:View controllerName="timesheetsclone.controller.View1"
+<mvc:View controllerName="timesheetsclone.controller.Timeoff"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:smarttable="sap.ui.comp.smarttable"
     xmlns="sap.m">
-    <Page>
-        <smarttable:SmartTable 
-            id="smatTableTimeOff"
-            tableType="ResponsiveTable"
-            enableAutoBinding="false"
-        >
-        
-        </smarttable:SmartTable>
+    <Page id="timeoffPage" showHeader="true" title="Submitted Timeoffs">
+        <Panel >
+        <HBox >
+            <Button text="Back" type="Negative"  press="onBackPress"/>
+        </HBox>
+            <Table id="idProductsTable" inset="false" items="{/toffData}" >
+                <columns>
+                    <Column width="12em">
+                        <Text text="Sl no." />
+                    </Column>
+                    <Column width="12em">
+                        <Text text="Start" />
+                    </Column>
+                    <Column >
+                        <Text text="End"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem vAlign="Middle">
+                        <cells>
+                            <Text id="index" text="{index}"/>
+                            <Text text="{start}" />
+                            <Text text="{end}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </Panel>
     </Page>
 </mvc:View>

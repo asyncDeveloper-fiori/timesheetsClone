@@ -1,22 +1,28 @@
-sap.ui.define(["sap/ui/core/mvc/Controller",
-        "sap/ui/model/json/JSONModel"
-], (Controller,JSONModel) => {
-  "use strict";
+sap.ui.define(
+  ["sap/ui/core/mvc/Controller", "../model/models"],
+  (Controller, models) => {
+    "use strict";
 
-  return Controller.extend("timesheetsclone.controller.Timeoff", {
-    onInit() {
-        var data = JSON.parse(localStorage.timeoff);
+    return Controller.extend("timesheetsclone.controller.Timeoff", {
+      onInit() {
+        var timeoffData = JSON.parse(localStorage.timeoff);
 
-        var oModel = new JSONModel();
-        oModel.setData({
-            timeoff : data,
-        })
+          var oData = {};
+          oData["toffData"] = [timeoffData];
 
-        this.getView.setModel(oModel);
-        var oSmartTable = this.getView().byId("smatTableTimeOff");
-        oSmartTable.setEntitySet("Timeoff");
-        oSmartTable.setModel(oModel);
-        oSmartTable.bindRows('/timeoff');
-    },
-  });
-});
+          oData["toffData"].forEach((row, i) => {
+            row["index"] = i + 1;
+          });
+
+          var oModel = models.directJSONModel(oData);
+
+          this.getView().setModel(oModel);
+      },
+
+      onBackPress() {
+        var router = this.getOwnerComponent().getRouter();
+        router.navTo("RouteView2");
+      },
+    });
+  }
+);

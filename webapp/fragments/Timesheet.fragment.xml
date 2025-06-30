@@ -1,0 +1,8 @@
+<core:FragmentDefinition xmlns="sap.m"
+   xmlns:core="sap.ui.core">
+   <Dialog id="helloDialog" title="Timesheets">
+      <endButton>
+         <Button type="Negative" text="Close" press="closeTimesheetFragment"></Button>
+      </endButton>
+   </Dialog>
+</core:FragmentDefinition>
