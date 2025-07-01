@@ -1066,20 +1066,8 @@ sap.ui.define(
       },
 
       viewSubmittedTimesheet() {
-        this.openFragment();
+       
       },
-
-      async openFragment(){
-         this.oDialog ??= await this.loadFragment({
-                name: "timesheetsclone.fragments.Timesheet"
-            });
-        
-            this.oDialog.open();
-      },
-
-      closeTimesheetFragment(){
-        this.oDialog.close();
-      }
     });
   }
 );
