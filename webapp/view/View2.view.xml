@@ -173,7 +173,7 @@
 
                             <!-- project selector combobox -->
                             <l:VerticalLayout class="sapUiTinyMargin" width="100%">
-                                <Label text="Select Project"/>
+                                <Label id="projectComboLabel" text="Select Project"/>
                                 <MultiComboBox id="projectComboBox" showSelectAll="true" selectionChange="handleSelectionChange" selectionFinish="handleSelectionFinish" width="350px" items="{/projects}">
                                     <core:Item key="{title}" text="{title}"/>
                                 </MultiComboBox>
@@ -215,8 +215,8 @@
                                 </ui:columns>
                             </ui:Table>
 
-
-                            <Panel headerText="Time Distribution" width="100%">
+                            <!-- main panel for data showing -->
+                            <Panel id="timeDistPanel" headerText="Time Distribution" width="100%">
                                
                                 <VBox id="tableContainer">
 

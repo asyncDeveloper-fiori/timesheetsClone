@@ -868,105 +868,88 @@ sap.ui.define(
 
       collectTimesheetData: function () {
         const weekNumber = this.getView()
-          .byId("weekNumberText")
-          .getText()
-          .substr(6, 2);
+            .byId("weekNumberText")
+            .getText()
+            .substr(6, 2);
         const oContainer = this.getView().byId("tableContainer");
         const aForms = oContainer.getItems();
         const aPayload = [];
-
+    
         // validation check if all projects are added
         if (
-          aForms.length !==
-          this.getView().getModel().getProperty("/projects").length
+            aForms.length !==
+            this.getView().getModel().getProperty("/projects").length
         ) {
-          MessageToast.show("Add remaining projects");
-          return;
+            MessageToast.show("Add remaining projects");
+            return;
         }
-
+    
         // Iterate through each form
         aForms.forEach((oForm) => {
-          const sProjectId = oForm.getId();
-          const aInputs = [];
-          let bHasData = false;
-          let projectName = "Unknown Project";
-
-          try {
-            // Find the project name input (it's the last VBox in the form)
-            const projectNameInput = oForm
-              .getContent()
-              [oForm.getContent().length - 1].getItems()[1];
-            if (projectNameInput && projectNameInput.getValue) {
-              projectName = projectNameInput.getValue();
-            }
-
-            // Find all input fields in this form
-            for (let i = 0; i < 5; i++) {
-              const oInput = sap.ui.getCore().byId(`${sProjectId}${i}`);
-
-              // Skip if input doesn't exist
-              if (!oInput) {
-                console.warn(`Input ${sProjectId}${i} not found`);
-                aInputs.push({
-                  day: i + 1,
-                  hours: "0",
+            const sProjectId = oForm.getId();
+            const aInputs = [];
+            let projectName = "Unknown Project";
+    
+            try {
+                // Find the project name input (it's the last VBox in the form)
+                const projectNameInput = oForm
+                    .getContent()
+                    [oForm.getContent().length - 1].getItems()[1];
+                if (projectNameInput && projectNameInput.getValue) {
+                    projectName = projectNameInput.getValue();
+                }
+    
+                // Find all input fields in this form
+                for (let i = 0; i < 5; i++) {
+                    const oInput = sap.ui.getCore().byId(`${sProjectId}${i}`);
+                    let sValue = "0"; // Default to "0" if no value is provided
+    
+                    // If input exists and has a value, use that value
+                    if (oInput && oInput.getValue) {
+                        sValue = oInput.getValue() || "0"; // Use "0" if value is empty
+                    }
+    
+                    aInputs.push({
+                        day: i + 1,
+                        hours: sValue,
+                    });
+                }
+    
+                // Always include the project in payload, even if all values are 0
+                aPayload.push({
+                    projectId: sProjectId,
+                    projectName: projectName,
+                    days: aInputs,
+                    week: weekNumber,
+                    total: aInputs.reduce(
+                        (sum, day) => sum + parseInt(day.hours),
+                        0
+                    ),
                 });
-                continue;
-              }
-
-              const sValue = oInput.getValue();
-
-              if (sValue === "") {
-                MessageToast.show("Please fill all the sheets");
-                return;
-              }
-
-              if (sValue && sValue !== "0") {
-                bHasData = true;
-              }
-
-              aInputs.push({
-                day: i + 1,
-                hours: sValue || "0",
-              });
+            } catch (error) {
+                console.error(`Error processing form ${sProjectId}:`, error);
             }
-
-            // Only include projects with actual data
-            if (bHasData) {
-              aPayload.push({
-                projectId: sProjectId,
-                projectName: projectName,
-                days: aInputs,
-                week: weekNumber,
-                total: aInputs.reduce(
-                  (sum, day) => sum + parseInt(day.hours),
-                  0
-                ),
-              });
-            }
-          } catch (error) {
-            console.error(`Error processing form ${sProjectId}:`, error);
-          }
         });
-
+    
         console.log("Timesheet Payload:", JSON.stringify(aPayload, null, 2));
         return aPayload;
-      },
-      onSubmit: function () {
-        // console.log(this.getView().byId('weekNumberText').getText());
+    },
+    
+    onSubmit: function () {
         const weekNumber = this.getView()
-          .byId("weekNumberText")
-          .getText()
-          .substr(6, 2);
+            .byId("weekNumberText")
+            .getText()
+            .substr(6, 2);
         const payload = this.collectTimesheetData();
-        if (payload.length > 0) {
-          // submit to backend or in this case set to local storage
-          localStorage.setItem(weekNumber, JSON.stringify(payload));
-          MessageToast.show("Submitted succesfully");
+        
+        if (payload && payload.length > 0) {
+            // submit to backend or in this case set to local storage
+            localStorage.setItem(weekNumber, JSON.stringify(payload));
+            MessageToast.show("Submitted successfully");
         } else {
-          // sap.m.MessageToast.show("");
+            MessageToast.show("No data to submit");
         }
-      },
+    },
 
       onPreviousWeek: function () {
         const oModel = this.getView().getModel("weekModel");
@@ -985,6 +968,9 @@ sap.ui.define(
           endDate: oModel.getProperty("/endDate"),
           weekNumber: oModel.getProperty("/weekNumber"),
         });
+
+        // finding data
+        this.findPrevTimesheet();
       },
 
       onNextWeek: function () {
@@ -1004,6 +990,9 @@ sap.ui.define(
           endDate: oModel.getProperty("/endDate"),
           weekNumber: oModel.getProperty("/weekNumber"),
         });
+
+        this.findPrevTimesheet();
+        
       },
 
       _calculateWeekDates: function () {
@@ -1065,9 +1054,86 @@ sap.ui.define(
         }
       },
 
-      viewSubmittedTimesheet() {
-       
-      },
+      findPrevTimesheet(){
+        const newWeekNumber = this.getView().byId("weekNumberText").getText().substr(6, 2);
+
+        if(newWeekNumber in localStorage){
+          this.getView().byId("projectComboBox").setVisible(false);
+          this.getView().byId("rowButton").setVisible(false);
+          // this.getView().byId("timeDistPanel").setVisible(false);
+          this.getView().byId("projectComboLabel").setVisible(false);
+          this.getView().byId("timesheetSubmitButton").setVisible(false);
+
+          const savedData = localStorage.getItem(newWeekNumber);
+      
+          const payload = JSON.parse(savedData);
+          const oView = this.getView();
+          const oContainer = oView.byId("tableContainer");
+          oContainer.destroyItems();
+      
+          payload.forEach((project) => {
+            // Create a horizontal form for each project
+            const oForm = new sap.ui.layout.form.SimpleForm({
+                editable: false,
+                layout: "ResponsiveGridLayout",
+                labelSpanXL: 3,
+                labelSpanL: 3,
+                labelSpanM: 3,
+                labelSpanS: 12,
+                adjustLabelSpan: false,
+                singleContainerFullSize: false,
+                title: new sap.ui.core.Title({
+                    text: project.projectName,
+                    level: "H2"
+                }),
+                content: [
+                    // Day headers
+                    new sap.m.Label({ text: "Day" }),
+                    new sap.m.Label({ text: "Hours" }),
+                    
+                    // Monday
+                    new sap.m.Label({ text: "Monday" }),
+                    new sap.m.Text({ text: project.days[0].hours }),
+                    
+                    // Tuesday
+                    new sap.m.Label({ text: "Tuesday" }),
+                    new sap.m.Text({ text: project.days[1].hours }),
+                    
+                    // Wednesday
+                    new sap.m.Label({ text: "Wednesday" }),
+                    new sap.m.Text({ text: project.days[2].hours }),
+                    
+                    // Thursday
+                    new sap.m.Label({ text: "Thursday" }),
+                    new sap.m.Text({ text: project.days[3].hours }),
+                    
+                    // Friday
+                    new sap.m.Label({ text: "Friday" }),
+                    new sap.m.Text({ text: project.days[4].hours }),
+                    
+                    // Total
+                    new sap.m.Label({ text: "Total" }),
+                    new sap.m.Text({ 
+                        text: project.total.toString(),
+                    })
+                ]
+            });
+    
+            // Add some spacing between forms
+            // oForm.addStyleClass("sapUiSmallMarginBottom");
+            oContainer.addItem(oForm);
+      
+          });
+
+        }
+        else{
+          this.getView().byId("projectComboBox").setVisible(true);
+          this.getView().byId("rowButton").setVisible(true);
+          // this.getView().byId("timeDistPanel").setVisible(true);
+          this.getView().byId("projectComboLabel").setVisible(true);
+          this.getView().byId("tableContainer").destroyItems();
+        }
+      }
     });
   }
 );
