@@ -1133,6 +1133,10 @@ sap.ui.define(
           this.getView().byId("projectComboLabel").setVisible(true);
           this.getView().byId("tableContainer").destroyItems();
         }
+      },
+      onLogOut(){
+        var router = this.getOwnerComponent().getRouter();
+        router.navTo("RouteView1");
       }
     });
   }

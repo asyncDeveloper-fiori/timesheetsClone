@@ -15,19 +15,25 @@
     xmlns:ui="sap.ui.table" displayBlock="true">
     <Page class="overflowHidden" id="page2" title="Time sheets" showHeader="false" enableScrolling="true">
         <HBox height="100%" width="100%">
-            <tnt:SideNavigation id="sideNavigation" selectedKey="walked" expanded="true" itemSelect="onItemSelect" width="250px">
+            <VBox class="idSidePanel">
 
-                <tnt:NavigationList >
+                <HBox width="100%" alignItems="Center" justifyContent="Center" class="fixed-header">
+                    <Image src="https://psa-na6.replicon.com/public/static/media/PolarisLogo.c7b0d0e4.svg" width="110px"/>
+                </HBox>
 
-                    <tnt:NavigationListItem text="My work" icon="sap-icon://add-document" />
-                    <tnt:NavigationListItem text="Reports" icon="sap-icon://bar-chart" />
-                    <tnt:NavigationListItem text="Notifications" icon="sap-icon://bell" />
-                    <tnt:NavigationListItem text="User" icon="sap-icon://customer"/>
-                </tnt:NavigationList>
-            </tnt:SideNavigation>
+                <tnt:SideNavigation id="sideNavigation" selectedKey="walked" expanded="true" itemSelect="onItemSelect" width="250px">
+
+                    <tnt:NavigationList >
+                        <tnt:NavigationListItem tooltip="My work" text="My work" icon="sap-icon://add-document" />
+                        <tnt:NavigationListItem tooltip="Reports" text="Reports" icon="sap-icon://bar-chart" />
+                        <tnt:NavigationListItem tooltip="Notifications" text="Notifications" icon="sap-icon://bell" />
+                        <tnt:NavigationListItem tooltip="User" text="User" icon="sap-icon://customer"/>
+                    </tnt:NavigationList>
+                </tnt:SideNavigation>
+            </VBox>
 
             <VBox renderType="Bare" alignItems="Start" height="100%" width="calc(100% - 250px)">
-                <IconTabBar selectedKey="overview" select="onTabSelect">
+                <IconTabBar id="idIconTabBar" selectedKey="overview" select="onTabSelect">
                     <items>
                         <IconTabFilter key="overview" text="Overview">
                             <VBox>
@@ -131,7 +137,7 @@
                                                     </HBox>
 
                                                     <HBox class="sapUiSamllMarginBottom">
-                                                        <Link text="Submitted timeoffs" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom"   press="navigateTimeoff"/>
+                                                        <Link text="Submitted timeoffs" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" press="navigateTimeoff"/>
                                                         <Text id="noSubmittedTimeoff" text="0" class="sapUiSmallMarginBegin sapUiSmallMarginTop sapUiSmallMarginBottom" />
                                                     </HBox>
                                                 </VBox>
@@ -147,11 +153,11 @@
 
                             <!-- week selector calender -->
                             <l:VerticalLayout >
-                                <u:CalendarDateInterval visible="false"  weekNumberSelect="handleCalendarSelect" id="weeklySelectorTimeSheet" width="320px"  />
+                                <u:CalendarDateInterval visible="false" weekNumberSelect="handleCalendarSelect" id="weeklySelectorTimeSheet" width="320px" />
                             </l:VerticalLayout>
 
 
-                            <HBox  alignItems="Center"  justifyContent="SpaceBetween" class="sapUiSmallMargin weeklyCalenderStyleClass">
+                            <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMargin weeklyCalenderStyleClass">
                                 <!-- Previous Week Button -->
                                 <Button icon="sap-icon://slim-arrow-left" press="onPreviousWeek" tooltip="Previous Week" class="sapUiTinyMarginEnd"/>
 
@@ -217,7 +223,7 @@
 
                             <!-- main panel for data showing -->
                             <Panel id="timeDistPanel" headerText="Time Distribution" width="100%">
-                               
+
                                 <VBox id="tableContainer">
 
                                 </VBox>
@@ -294,8 +300,9 @@
                     <Text id="sidebarText" class="sapUiSmallMarginBegin sapUiSmallMarginEnd" text="{active_user>/userData/email}" />
                 </HBox>
             </VBox>
+            <beginButton> <Button press="onSideDialogClose" text="Close" type="Reject" /></beginButton>
             <endButton>
-                <Button press="onSideDialogClose" text="Close" type="Reject" />
+                <Button press="onLogOut" text="Logout"  />
             </endButton>
         </Dialog>
 

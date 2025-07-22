@@ -1,26 +1,39 @@
 <mvc:View controllerName="timesheetsclone.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
     xmlns="sap.m">
     <Page id="page" title="Time sheets">
         <VBox justifyContent="Center" alignItems="Center">
             <Text text="Welcome to TimeSheets" />
             <Image src="https://psa-na6.replicon.com/public/static/media/PolarisLogo.c7b0d0e4.svg" width="350px" />
+            <f:Card width="300px" >
+                <f:content >
+                    <VBox alignItems="Center" id="loginVbox" justifyContent="Center" width="100%"  class="sapUiTinyMargin">
+                        <VBox>
+                            <Input id="username" placeholder="Enter username"  width="250px" class="sapUiTinyMargin" />
+                             <Input id="password" placeholder="Enter password" type="Password"  width="250px" class="sapUiTinyMargin" />
+                        </VBox>
+                        <HBox >
+                            <Button text="Login" press="onLogin" type="Accept" id="submit_btn" class="sapUiTinyMargin" />
+                            <Button text="Cancel" press="onCancel" type="Reject"  id="cancel_btn" class="sapUiTinyMargin"/>
+                        </HBox>
+                        <HBox class="sapUiSmallMargin">
+                            <Text text="Don't have an account?" />
+                            <Link text="SignUp" press="onSignup" />
+                        </HBox>
+                    </VBox>
+                </f:content>
+            </f:Card>
 
-            <HBox >
-                <Label text="Username" class="login_scr" required="true" />
-                <Input id="username" placeholder="Enter username" class="login_scr" />
-            </HBox>
-            <HBox >
-                <Label text="Password" class="login_scr"  required="true" />
-                <Input id="password" placeholder="Enter password" type="Password" class="login_scr" />
-            </HBox>
 
-            <HBox justifyContent="SpaceAround">
-                <Button text="Login" press="onLogin" type="Accept" id="submit_btn" class="myButton "/>
-                <Button text="Cancel" press="onCancel" type="Reject" class="myButton" id="cancel_btn"/>
-            </HBox>
+
+
+
+
+
         </VBox>
 
-        
+
     </Page>
 </mvc:View>

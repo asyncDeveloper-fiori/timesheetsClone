@@ -7,15 +7,12 @@
 
 
 .myButton{
-    margin-top: 20px;
+    /* margin-top: 20px; */
     /* margin: 5px; */
-    margin-left: 3px;
-    margin-right: 3px;
+    /* margin-left: 3px; */
+    /* margin-right: 3px; */
 }
 
-.login_scr{
-    margin: 6px;
-}
 
 .createBtn{
     margin-left: 10px;
@@ -64,7 +61,7 @@
 
 #container-timesheetsclone---View2--sideNavigation-Flexible-Content {
     position: fixed;
-    top: 0;        
+    top: auto;        
     left: 0;       
     width: 255px;  
     height: 100vh;
@@ -85,3 +82,16 @@
 .projectNameStyle .sapMInputBaseInner{
     font-weight: bold;
 }
+
+#container-timesheetsclone---View2--sideNavigation-Flexible-Content , #container-timesheetsclone---View2--idIconTabBar--header {
+    background-color: rgba(209, 209, 209, 0.283);
+}
+
+.fixed-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(209, 209, 209, 0.283);
+    padding: 0.5rem 0;
+}
+
