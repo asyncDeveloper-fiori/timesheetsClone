@@ -95,3 +95,82 @@
     padding: 0.5rem 0;
 }
 
+.loginPageBar{
+    background-color: #e2e0e0;
+}
+
+.barHbox1{
+    border-right: 1px solid black;
+    padding: 5px;
+    
+}
+
+.barHbox2{
+    padding: 5px;
+}
+
+.deltekText{
+    color: rgb(32, 107, 188);
+    font-weight: 600;
+}
+
+.repliconText{
+    font-weight: 600;
+}
+
+.bar2{
+    padding: 5px;
+}
+
+.langCombo{
+    padding: 8px;
+}
+
+.contText{
+    color: #979797;
+    font-weight: 600;
+    font-size: small;
+}
+
+.poppins-thin {
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+  }
+
+  .loginForm{
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: #3a3a3a;
+    padding: 15px;
+    margin-left: 15%;
+  }
+
+  .welcomeTxt{
+    font-weight: 800;
+    font-size: xx-large;
+  }
+
+  .poppins-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .ipClass{
+    height: 50%;
+  }
+
+  .forgotLink{
+    margin-left: 17%;
+  }
+
+  .btnClass{
+    margin-right: 27.5%;
+  }
+
+  .line{
+    background-color: rgb(55, 54, 54);
+    width : 100%;
+    height : 1px;
+  }

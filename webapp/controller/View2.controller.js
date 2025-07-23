@@ -1129,7 +1129,6 @@ sap.ui.define(
         else{
           this.getView().byId("projectComboBox").setVisible(true);
           this.getView().byId("rowButton").setVisible(true);
-          // this.getView().byId("timeDistPanel").setVisible(true);
           this.getView().byId("projectComboLabel").setVisible(true);
           this.getView().byId("tableContainer").destroyItems();
         }
