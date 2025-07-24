@@ -4,7 +4,7 @@
     xmlns:card="sap.f.cards"
     xmlns:core="sap.ui.core"
     xmlns="sap.m">
-    <Page id="page" showHeader="false">
+    <Page id="page" class="loginPageBar" showHeader="false">
 
         <!-- code for top bar deltek and replicon text -->
         <HBox class="loginPageBar" alignItems="Start" justifyContent="Start">
@@ -37,8 +37,8 @@ Contact Us Polaris Home Customer Zone" />
         </HBox>
 
         <!-- main page content signup form and some text aligned side by side -->
-        <HBox class="loginPageBar" height="100%">
-            <VBox width="30%" class="loginForm sapUiLargeMarginTop" height="50%">
+        <HBox class="loginPageBar" height="70%">
+            <VBox width="35%" height="100%" class="loginForm sapUiLargeMarginTop">
 
                 <VBox alignItems="Center" id="loginVbox" justifyContent="Center" width="100%" class="sapUiTinyMargin">
                     <VBox>
@@ -47,60 +47,157 @@ Contact Us Polaris Home Customer Zone" />
                         </HBox>
                         <Input id="company" placeholder="Enter company name" width="300px" value="gyansys" showClearIcon="true" class="sapUiTinyMargin ipClass" />
                         <Input id="username" placeholder="Enter username" width="300px" showClearIcon="true" class="sapUiTinyMargin ipClass" />
-                        <Input id="password" placeholder="Enter password" type="Password" width="300px" class="sapUiTinyMargin ipClass"
-                        showClearIcon="true" />
+                        <Input id="password" placeholder="Enter password" type="Password" width="300px" class="sapUiTinyMargin ipClass" showClearIcon="true" />
                     </VBox>
-                    <HBox alignItems="End" justifyContent="End">
+                    <HBox alignItems="End" class="sapUiSmallMargin" justifyContent="End">
                         <Link class="forgotLink" text="Forgot your Password or User Name?" />
                     </HBox>
-                    <HBox class="btnClass" alignItems="Start" justifyContent="Start">
+                    <HBox class="btnClass sapUiSmallMargin" alignItems="Start" justifyContent="Start">
                         <Button text="Login" press="onLogin" id="submit_btn" type="Emphasized" width="50px" />
                         <Button visible="false" text="Cancel" press="onCancel" type="Reject" id="cancel_btn" class=""/>
                         <CheckBox class="sapUiMediumMarginBegin" text="Remember Me" />
                     </HBox>
+                    <HBox class="line sapUiSmallMarginEnd"></HBox>
                     <HBox class="sapUiSmallMargin">
                         <Text text="Don't have an account?" />
                         <Link text="SignUp" press="onSignup" />
                     </HBox>
-                    <HBox class="line"></HBox>
+                    <HBox width="80%" alignItems="Center" justifyContent="SpaceBetween" gap="0.2%">
+                        <HBox >
+                            <Text class="smallTxt" text="New to Polaris?" />
+                            <Link class="smallTxt" text="Get a live demo now." />
+                        </HBox>
+                        <HBox class="loggingIn">
+                            <Link class="smallTxt" text="Need Help Logging In?" />
+                        </HBox>
+                    </HBox>
+
                 </VBox>
             </VBox>
-            <VBox width="50%"></VBox>
-        </HBox>
 
-
-
-        <!-- <VBox justifyContent="Center" alignItems="Center">
-            <VBox justifyContent="Center" alignItems="Center">
-                <Text text="Welcome to TimeSheets" />
-
-            </VBox>
-            <f:Card width="300px">
-                <f:content >
-                    <VBox alignItems="Center" id="loginVbox" justifyContent="Center" width="100%" class="sapUiTinyMargin">
-                        <VBox>
-                            <Input id="username" placeholder="Enter username" width="250px" class="sapUiTinyMargin" />
-                            <Input id="password" placeholder="Enter password" type="Password" width="250px" class="sapUiTinyMargin" />
-                        </VBox>
-                        <HBox >
-                            <Button text="Login" press="onLogin" type="Accept" id="submit_btn" class="sapUiTinyMargin" />
-                            <Button text="Cancel" press="onCancel" type="Reject" id="cancel_btn" class="sapUiTinyMargin"/>
+            <!-- code for text at side of the login form -->
+            <VBox width="65%" alignItems="Center">
+                <VBox >
+                    <Text class="sapUiLargeMarginTop discoverTxt" text="Discover Self-driving PSA" />
+                    <Text class="subDiscoverTxt sapUiSmallMarginTop" text="See how we deliver more results with less hassle." />
+                </VBox>
+                <HBox justifyContent="Center" class="classDiscoverContainer ">
+                    <!-- left text code -->
+                    <VBox >
+                        <!-- icon1 -->
+                        <HBox class="sapUiSmallMarginTop" alignItems="Center" gap="3%">
+                            <core:Icon class="iconStyle" src="sap-icon://line-chart"></core:Icon>
+                            <VBox >
+                                <Text text="Analytics" />
+                                <Text text="Live business pulse with MissionControl" />
+                            </VBox>
                         </HBox>
-                        <HBox class="sapUiSmallMargin">
-                            <Text text="Don't have an account?" />
-                            <Link text="SignUp" press="onSignup" />
+                        <!-- icon 2 -->
+                        <HBox class="sapUiSmallMarginTop" alignItems="Center" gap="3%">
+                            <core:Icon class="iconStyle" src="sap-icon://citizen-connect"></core:Icon>
+                            <VBox >
+                                <Text text="Governance" />
+                                <Text text="Turn chaos into consistency" />
+                            </VBox>
+                        </HBox>
+                        <!-- icon 3 -->
+                        <HBox class="sapUiSmallMarginTop" alignItems="Center" gap="3%">
+                            <core:Icon class="iconStyle" src="sap-icon://expense-report"></core:Icon>
+                            <VBox >
+                                <Text text="Financial Modeling" />
+                                <Text text="Perfect bids based on true costs" />
+                            </VBox>
+                        </HBox>
+                        <!-- icon4 -->
+                        <HBox class="sapUiSmallMarginTop" alignItems="Center" gap="3%">
+                            <core:Icon class="iconStyle" src="sap-icon://bar-chart"></core:Icon>
+                            <VBox >
+                                <Text text="Clients" />
+                                <Text text="Clear business visibility by clients" />
+                            </VBox>
+                        </HBox>
+                        <!-- icon 5 -->
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop" gap="3%">
+                            <core:Icon class="iconStyle" src="sap-icon://documents"></core:Icon>
+                            <VBox >
+                                <Text text="Practices" />
+                                <Text text="Clear business visibility by practices" />
+                            </VBox>
                         </HBox>
                     </VBox>
-                </f:content>
-            </f:Card>
+                    <!-- right text code -->
+                    <VBox  class="classDiscoverContainer2">
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop"   gap="3%">
+                            <core:Icon class="iconStyle" src="sap-icon://action-settings"></core:Icon>
+                            <VBox >
+                                <Text text="Projects" />
+                                <Text text="Solve project problems before they are" />
+                            </VBox>
+                        </HBox>
+                        <!-- icon 2 -->
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop"  gap="3%">
+                            <core:Icon class="iconStyle" src="sap-icon://pie-chart"></core:Icon>
+                            <VBox >
+                                <Text text="Resources" />
+                                <Text text="Optimize resourcing with Smartmatch" />
+                            </VBox>
+                        </HBox>
+                        <!-- icon 3 -->
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop"   gap="3%">
+                            <core:Icon class="iconStyle" src="sap-icon://add-employee"></core:Icon>
+                            <VBox >
+                                <Text text="Time &amp; Expense" />
+                                <Text text="Achieve Time Intelligence" />
+                            </VBox>
+                        </HBox>
+                        <!-- icon 4 -->
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop"  gap="3%" >
+                            <core:Icon class="iconStyle" src="sap-icon://customer-financial-fact-sheet"></core:Icon>
+                            <VBox >
+                                <Text text="Financials" />
+                                <Text text="Common data platform eliminates revenue leakage" />
+                            </VBox>
+                        </HBox>
 
+                    </VBox>
+                </HBox>
+            </VBox>
+        </HBox>
+        
 
-
-
-
-
-
-        </VBox> -->
+        <!-- footer part -->
+        <HBox alignItems="Center" justifyContent="Center" class="loginPageBar" width="100%" height="40%">
+            <VBox class="sapUiLargeMargin" alignItems="Center">
+                <Text text="Talk to Our Solution Experts" />
+                <HBox class="line"></HBox>
+                <Button type="Emphasized" text="Live Demo Now"/>
+            </VBox>
+            <VBox class="sapUiLargeMargin" alignItems="Center">
+                <Text class="middleFooterAdjust" text="Need Assistance?" />
+                <HBox class="line"></HBox>
+                <VBox alignItems="Center">
+                    <Text  text="Call us toll free" />
+                    <HBox >
+                        <VBox class="sapUiSmallMargin">
+                            <Text text="North America " />
+                            <Text text="Other Countries " />
+                        </VBox>
+                        <VBox class="sapUiSmallMargin">
+                            <Text text="1-877-862-2519"/>
+                            <Text text="+800-8622-5192" />
+                        </VBox>
+                    </HBox>
+                    <Text text="Email us at" />
+                    <Link text="support@replicon.com" />
+                </VBox>
+            </VBox>
+            <VBox class="sapUiLargeMargin" alignItems="Center">
+                <Text  text="Talk to Our Solution Experts" />
+                <HBox class="line"></HBox>
+                <Button type="Emphasized" text="Live Demo Now"/>
+            </VBox>
+        </HBox>
+       
 
 
     </Page>
