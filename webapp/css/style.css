@@ -1,55 +1,50 @@
 /* Enter your custom styles here */
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
-.myButton{
-    /* margin-top: 20px; */
-    /* margin: 5px; */
-    /* margin-left: 3px; */
-    /* margin-right: 3px; */
+.myButton {
+  /* margin-top: 20px; */
+  /* margin: 5px; */
+  /* margin-left: 3px; */
+  /* margin-right: 3px; */
 }
 
-
-.createBtn{
-    margin-left: 10px;
+.createBtn {
+  margin-left: 10px;
 }
 
 .noGrid .sapMListTblCell {
-    border: none !important;
+  border: none !important;
 }
 
-
 #container-timesheetsclone---View2--timesheetSubmitButton {
-    margin-top: 5%;
+  margin-top: 5%;
 }
 
 #container-timesheetsclone---View2--SPC1 {
-    height: 10%;
-    width: auto;
+  height: 10%;
+  width: auto;
 }
 
-
-
-#container-timesheetsclone---View2--error_text{
-    color: red;
+#container-timesheetsclone---View2--error_text {
+  color: red;
 }
 
-#container-timesheetsclone---View2--noNotification{
-    color: red;
+#container-timesheetsclone---View2--noNotification {
+  color: red;
 }
 
 .overflowHidden {
-    overflow: hidden !important;
+  overflow: hidden !important;
 }
 
 .submitted-field {
-    background-color: #f5f5f5;
-    color: #666;
-    border: 1px solid #ddd;
+  background-color: #f5f5f5;
+  color: #666;
+  border: 1px solid #ddd;
 }
 
 /* .styleForDayBox{
@@ -60,168 +55,223 @@
 } */
 
 #container-timesheetsclone---View2--sideNavigation-Flexible-Content {
-    position: fixed;
-    top: auto;        
-    left: 0;       
-    width: 255px;  
-    height: 100vh;
-    z-index: 1000;
-    overflow-y: auto;
-    background: white; 
+  position: fixed;
+  top: auto;
+  left: 0;
+  width: 255px;
+  height: 100vh;
+  z-index: 1000;
+  overflow-y: auto;
+  background: white;
 }
 
-.weeklyCalenderStyleClass{
-    gap: 3%;
+.weeklyCalenderStyleClass {
+  gap: 3%;
 }
 
-.blueColour{
-    color: rgb(37, 83, 208);
-    font-size: medium;
+.blueColour {
+  color: rgb(37, 83, 208);
+  font-size: medium;
 }
 
-.projectNameStyle .sapMInputBaseInner{
-    font-weight: bold;
+.projectNameStyle .sapMInputBaseInner {
+  font-weight: bold;
 }
 
-#container-timesheetsclone---View2--sideNavigation-Flexible-Content , #container-timesheetsclone---View2--idIconTabBar--header {
-    background-color: rgba(209, 209, 209, 0.283);
+#container-timesheetsclone---View2--sideNavigation-Flexible-Content,
+#container-timesheetsclone---View2--idIconTabBar--header {
+  background-color: rgba(209, 209, 209, 0.283);
 }
 
 .fixed-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background-color: rgba(231, 229, 229, 0.152);
-    padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(231, 229, 229, 0.152);
+  padding: 0.5rem 0;
 }
 
-.loginPageBar{
-    background-color: #e2e0e099;
+.loginPageBar {
+  background-color: #f6f6f699;
 }
 
-.barHbox1{
-    border-right: 1px solid black;
-    padding: 5px;
-    
+.barHbox1 {
+  border-right: 1px solid black;
+  padding: 5px;
 }
 
-.barHbox2{
-    padding: 5px;
+.barHbox2 {
+  padding: 5px;
 }
 
-.deltekText{
-    color: rgb(32, 107, 188);
-    font-weight: 600;
+.deltekText {
+  color: rgb(32, 107, 188);
+  font-weight: 600;
 }
 
-.repliconText{
-    font-weight: 600;
+.repliconText {
+  font-weight: 600;
 }
 
-.bar2{
-    padding: 5px;
+.bar2 {
+  padding: 5px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.langCombo{
-    padding: 8px;
+.langCombo {
+  padding: 8px;
 }
 
-.contText{
-    color: #979797;
-    font-weight: 600;
-    font-size: small;
+.contText {
+  color: #979797;
+  font-weight: 600;
+  font-size: small;
 }
 
 .poppins-thin {
-    font-family: "Poppins", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-  }
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
 
-  .loginForm{
-    background-color: white;
-    border-radius: 2px;
-    /* box-shadow: #3a3a3a; */
-    padding: 15px;
-    margin-left: 10%;
-     box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.1),   
-    2px 0 3px -1px rgba(0, 0, 0, 0.05),  
-    -2px 0 3px -1px rgba(0, 0, 0, 0.05); 
-  }
+.loginForm {
+  background-color: white;
+  border-radius: 2px;
+  /* box-shadow: #3a3a3a; */
+  padding: 15px;
+  margin-left: 10%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 2px 0 3px -1px rgba(0, 0, 0, 0.05),
+    -2px 0 3px -1px rgba(0, 0, 0, 0.05);
+}
 
-  .welcomeTxt{
-    font-weight: 800;
-    font-size: xx-large;
-  }
+.welcomeTxt {
+  font-weight: 800;
+  font-size: xx-large;
+}
 
-  .poppins-bold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-  }
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
 
-  .ipClass{
-    height: 50%;
-  }
+.ipClass {
+  height: 50%;
+}
 
-  .forgotLink{
-    margin-left: 17%;
-  }
+.forgotLink {
+  margin-left: 17%;
+}
 
-  .btnClass{
-    margin-right: 27.5%;
-  }
+.btnClass {
+  margin-right: 27.5%;
+}
 
-  .line{
-    background-color: rgb(0, 0, 0);
-    width : 100%;
-    height : 1px;
-    
-  }
+.line {
+  background-color: rgb(0, 0, 0);
+  width: 100%;
+  height: 1px;
+}
 
-  .smallTxt{
-    font-size: x-small;
-  }
+.smallTxt {
+  font-size: x-small;
+}
 
-  .loggingIn{
-    background-color: #e5e5e5;
-    padding: 6px;
-    border-radius: 2px;
-  }
+.loggingIn {
+  background-color: #e5e5e5;
+  padding: 6px;
+  border-radius: 2px;
+}
 
-  .discoverTxt{
-    font-size: x-large;
-    font-weight: 600;
-    margin-left: 7%;
-  }
+.discoverTxt {
+  font-size: x-large;
+  font-weight: 600;
+  margin-left: 7%;
+}
 
-  .subDiscoverTxt{
-    font-weight: 200;
-    font-size: medium;
-  }
+.subDiscoverTxt {
+  font-weight: 200;
+  font-size: medium;
+}
 
-  /* #container-timesheetsclone---View1--iconStyle {
+/* #container-timesheetsclone---View1--iconStyle {
     color: rgb(0, 216, 166);
   } */
 
-  .iconStyle {
-    color: rgb(0, 216, 166);
-  }
+.iconStyle {
+  color: rgb(0, 216, 166);
+}
 
+.classDiscoverContainer {
+  margin-top: 3%;
+  margin-left: 12%;
+  padding: 5px;
+}
 
-  .classDiscoverContainer{
-    margin-top: 3%;
-    margin-left:12%;
-    padding: 5px;
-  }
+.classDiscoverContainer2 {
+  margin-top: 1%;
+  margin-left: 10%;
+  margin-right: 12%;
+}
 
-  .classDiscoverContainer2{
-    margin-top: 1%;
-    margin-left:10%;
-    margin-right:12%;
-  }
+.middleFooterAdjust {
+  margin-top: 78%;
+}
 
-  .middleFooterAdjust{
-    margin-top: 87%;
-  }
+.middleFooterAdjust2 {
+  margin-top: 2.5%;
+}
+
+.googlePlayImg {
+  margin-top: 13%;
+}
+
+.footerBoldText {
+  font-size: medium;
+  font-weight: 800;
+}
+
+.lineMargin {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+.lineMargin2 {
+  margin-top: 15%;
+  margin-bottom: 10%;
+}
+
+.lineMargin3 {
+  margin-top: 13.5%;
+  margin-bottom: 10%;
+}
+
+.footerText{
+  margin-left: 20%;
+}
+
+.footerIcon{
+  margin-left: 45%;
+  margin-top: 6%;
+  margin-bottom: 5%;
+}
+
+.footerBackground{
+  background-color: white !important;
+}
+
+.weight{
+  font-weight: 600;
+}
+
+.borderRight{
+  border-right: 1px solid black;
+}
+
+.marginLeft{
+  margin-top: 5%;
+  margin-left: 10%;
+}

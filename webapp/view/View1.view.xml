@@ -23,15 +23,18 @@
             </HBox>
             <HBox class="langCombo">
                 <VBox alignItems="End" justifyContent="End">
-                    <ComboBox selectedKey="English">
-                        <core:Item key="English" text="English" />
-                        <core:Item key="Hindi" text="Hindi" />
-                        <core:Item key="Odia" text="Odia" />
-                    </ComboBox>
+                    <HBox >
+                       
                     <VBox >
                         <Text class="sapUiSmallMarginTop contText poppins-thin" text="North America 1-877-662-2519 Other Countries +800-6622-5192 
 Contact Us Polaris Home Customer Zone" />
                     </VBox>
+                     <ComboBox class="sapUiTinyMarginTop sapUiTinyMarginBegin" selectedKey="English">
+                        <core:Item key="English" text="English" />
+                        <core:Item key="Hindi" text="Hindi" />
+                        <core:Item key="Odia" text="Odia" />
+                    </ComboBox>
+                    </HBox>
                 </VBox>
             </HBox>
         </HBox>
@@ -126,8 +129,8 @@ Contact Us Polaris Home Customer Zone" />
                         </HBox>
                     </VBox>
                     <!-- right text code -->
-                    <VBox  class="classDiscoverContainer2">
-                        <HBox alignItems="Center" class="sapUiSmallMarginTop"   gap="3%">
+                    <VBox class="classDiscoverContainer2">
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop" gap="3%">
                             <core:Icon class="iconStyle" src="sap-icon://action-settings"></core:Icon>
                             <VBox >
                                 <Text text="Projects" />
@@ -135,7 +138,7 @@ Contact Us Polaris Home Customer Zone" />
                             </VBox>
                         </HBox>
                         <!-- icon 2 -->
-                        <HBox alignItems="Center" class="sapUiSmallMarginTop"  gap="3%">
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop" gap="3%">
                             <core:Icon class="iconStyle" src="sap-icon://pie-chart"></core:Icon>
                             <VBox >
                                 <Text text="Resources" />
@@ -143,7 +146,7 @@ Contact Us Polaris Home Customer Zone" />
                             </VBox>
                         </HBox>
                         <!-- icon 3 -->
-                        <HBox alignItems="Center" class="sapUiSmallMarginTop"   gap="3%">
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop" gap="3%">
                             <core:Icon class="iconStyle" src="sap-icon://add-employee"></core:Icon>
                             <VBox >
                                 <Text text="Time &amp; Expense" />
@@ -151,7 +154,7 @@ Contact Us Polaris Home Customer Zone" />
                             </VBox>
                         </HBox>
                         <!-- icon 4 -->
-                        <HBox alignItems="Center" class="sapUiSmallMarginTop"  gap="3%" >
+                        <HBox alignItems="Center" class="sapUiSmallMarginTop" gap="3%">
                             <core:Icon class="iconStyle" src="sap-icon://customer-financial-fact-sheet"></core:Icon>
                             <VBox >
                                 <Text text="Financials" />
@@ -163,20 +166,20 @@ Contact Us Polaris Home Customer Zone" />
                 </HBox>
             </VBox>
         </HBox>
-        
+
 
         <!-- footer part -->
-        <HBox alignItems="Center" justifyContent="Center" class="loginPageBar" width="100%" height="40%">
+        <HBox alignItems="Center" justifyContent="Center" class="loginPageBar" width="100%" height="54%">
             <VBox class="sapUiLargeMargin" alignItems="Center">
-                <Text text="Talk to Our Solution Experts" />
-                <HBox class="line"></HBox>
+                <Text class="footerBoldText" text="Talk to Our Solution Experts" />
+                <HBox class="line lineMargin2"></HBox>
                 <Button type="Emphasized" text="Live Demo Now"/>
             </VBox>
             <VBox class="sapUiLargeMargin" alignItems="Center">
-                <Text class="middleFooterAdjust" text="Need Assistance?" />
-                <HBox class="line"></HBox>
+                <Text class="middleFooterAdjust footerBoldText" text="Need Assistance?" />
+                <HBox class="line lineMargin"></HBox>
                 <VBox alignItems="Center">
-                    <Text  text="Call us toll free" />
+                    <Text text="Call us toll free" />
                     <HBox >
                         <VBox class="sapUiSmallMargin">
                             <Text text="North America " />
@@ -191,14 +194,122 @@ Contact Us Polaris Home Customer Zone" />
                     <Link text="support@replicon.com" />
                 </VBox>
             </VBox>
-            <VBox class="sapUiLargeMargin" alignItems="Center">
-                <Text  text="Talk to Our Solution Experts" />
-                <HBox class="line"></HBox>
-                <Button type="Emphasized" text="Live Demo Now"/>
+            <VBox class="middleFooterAdjust2" alignItems="Center">
+                <Text class="footerBoldText" text="Get Our Mobile App" />
+                <HBox class="line lineMargin3"></HBox>
+                <HBox >
+                    <Image src="./public/appstore-removebg-preview.png" width="100px"/>
+                    <Image class="googlePlayImg" src="./public/google.png" width="100px"/>
+                </HBox>
             </VBox>
         </HBox>
-       
 
+
+        <VBox class="footerBackground">
+            <HBox >
+
+                <HBox class="footer footerText">
+
+                    <VBox class="sapUiSmallMargin">
+                        <Text class="poppins-bold" text="Product" />
+                        <HBox class="line"></HBox>
+                        <HBox >
+                            <VBox >
+                                <Text text="Overview" />
+                                <Text text="Analytics" />
+                                <Text text="Governance" />
+                                <Text text="Financial Modeling" />
+                                <Text text="Clients" />
+                                <Text text="Practices" />
+                                <Text text="Projects" />
+                            </VBox>
+                            <VBox class="sapUiTinyMarginBegin">
+                                <Text text="Resources" />
+                                <Text text="Time &amp; Expense" />
+                                <Text text="Financials" />
+                                <Text text="Integrations" />
+                                <Text text="Mobile" />
+                                <Text text="Platform" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+
+                    <VBox class="sapUiSmallMargin">
+                        <Text class="poppins-bold" text="Solutions" />
+                        <HBox class="line"></HBox>
+                        <HBox >
+                            <VBox class="sapUiTinyMarginBegin">
+                                <Text text="By Industry" />
+                                <Text text="By Role" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox class="sapUiSmallMargin">
+                        <Text class="poppins-bold" text="Quick Links" />
+                        <HBox class="line"></HBox>
+                        <HBox >
+                            <VBox class="sapUiTinyMarginBegin">
+                                <Text text="Enterprise" />
+                                <Text text="Services" />
+                                <Text text="Pricing" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+
+                    <VBox class="sapUiSmallMargin">
+                        <Text class="poppins-bold" text="Resources" />
+                        <HBox class="line"></HBox>
+                        <HBox >
+                            <VBox class="sapUiTinyMarginBegin">
+                                <Text text="Ebooks" />
+                                <Text text="On-demand Webinars" />
+                                <Text text="Infographics" />
+                                <Text text="Data Sheets" />
+                                <Text text="Customers" />
+                                <Text text="Blog" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox class="sapUiSmallMargin">
+                        <Text class="poppins-bold" text="Support" />
+                        <HBox class="line"></HBox>
+                        <HBox >
+                            <VBox class="sapUiTinyMarginBegin">
+                                <Text text="Contact Support" />
+                                <Text text="Customer Zone" />
+                                <Text text="Status" />
+                                <Text text="Help" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                </HBox>
+            </HBox>
+
+            <HBox class="footerBackground footerIcon">
+                <Image class="sapUiTinyMargin" src="./public/facebook.png" width="20px" />
+                <Image class="sapUiTinyMargin" src="./public/linkedin.png" width="20px" />
+                <Image class="sapUiTinyMargin" src="./public/instagram.png" width="20px" />
+                <Image class="sapUiTinyMargin" src="./public/youtube.png" width="20px" />
+                <Image class="sapUiTinyMargin" src="./public/wifi-signal.png" width="20px" />
+            </HBox>
+        </VBox>
+
+        <HBox class="loginPageBar marginLeft" height="70%">
+            <VBox >
+                <HBox  height="10%">
+                <Text class="blueColour weight" text="Deltek" />
+                <core:Icon src=""></core:Icon>
+                <HBox width="1px" height="50%" class="borderRight sapUiMediumMarginBegin sapUiMediumMarginEnd"></HBox>
+                <Text class="weight" text="Polaris" />
+            </HBox>
+            <Text text="Copyright &#174; 2025 Replicon" />
+            </VBox>
+        </HBox>
 
     </Page>
 </mvc:View>
